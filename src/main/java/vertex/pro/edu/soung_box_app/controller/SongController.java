@@ -1,12 +1,13 @@
 package vertex.pro.edu.soung_box_app.controller;
 
-import vertex.pro.edu.soung_box_app.model.song.Song;
-import vertex.pro.edu.soung_box_app.service.event.SongFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import vertex.pro.edu.soung_box_app.model.song.Song;
+import vertex.pro.edu.soung_box_app.service.event.SongFinder;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class SongController {
     private final SongFinder songFinder;
 
     @GetMapping(value = SONGS_BASE_URL)
-    public List<Song> getSongs() {
-        log.debug("Retrieving songs");
+    public List<Song> getSongs(@RequestParam String genre) {
+        log.debug("Retrieving songs: {}", genre);
 
-        return songFinder.getSongs();
+        return songFinder.getSongs(genre);
     }
 
     @UtilityClass

@@ -7,6 +7,7 @@ import vertex.pro.edu.soung_box_app.service.event.SongFinder;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,13 +23,15 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
     private List<Song> songList;
 
     private SongFinder songFinder;
+    private String genre;
 
     @Override
     protected SongController getControllerInstance() {
+        genre = "Rock";
         songList = aSongList();
 
         songFinder = mock(SongFinder.class);
-        when(songFinder.getSongs()).thenReturn(songList);
+        when(songFinder.getSongs(anyString())).thenReturn(songList);
 
         return new SongController(songFinder);
     }
@@ -36,10 +39,11 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
     @Test
     void returnsEvents() throws Exception {
         mockMvc().perform(get(SONGS_BASE_URL)
+                .param("genre", genre)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs();
+        verify(songFinder).getSongs(genre);
     }
 }
