@@ -21,8 +21,8 @@ public class SongController {
     private final SongFinder songFinder;
 
     @GetMapping(value = SONGS_BASE_URL)
-    public List<Song> getSongs(@RequestParam String genre) {
-        log.debug("Retrieving songs: {}", genre);
+    public List<Song> getSongs(@RequestParam(required = false) String genre) {
+        log.debug("Retrieving songs, genre: {}", genre);
 
         return songFinder.getSongs(genre);
     }
