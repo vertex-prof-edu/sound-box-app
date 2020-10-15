@@ -43,13 +43,21 @@ class DefaultSongFinderTest {
 
     @Test
     void returnsConvertedSongs() {
-        String genre = "";
+        String genre = null;
         List<Song> songs = songFinder.getSongs(genre);
 
         assertThat(songs).containsExactlyInAnyOrderElementsOf(convertedSongs);
 
-        verify(songRepository).findAll();
+        verify(songRepository).findByParams(genre);
 
         verify(songConverter).fromEntities(songEntities);
+    }
+
+    @Test
+    void returnsSongsByGenre() {
+        String genre = "Rock";
+        songFinder.getSongs(genre);
+
+        verify(songRepository).findByParams(genre);
     }
 }
