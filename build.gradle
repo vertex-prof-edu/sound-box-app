@@ -1,0 +1,114 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'net.ltgt.apt' version '0.21'
+    id 'io.franzbecker.gradle-lombok' version '3.3.0'
+    id "org.flywaydb.flyway" version "5.2.4"
+}
+
+project.ext {
+    springBootVersion = '2.1.4.RELEASE'
+}
+
+ext['junit-jupiter.version'] = '5.6.0'
+
+
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'com.zaxxer:HikariCP'
+    implementation 'org.apache.commons:commons-collections4'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.7'
+
+    implementation('mysql:mysql-connector-java:8.0.17') {
+        exclude(module: 'protobuf-java')
+    }
+    testImplementation 'com.github.tomakehurst:wiremock'
+    testImplementation 'com.wix:wix-embedded-mysql'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testCompile group: 'org.junit.vintage', name: 'junit-vintage-engine'
+}
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+compileTestJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+dependencies {
+    constraints {
+        implementation 'com.zaxxer:HikariCP:3.3.1'
+        implementation 'org.apache.commons:commons-collections4:4.3'
+        implementation 'org.apache.commons:commons-lang3:3.9'
+        implementation 'org.flywaydb:flyway-core:5.2.1'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.1.RELEASE'
+        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:2.1.1.RELEASE'
+        testImplementation 'com.github.tomakehurst:wiremock:2.21.0'
+        testImplementation 'com.wix:wix-embedded-mysql:4.2.0'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.1'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.1'
+        testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.4.1'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(Test) {
+    maxParallelForks = 10
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+}
+
+jacoco {
+    toolVersion = '0.8.3'
+}
+
+def exclusions = ['**/*Config.*',
+                  '**/*Properties.*',
+                  '**/*Exception.*',
+                  '**/*Application.*',
+                  '**/*Links.*',
+                  '**/model/**/*',
+                  '**/dto/**/*',
+                  '**/config/**/*'
+]
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: exclusions)
+        }))
+    }
+}
+
+springBoot {
+    buildInfo()
+}

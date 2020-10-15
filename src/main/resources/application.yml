@@ -1,0 +1,25 @@
+server:
+  servlet:
+    context-path: "/sound-box-app"
+  port: 8084
+
+spring:
+  flyway:
+    locations: classpath:/db/migration
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: false
+        use_sql_comments: false
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://localhost:3308/sound-box-app
+    username: root
+    password: qwerty
+    driver-class-name: com.mysql.jdbc.Driver

@@ -1,0 +1,14 @@
+spring:
+  flyway:
+    enabled: true
+  profiles:
+    active: local
+
+
+test:
+  database:
+    mysql:
+      username: sound-box-app-user
+      password: qwerty
+      schema-name: sound-box-app-db
+      driver-name: com.mysql.cj.jdbc.Driver
