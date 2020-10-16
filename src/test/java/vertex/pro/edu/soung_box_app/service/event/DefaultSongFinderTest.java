@@ -1,21 +1,21 @@
 package vertex.pro.edu.soung_box_app.service.event;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.SongEntity;
 import vertex.pro.edu.soung_box_app.model.song.Song;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
 
-import static vertex.pro.edu.soung_box_app.utils.prototypes.model.SongPrototypes.aSongList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static vertex.pro.edu.soung_box_app.utils.prototypes.model.SongPrototypes.aSongList;
 
 class DefaultSongFinderTest {
 
@@ -43,12 +43,21 @@ class DefaultSongFinderTest {
 
     @Test
     void returnsConvertedSongs() {
-        List<Song> songs = songFinder.getSongs();
+        String genre = null;
+        List<Song> songs = songFinder.getSongs(genre);
 
         assertThat(songs).containsExactlyInAnyOrderElementsOf(convertedSongs);
 
-        verify(songRepository).findAll();
+        verify(songRepository).findByParams(genre);
 
         verify(songConverter).fromEntities(songEntities);
+    }
+
+    @Test
+    void returnsSongsByGenre() {
+        String genre = "Rock";
+        songFinder.getSongs(genre);
+
+        verify(songRepository).findByParams(genre);
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SongFinder {
 
-    List<Song> getSongs();
+    List<Song> getSongs(String genre);
 }
