@@ -24,7 +24,7 @@ public class SongController {
     public List<Song> getSongs(@RequestParam(required = false) String genre) {
         log.debug("Retrieving songs, genre: {}", genre);
 
-        return songFinder.getSongs(genre);
+        return songFinder.getSongs(genre, null);
     }
 
     @UtilityClass

@@ -31,7 +31,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
         songList = aSongList();
 
         songFinder = mock(SongFinder.class);
-        when(songFinder.getSongs(any())).thenReturn(songList);
+        when(songFinder.getSongs(any(), any())).thenReturn(songList);
 
         return new SongController(songFinder);
     }
@@ -43,7 +43,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(null);
+        verify(songFinder).getSongs(null, null);
     }
 
     @Test
@@ -54,6 +54,6 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(genre);
+        verify(songFinder).getSongs(genre, null);
     }
 }

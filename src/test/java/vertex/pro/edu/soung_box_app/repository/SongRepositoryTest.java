@@ -35,21 +35,6 @@ class SongRepositoryTest {
     }
 
     @Test
-    void findsSongsByGenre() {
-        SongEntity entity = aSongEntity();
-
-        entity = repository.save(entity);
-        entityManager.flush();
-        entityManager.clear();
-
-        List<SongEntity> entities = repository.findByParams(entity.getGenre());
-
-        assertThat(entities).isNotEmpty()
-                .extracting(SongEntity::getId)
-                .containsExactly(entity.getId());
-    }
-
-    @Test
     void findsSongsByNullGenre() {
         SongEntity entity = aSongEntity();
 
@@ -57,11 +42,71 @@ class SongRepositoryTest {
         entityManager.flush();
         entityManager.clear();
 
-        List<SongEntity> entities = repository.findByParams(null);
+        List<SongEntity> entities = repository.findByParams(null, null);
 
         assertThat(entities).isNotEmpty()
                 .extracting(SongEntity::getId)
                 .containsExactly(entity.getId());
     }
+
+    @Test
+    void findsSongsByGenre() {
+        SongEntity entity = aSongEntity();
+
+        entity = repository.save(entity);
+        entityManager.flush();
+        entityManager.clear();
+
+        List<SongEntity> entities = repository.findByParams(entity.getGenre(), entity.getArtist());
+
+        assertThat(entities).isNotEmpty()
+                .extracting(SongEntity::getId)
+                .containsExactly(entity.getId());
+    }
+
+    @Test
+    void findsSongsByArtist() {
+        SongEntity entity = aSongEntity();
+
+        entity = repository.save(entity);
+        entityManager.flush();
+        entityManager.clear();
+
+        List<SongEntity> entities = repository.findByParams(null,entity.getArtist());
+
+        assertThat(entities).isNotEmpty()
+                .extracting(SongEntity::getId)
+                .containsExactly(entity.getId());
+    }
+
+    @Test
+    void findsSongsByGenreAndArtist() {
+        SongEntity entity = aSongEntity();
+
+        entity = repository.save(entity);
+        entityManager.flush();
+        entityManager.clear();
+
+        List<SongEntity> entities = repository.findByParams(entity.getGenre(),entity.getArtist());
+
+        assertThat(entities).isNotEmpty()
+                .extracting(SongEntity::getId)
+                .containsExactly(entity.getId());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
