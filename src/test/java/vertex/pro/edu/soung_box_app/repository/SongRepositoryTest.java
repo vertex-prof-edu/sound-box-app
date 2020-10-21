@@ -35,7 +35,7 @@ class SongRepositoryTest {
     }
 
     @Test
-    void findsSongsByNullGenre() {
+    void findsSongsByNullParams() {
         SongEntity entity = aSongEntity();
 
         entity = repository.save(entity);
@@ -57,7 +57,7 @@ class SongRepositoryTest {
         entityManager.flush();
         entityManager.clear();
 
-        List<SongEntity> entities = repository.findByParams(entity.getGenre(), entity.getArtist());
+        List<SongEntity> entities = repository.findByParams(entity.getGenre(), null);
 
         assertThat(entities).isNotEmpty()
                 .extracting(SongEntity::getId)

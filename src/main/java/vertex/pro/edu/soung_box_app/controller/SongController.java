@@ -21,10 +21,11 @@ public class SongController {
     private final SongFinder songFinder;
 
     @GetMapping(value = SONGS_BASE_URL)
-    public List<Song> getSongs(@RequestParam(required = false) String genre) {
-        log.debug("Retrieving songs, genre: {}", genre);
+    public List<Song> getSongs(@RequestParam(required = false) String genre, @RequestParam(required = false) String artist) {
+        log.info("Retrieving songs, genre: {}", genre);
+        log.info("Retrieving songs, artist: {}", artist);
 
-        return songFinder.getSongs(genre, null);
+        return songFinder.getSongs(genre, artist);
     }
 
     @UtilityClass

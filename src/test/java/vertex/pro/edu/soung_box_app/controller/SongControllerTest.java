@@ -24,10 +24,10 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
 
     private SongFinder songFinder;
     private String genre;
+    private String artist;
 
     @Override
     protected SongController getControllerInstance() {
-        genre = "Rock";
         songList = aSongList();
 
         songFinder = mock(SongFinder.class);
@@ -55,5 +55,28 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
         verify(songFinder).getSongs(genre, null);
+    }
+
+    @Test
+    void returnsEventsByArtist() throws Exception {
+        mockMvc().perform(get(SONGS_BASE_URL)
+                .param("artist", artist)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getMapper().writeValueAsString(songList)));
+
+        verify(songFinder).getSongs(null, artist);
+    }
+
+    @Test
+    void returnsEventsByGenreAndArtist() throws Exception {
+        mockMvc().perform(get(SONGS_BASE_URL)
+                .param("artist", artist)
+                .param("genre", genre)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getMapper().writeValueAsString(songList)));
+
+        verify(songFinder).getSongs(genre, artist);
     }
 }
