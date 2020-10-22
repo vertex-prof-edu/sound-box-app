@@ -26,8 +26,8 @@ public class SoundBoxApp {
 //        for (int i = 0; i < 10; i++) {
 //            SongEntity entity = SongEntity.builder()
 //                    .album("Album")
-//                    .artist(ThreadLocalRandom.current().nextBoolean() ? "MONATIK" : "AC/DC")
-//                    .genre(ThreadLocalRandom.current().nextBoolean() ? "Rock" : "R&B")
+//                    .artist(ThreadLocalRandom.current().nextBoolean() ? "Queens" : "Bones")
+//                    .genre(ThreadLocalRandom.current().nextBoolean() ? "Rap" : "Pop")
 //                    .title("Title")
 //                    .build();
 //
