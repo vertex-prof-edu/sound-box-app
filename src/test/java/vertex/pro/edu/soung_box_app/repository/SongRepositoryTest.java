@@ -46,7 +46,8 @@ class SongRepositoryTest {
 
         assertThat(entities).isNotEmpty()
                 .extracting(SongEntity::getId)
-                .containsExactly(entity.getId());
+                .containsExactly(entity.getId())
+                .doesNotContain(entity.getGenre(), entity.getArtist());
     }
 
     @Test
@@ -62,7 +63,7 @@ class SongRepositoryTest {
         assertThat(entities).isNotEmpty()
                 .extracting(SongEntity::getId)
                 .contains(entity.getId())
-                .contains(entity.getGenre());
+                .doesNotContain(entity.getArtist());
     }
 
     @Test
@@ -77,7 +78,8 @@ class SongRepositoryTest {
 
         assertThat(entities).isNotEmpty()
                 .extracting(SongEntity::getId)
-                .containsExactly(entity.getId());
+                .containsExactly(entity.getId())
+                .doesNotContain(entity.getGenre());
     }
 
     @Test
