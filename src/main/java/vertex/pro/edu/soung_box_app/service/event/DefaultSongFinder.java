@@ -23,6 +23,4 @@ public class DefaultSongFinder implements SongFinder {
         List<SongEntity> entities = songRepository.findByParams(genre, artist);
         return songConverter.fromEntities(entities);
     }
-
-
 }

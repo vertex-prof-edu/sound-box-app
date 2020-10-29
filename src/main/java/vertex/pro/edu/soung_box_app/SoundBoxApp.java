@@ -14,25 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequiredArgsConstructor
 @SpringBootApplication
 public class SoundBoxApp {
-
-//    private final SongRepository repository;
-
     public static void main(String[] args) {
         SpringApplication.run(SoundBoxApp.class, args);
     }
-
-//    @Override
-//    public void run(String... args) {
-//        for (int i = 0; i < 10; i++) {
-//            SongEntity entity = SongEntity.builder()
-//                    .album("Album")
-//                    .artist(ThreadLocalRandom.current().nextBoolean() ? "Queens" : "Bones")
-//                    .genre(ThreadLocalRandom.current().nextBoolean() ? "Rap" : "Pop")
-//                    .title("Title")
-//                    .build();
-//
-//            log.info("Entity: {}", entity);
-//            repository.save(entity);
-//        }
-//    }
 }

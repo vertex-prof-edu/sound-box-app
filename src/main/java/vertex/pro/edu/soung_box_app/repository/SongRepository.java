@@ -8,9 +8,7 @@ import vertex.pro.edu.soung_box_app.entity.SongEntity;
 import java.util.List;
 
 public interface SongRepository extends JpaRepository<SongEntity, String> {
+
     @Query(value="SELECT * FROM songs WHERE (:genre is null or genre = :genre) AND (:artist IS NULL or artist = :artist)", nativeQuery=true)
     List<SongEntity> findByParams(@Param("genre") String genre, @Param("artist") String artist);
 }
-
-
-

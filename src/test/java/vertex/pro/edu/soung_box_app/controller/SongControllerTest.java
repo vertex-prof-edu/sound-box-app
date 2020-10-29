@@ -28,6 +28,8 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
 
     @Override
     protected SongController getControllerInstance() {
+        genre = "Rock";
+        artist = "MONATIK";
         songList = aSongList();
 
         songFinder = mock(SongFinder.class);
