@@ -1,6 +1,7 @@
 package vertex.pro.edu.soung_box_app.repository;
 
 import junit.framework.TestCase;
+import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.offset;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItems;
 import static vertex.pro.edu.soung_box_app.utils.prototypes.entity.SongEntityPrototypes.aSongEntity;
+import static vertex.pro.edu.soung_box_app.utils.prototypes.entity.SongEntityPrototypes.aSongEntityList;
 
 @DataJpaTest(excludeAutoConfiguration = TestDatabaseAutoConfiguration.class)
 class SongRepositoryTest extends TestCase {
@@ -58,14 +57,16 @@ class SongRepositoryTest extends TestCase {
     void findsSongsByNullParams() {
         SongEntity entity = aSongEntity();
 
+        List<SongEntity> songEntityList = aSongEntityList();
+
 //        List<SongEntity> allEntities = repository.findAll();
         List<SongEntity> entities = repository.findByParams(null, null);
 
 
 
-//        assertThat(entities).isNotEmpty()
-//                .extracting(SongEntity::getGenre)
-//                .contains(SongEntity.);
+        assertThat(entities).isNotEmpty()
+                .extracting(SongEntity::getId)
+                .contains(String.valueOf(songEntityList));
 
 //        assertThat(entities).isNotEmpty()
 //                .extracting(SongEntity::getId)
@@ -78,28 +79,27 @@ class SongRepositoryTest extends TestCase {
 
     @Test
     void findsSongsByGenre() {
-        SongEntity entity = aSongEntity();
+        SongEntity entityThatWeNeed = aSongEntity();
+        SongEntity entityThatWeDontNeed = aSongEntity();
 
-        entity.setGenre("AC/DC");
+        entityThatWeNeed.setGenre("Rock");
+        entityThatWeDontNeed.setGenre("R&B");
 
-        entity = repository.save(entity);
-//        entityManager.flush();
-//        entityManager.clear();
+        List<SongEntity> allEntities = repository.findAll();
+        System.out.println(allEntities);
 
-        List<SongEntity> entitiesWithoutParams = repository.findAll();
-        List<SongEntity> entitiesByParams = repository.findByParams(entity.getGenre(), null);
-
-        System.out.println(entitiesWithoutParams);
         System.out.println("-------");
+
+        List<SongEntity> entitiesByParams = repository.findByParams(entityThatWeNeed.getGenre(), null);
+        List<SongEntity> entitiesByParamsThatDoesntNeedful = repository.findByParams(entityThatWeDontNeed.getGenre(), null);
+
         System.out.println(entitiesByParams);
+        System.out.println(entitiesByParamsThatDoesntNeedful);
 
         assertThat(entitiesByParams).isNotEmpty()
                 .extracting(SongEntity::getGenre)
-                .contains(entity.getGenre());
-
-        assertThat(entitiesByParams).isNotEmpty();
-
-//        assertEquals(entitiesByParams, contains(entitiesWithoutParams));
+                .contains(entityThatWeNeed.getGenre())
+                .doesNotContain(entityThatWeDontNeed.getGenre());
     }
 
     @Test
@@ -132,5 +132,10 @@ class SongRepositoryTest extends TestCase {
         assertThat(entities).isNotEmpty()
                 .extracting(SongEntity::getId)
                 .containsExactly(entity.getId());
+    }
+
+    @AfterClass
+    public void tearDown() {
+        repository.deleteAll();
     }
 }
