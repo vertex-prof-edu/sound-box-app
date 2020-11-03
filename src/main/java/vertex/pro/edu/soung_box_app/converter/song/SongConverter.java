@@ -30,5 +30,4 @@ public class SongConverter {
                 .releaseDate(entity.getReleaseDate().atOffset(ZoneOffset.UTC))
                 .build();
     }
-
 }
