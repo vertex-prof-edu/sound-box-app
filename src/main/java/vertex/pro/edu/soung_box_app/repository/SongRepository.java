@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface SongRepository extends JpaRepository<SongEntity, String> {
 
-    @Query("from SongEntity where genre = :genre or :genre is null")
-    List<SongEntity> findByParams(@Param("genre") String genre);
+    @Query(value="SELECT * FROM songs WHERE (:genre is null or genre = :genre) AND (:artist IS NULL or artist = :artist)", nativeQuery=true)
+    List<SongEntity> findByParams(@Param("genre") String genre, @Param("artist") String artist);
 }
