@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "songs")
+@Table(name = "users")
 public class User {
 
     @Id

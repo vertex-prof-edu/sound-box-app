@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.save;
+package vertex.pro.edu.soung_box_app.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

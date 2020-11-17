@@ -3,11 +3,11 @@ package vertex.pro.edu.soung_box_app.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vertex.pro.edu.soung_box_app.model.user.User;
-import vertex.pro.edu.soung_box_app.service.save.UserSaver;
+import vertex.pro.edu.soung_box_app.service.user.UserSaver;
 
 import static vertex.pro.edu.soung_box_app.controller.UserController.Links.USER_BASE_URL;
 
@@ -19,7 +19,7 @@ public class UserController {
     private final UserSaver userSaver;
     private final User user;
 
-    @GetMapping(value = USER_BASE_URL)
+    @PostMapping(value = USER_BASE_URL)
     public void saveUser(@RequestParam String username, @RequestParam String password) {
 
         user.setUsername(username);
