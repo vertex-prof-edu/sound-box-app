@@ -72,6 +72,23 @@ dependencies {
         testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.4.1'
     }
 }
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
+
+    compile("org.springframework.security.oauth:spring-security-oauth2")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("com.h2database:h2:1.4.191")
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.0.RELEASE'
+
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    compile group: 'joda-time', name: 'joda-time', version: '2.3'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.4.1'
+    compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
+
+}
 
 test {
     useJUnitPlatform()

@@ -1,10 +1,16 @@
 package vertex.pro.edu.soung_box_app.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import vertex.pro.edu.soung_box_app.entity.UserEntity;
+import org.springframework.stereotype.Repository;
 import vertex.pro.edu.soung_box_app.model.user.User;
 
-public interface UserRepository extends JpaRepository<User, String> {
+import java.util.Optional;
+
+@Repository
+public interface UserRepository {
 
     User save(User user);
+
+    Optional<User> find(String id);
+
+    Optional<User> findByUsername(String username);
 }
