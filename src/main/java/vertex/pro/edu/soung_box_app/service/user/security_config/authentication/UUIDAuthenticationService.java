@@ -13,9 +13,9 @@ import java.util.UUID;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
-//@Service
-//@AllArgsConstructor(access = PACKAGE)
-//@FieldDefaults(level = PRIVATE, makeFinal = true)
+@Service
+@AllArgsConstructor(access = PACKAGE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class UUIDAuthenticationService implements UserAuthenticationService {
     @NonNull
     UserCrudService users;
