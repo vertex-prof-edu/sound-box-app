@@ -1,6 +1,7 @@
 package vertex.pro.edu.soung_box_app.common.utils;
 
 import com.google.common.collect.Sets;
+import java.util.*;
 import lombok.SneakyThrows;
 
 import java.net.ServerSocket;
@@ -8,7 +9,7 @@ import java.util.Set;
 
 public class PortProvider {
 
-    private static final Set<Integer> ALLOCATED_PORT = Sets.newConcurrentHashSet();
+    private static final Set<Integer> ALLOCATED_PORT = Sets.newHashSet();
 
     public int getAvailablePort() {
         synchronized (PortProvider.class) {
