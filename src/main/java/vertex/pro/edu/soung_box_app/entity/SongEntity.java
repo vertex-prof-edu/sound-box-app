@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -37,4 +38,21 @@ public class SongEntity {
     @CreationTimestamp
     private LocalDateTime releaseDate;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SongEntity that = (SongEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(artist, that.artist) &&
+                Objects.equals(album, that.album) &&
+                Objects.equals(genre, that.genre) &&
+                Objects.equals(releaseDate, that.releaseDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, artist, album, genre, releaseDate);
+    }
 }

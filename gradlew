@@ -36,8 +36,10 @@ while [ -h "$PRG" ] ; do
     fi
 done
 SAVED="`pwd`"
+# shellcheck disable=SC2164
 cd "`dirname \"$PRG\"`/" >/dev/null
 APP_HOME="`pwd -P`"
+# shellcheck disable=SC2164
 cd "$SAVED" >/dev/null
 
 APP_NAME="Gradle"
@@ -105,7 +107,9 @@ location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if we can.
+# shellcheck disable=SC2166
 if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
+    # shellcheck disable=SC2039
     MAX_FD_LIMIT=`ulimit -H -n`
     if [ $? -eq 0 ] ; then
         if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
@@ -150,14 +154,17 @@ if $cygwin ; then
         CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
 
         if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
+            # shellcheck disable=SC2046
             eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
         else
+            # shellcheck disable=SC2046
             eval `echo args$i`="\"$arg\""
         fi
         i=$((i+1))
     done
     case $i in
         (0) set -- ;;
+        # shellcheck disable=SC2154
         (1) set -- "$args0" ;;
         (2) set -- "$args0" "$args1" ;;
         (3) set -- "$args0" "$args1" "$args2" ;;

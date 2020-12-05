@@ -24,14 +24,16 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
 
     private SongFinder songFinder;
     private String genre;
+    private String artist;
 
     @Override
     protected SongController getControllerInstance() {
         genre = "Rock";
+        artist = "MONATIK";
         songList = aSongList();
 
         songFinder = mock(SongFinder.class);
-        when(songFinder.getSongs(any())).thenReturn(songList);
+        when(songFinder.getSongs(any(), any())).thenReturn(songList);
 
         return new SongController(songFinder);
     }
@@ -43,7 +45,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(null);
+        verify(songFinder).getSongs(null, null);
     }
 
     @Test
@@ -54,6 +56,29 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(genre);
+        verify(songFinder).getSongs(genre, null);
+    }
+
+    @Test
+    void returnsEventsByArtist() throws Exception {
+        mockMvc().perform(get(SONGS_BASE_URL)
+                .param("artist", artist)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getMapper().writeValueAsString(songList)));
+
+        verify(songFinder).getSongs(null, artist);
+    }
+
+    @Test
+    void returnsEventsByGenreAndArtist() throws Exception {
+        mockMvc().perform(get(SONGS_BASE_URL)
+                .param("artist", artist)
+                .param("genre", genre)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getMapper().writeValueAsString(songList)));
+
+        verify(songFinder).getSongs(genre, artist);
     }
 }

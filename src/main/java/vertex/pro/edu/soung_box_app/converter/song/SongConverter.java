@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class SongConverter {
-
-
     public List<Song> fromEntities(List<SongEntity> entities) {
         return entities.stream()
                 .map(this::fromEntity)

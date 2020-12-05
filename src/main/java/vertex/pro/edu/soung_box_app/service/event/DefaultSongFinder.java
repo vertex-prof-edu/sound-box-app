@@ -19,8 +19,8 @@ public class DefaultSongFinder implements SongFinder {
     private final SongConverter songConverter;
 
     @Override
-    public List<Song> getSongs(String genre) {
-        List<SongEntity> entities = songRepository.findByParams(genre);
+    public List<Song> getSongs(String genre, String artist) {
+        List<SongEntity> entities = songRepository.findByParams(genre, artist);
         return songConverter.fromEntities(entities);
     }
 }

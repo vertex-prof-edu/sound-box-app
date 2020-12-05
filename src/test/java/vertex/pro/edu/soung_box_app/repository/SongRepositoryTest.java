@@ -1,5 +1,8 @@
 package vertex.pro.edu.soung_box_app.repository;
 
+import junit.framework.TestCase;
+import org.junit.AfterClass;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration;
@@ -8,18 +11,33 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import vertex.pro.edu.soung_box_app.entity.SongEntity;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static vertex.pro.edu.soung_box_app.utils.prototypes.entity.SongEntityPrototypes.aSongEntity;
 
 @DataJpaTest(excludeAutoConfiguration = TestDatabaseAutoConfiguration.class)
-class SongRepositoryTest {
+class SongRepositoryTest extends TestCase {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private SongRepository repository;
+
+    @BeforeEach
+    public void setUpRepository() {
+        SongEntity entity;
+        for (int i = 0; i < 10; i++) {
+            this.entityManager.persistAndFlush(entity = SongEntity.builder()
+                    .album("Album")
+                    .artist(ThreadLocalRandom.current().nextBoolean() ? "MONATIK" : "The Doors")
+                    .genre(ThreadLocalRandom.current().nextBoolean() ? "Rock" : "R&B")
+                    .title("Title")
+                    .build());
+            repository.save(entity);
+        }
+    }
 
     @Test
     void savesSongsToDatabase() {
@@ -35,33 +53,78 @@ class SongRepositoryTest {
     }
 
     @Test
-    void findsSongsByGenre() {
-        SongEntity entity = aSongEntity();
-
-        entity = repository.save(entity);
-        entityManager.flush();
-        entityManager.clear();
-
-        List<SongEntity> entities = repository.findByParams(entity.getGenre());
+    void findsSongsByNullParams() {
+        List<SongEntity> allEntities = repository.findAll();
+        List<SongEntity> entities = repository.findByParams(null, null);
 
         assertThat(entities).isNotEmpty()
-                .extracting(SongEntity::getId)
-                .containsExactly(entity.getId());
+                .containsAll(allEntities);
+    }
+
+
+    @Test
+    void findsSongsByGenre() {
+        SongEntity entityThatWeNeed = aSongEntity();
+        SongEntity entityThatWeDontNeed = aSongEntity();
+
+        entityThatWeNeed.setGenre("Rock");
+        entityThatWeDontNeed.setGenre("R&B");
+
+        List<SongEntity> allEntities = repository.findAll();
+        System.out.println(allEntities);
+
+        System.out.println("-------");
+
+        List<SongEntity> entitiesByParams = repository.findByParams(entityThatWeNeed.getGenre(), null);
+        System.out.println(entitiesByParams);
+
+        assertThat(entitiesByParams).isNotEmpty()
+                .extracting(SongEntity::getGenre)
+                .contains(entityThatWeNeed.getGenre())
+                .doesNotContain(entityThatWeDontNeed.getGenre());
     }
 
     @Test
-    void findsSongsByNullGenre() {
-        SongEntity entity = aSongEntity();
+    void findsSongsByArtist() {
+        SongEntity entityThatWeNeed = aSongEntity();
+        SongEntity entityThatWeDontNeed = aSongEntity();
 
-        entity = repository.save(entity);
-        entityManager.flush();
-        entityManager.clear();
+        entityThatWeNeed.setArtist("MONATIK");
+        entityThatWeDontNeed.setArtist("The Doors");
 
-        List<SongEntity> entities = repository.findByParams(null);
+        List<SongEntity> entitiesByParams = repository.findByParams(null,entityThatWeNeed.getArtist());
 
-        assertThat(entities).isNotEmpty()
-                .extracting(SongEntity::getId)
-                .containsExactly(entity.getId());
+        assertThat(entitiesByParams).isNotEmpty()
+                .extracting(SongEntity::getArtist)
+                .contains(entityThatWeNeed.getArtist())
+                .doesNotContain(entityThatWeDontNeed.getArtist());
     }
 
+    @Test
+    void findsSongsByGenreAndArtist() {
+        SongEntity entityThatWeNeed = aSongEntity();
+        SongEntity entityThatWeDontNeed = aSongEntity();
+
+        entityThatWeNeed.setGenre("Rock");
+        entityThatWeNeed.setArtist("MONATIK");
+        entityThatWeDontNeed.setGenre("R&B");
+        entityThatWeDontNeed.setArtist("The Doors");
+
+        List<SongEntity> entitiesByParams = repository.findByParams(entityThatWeNeed.getGenre(),entityThatWeNeed.getArtist());
+
+        assertThat(entitiesByParams).isNotEmpty()
+                .extracting(SongEntity::getGenre)
+                .contains(entityThatWeNeed.getGenre())
+                .doesNotContain(entityThatWeDontNeed.getGenre());
+
+        assertThat(entitiesByParams).isNotEmpty()
+                .extracting(SongEntity::getArtist)
+                .contains(entityThatWeNeed.getArtist())
+                .doesNotContain(entityThatWeDontNeed.getArtist());
+    }
+
+    @AfterClass
+    public void tearDown() {
+        repository.deleteAll();
+    }
 }
