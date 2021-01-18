@@ -37,6 +37,8 @@ class SongRepositoryTest extends TestCase {
                     .build());
             repository.save(entity);
         }
+
+        System.out.println(repository);
     }
 
     @Test

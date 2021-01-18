@@ -10,7 +10,7 @@ plugins {
 }
 
 project.ext {
-    springBootVersion = '2.1.4.RELEASE'
+    springBootVersion = '2.2.5.RELEASE'
 }
 
 ext['junit-jupiter.version'] = '5.6.0'
@@ -88,6 +88,7 @@ dependencies {
     testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.4.1'
     compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
 
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.4.2'
 }
 
 test {

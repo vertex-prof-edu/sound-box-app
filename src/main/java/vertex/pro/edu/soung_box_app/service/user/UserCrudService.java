@@ -1,5 +1,6 @@
 package vertex.pro.edu.soung_box_app.service.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.model.user.User;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 //@Slf4j
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class UserCrudService {
 
     @Autowired

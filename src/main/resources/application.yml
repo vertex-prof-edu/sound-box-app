@@ -25,3 +25,10 @@ spring:
     username: root
     password: qwerty
     driver-class-name: com.mysql.jdbc.Driver
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    guru.springframework.controllers: DEBUG
+    org.hibernate: INFO
+    org: INFO

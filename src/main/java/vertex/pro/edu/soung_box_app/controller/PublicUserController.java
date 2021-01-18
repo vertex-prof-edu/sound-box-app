@@ -1,14 +1,11 @@
 package vertex.pro.edu.soung_box_app.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.model.user.User;
 import vertex.pro.edu.soung_box_app.service.user.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.user.security_config.authentication.UserAuthenticationService;
@@ -17,9 +14,10 @@ import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links
 import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.USER_LOGIN_URL;
 
 @Slf4j
-@RestController
 @Configuration
-@RequiredArgsConstructor
+@RestController
+@RequestMapping("/public/user")
+@AllArgsConstructor
 public class PublicUserController {
 
     @NonNull
@@ -38,7 +36,6 @@ public class PublicUserController {
         log.debug("Saving user with this params- username: {}, password: {}", username, password);
 
         return login(username, password);
-
     }
 
     @PostMapping(value = USER_LOGIN_URL)
