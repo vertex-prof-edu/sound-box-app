@@ -29,21 +29,18 @@ public class PublicUserController {
 
     @PostMapping(value = USER_REGISTER_URL)
     String register(@RequestParam("username") final String username, @RequestParam("password") final String password) throws UserAlreadyExistException, InvalidLoginOrPasswordException {
-//        if (users.findByUsername(username) == null) {
-//              users.save(User.builder()
-//                  .id(username)
-//                  .username(username)
-//                  .password(password)
-//                  .build());
-//        } else {
-//            throw new UserAlreadyExistException("A user with this username has already been created");
-//        }
+        User user = new User();
+        user.setUsername(username);
+        if (users.findByUsername(user.getUsername()) == null) {
+              users.save(User.builder()
+                  .id(username)
+                  .username(username)
+                  .password(password)
+                  .build());
+        } else {
+            throw new UserAlreadyExistException("A user with this username has already been created");
+        }
 
-        users.save(User.builder()
-                .id(username)
-                .username(username)
-                .password(password)
-                .build());
         log.info("Saving user with this params- username: {}, password: {}", username, password);
 
         return login(username, password);
