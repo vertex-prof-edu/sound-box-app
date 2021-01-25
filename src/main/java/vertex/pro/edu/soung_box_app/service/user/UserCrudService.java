@@ -2,14 +2,15 @@ package vertex.pro.edu.soung_box_app.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.model.user.User;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 
-import java.util.Optional;
+import java.util.*;
 
-//@Slf4j
 @Service
+@Component
 @RequiredArgsConstructor
 public class UserCrudService {
 
@@ -24,7 +25,7 @@ public class UserCrudService {
         return userRepository.find(id);
     }
 
-    public Optional<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 }

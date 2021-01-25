@@ -87,12 +87,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return successHandler;
     }
 
-//    @Bean
-//    FilterRegistrationBean disableAutoRegistration(final TokenAuthenticationFilter filter) {
-//        final FilterRegistrationBean registration = new FilterRegistrationBean(filter);
-//        registration.setEnabled(false);
-//        return registration;
-//    }
+    @Bean
+    FilterRegistrationBean disableAutoRegistration(final TokenAuthenticationFilter filter) {
+        final FilterRegistrationBean registration = new FilterRegistrationBean(filter);
+        registration.setEnabled(false);
+        return registration;
+    }
 
     AuthenticationEntryPoint forbiddenEntryPoint() {
         return new HttpStatusEntryPoint(FORBIDDEN);

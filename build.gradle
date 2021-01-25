@@ -10,7 +10,7 @@ plugins {
 }
 
 project.ext {
-    springBootVersion = '2.2.5.RELEASE'
+    springBootVersion = '2.1.4.RELEASE'
 }
 
 ext['junit-jupiter.version'] = '5.6.0'

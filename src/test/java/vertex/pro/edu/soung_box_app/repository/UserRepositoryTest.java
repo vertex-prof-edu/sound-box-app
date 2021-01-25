@@ -102,24 +102,24 @@ public class UserRepositoryTest {
 //
 //    }
 
-    @Test
-    void findUserByUsername() {
-        User entityThatWeNeed = aUser();
-        User entityThatWeDontNeed = aUser();
-
-        entityThatWeNeed.setUsername("needfulUsername");
-        System.out.println("entityThatWeNeed - " + entityThatWeNeed);
-        entityThatWeDontNeed.setUsername("dontNeedfulUsername");
-        System.out.println("dontNeedfulUsername - " + entityThatWeDontNeed);
-
-        Optional<User> searchUser = repository.findByUsername(entityThatWeNeed.getUsername());
-        System.out.println("searchUser - " + searchUser);
-
-        assertThat(searchUser).isNotEmpty()
-                .contains(entityThatWeNeed);
-
-
-    }
+//    @Test
+//    void findUserByUsername() {
+//        User entityThatWeNeed = aUser();
+//        User entityThatWeDontNeed = aUser();
+//
+//        entityThatWeNeed.setUsername("needfulUsername");
+//        System.out.println("entityThatWeNeed - " + entityThatWeNeed);
+//        entityThatWeDontNeed.setUsername("dontNeedfulUsername");
+//        System.out.println("dontNeedfulUsername - " + entityThatWeDontNeed);
+//
+//        Optional<User> searchUser = repository.findByUsername(entityThatWeNeed.getUsername());
+//        System.out.println("searchUser - " + searchUser);
+//
+//        assertThat(searchUser).isNotEmpty()
+//                .contains(entityThatWeNeed);
+//
+//
+//    }
 }
 
 

@@ -6,6 +6,8 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
+import vertex.pro.edu.soung_box_app.exception.InvalidLoginOrPasswordException;
+import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.model.user.User;
 import vertex.pro.edu.soung_box_app.service.user.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.user.security_config.authentication.UserAuthenticationService;
@@ -26,25 +28,34 @@ public class PublicUserController {
     private final UserCrudService users;
 
     @PostMapping(value = USER_REGISTER_URL)
-    String register(@RequestParam("username") final String username, @RequestParam("password") final String password) {
-        users.save(User.builder()
-                        .id(username)
-                        .username(username)
-                        .password(password)
-                        .build());
+    String register(@RequestParam("username") final String username, @RequestParam("password") final String password) throws UserAlreadyExistException, InvalidLoginOrPasswordException {
+//        if (users.findByUsername(username) == null) {
+//              users.save(User.builder()
+//                  .id(username)
+//                  .username(username)
+//                  .password(password)
+//                  .build());
+//        } else {
+//            throw new UserAlreadyExistException("A user with this username has already been created");
+//        }
 
-        log.debug("Saving user with this params- username: {}, password: {}", username, password);
+        users.save(User.builder()
+                .id(username)
+                .username(username)
+                .password(password)
+                .build());
+        log.info("Saving user with this params- username: {}, password: {}", username, password);
 
         return login(username, password);
     }
 
     @PostMapping(value = USER_LOGIN_URL)
-    public String login(@RequestParam("username") final String username, @RequestParam("password") final String password) {
-        log.debug("Saving user with this params- username: {}, password: {}", username, password);
+    public String login(@RequestParam("username") final String username, @RequestParam("password") final String password) throws InvalidLoginOrPasswordException {
+        log.info("Login user with this params- username: {}, password: {}", username, password);
 
         return authentication
                 .login(username, password)
-                .orElseThrow(() -> new RuntimeException("invalid login and/or password"));
+                .orElseThrow(() -> new InvalidLoginOrPasswordException("invalid login and/or password"));
     }
 
     @UtilityClass
