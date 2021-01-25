@@ -4,16 +4,15 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 
 @Data
@@ -23,7 +22,7 @@ import java.util.Collection;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "users_with_email")
 public class User implements UserDetails {
 
     @Id
@@ -33,14 +32,21 @@ public class User implements UserDetails {
 
     private String username;
 
+    private String email;
+    
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     @CreationTimestamp
     private LocalDateTime releaseDate;
 
     @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+
+        return Collections.singletonList(authority);
     }
 
     @Override

@@ -18,8 +18,8 @@ import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links
 @Slf4j
 @Configuration
 @RestController
-@RequestMapping("/public/user")
 @AllArgsConstructor
+@RequestMapping("/public/user")
 public class PublicUserController {
 
     @NonNull
