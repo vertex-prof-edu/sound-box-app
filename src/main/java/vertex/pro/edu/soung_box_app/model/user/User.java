@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -52,8 +51,8 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    
     }
+
     @Override
     public String getPassword() {
         return password;
