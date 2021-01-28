@@ -24,8 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserCrudService userCrudService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-            new AntPathRequestMatcher("/public/**"));
+    private static final RequestMatcher PUBLIC_URLS =
+            new OrRequestMatcher(new AntPathRequestMatcher("/public/**"));
 
     @Override
     public void configure(final WebSecurity web) {
@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService((UserDetailsService) userCrudService);
+        provider.setUserDetailsService(userCrudService);
         return provider;
     }
 }

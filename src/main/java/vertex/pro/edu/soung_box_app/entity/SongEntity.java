@@ -1,22 +1,17 @@
 package vertex.pro.edu.soung_box_app.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import vertex.pro.edu.soung_box_app.model.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
 @Entity
 @Builder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "songs")
@@ -38,21 +33,8 @@ public class SongEntity {
     @CreationTimestamp
     private LocalDateTime releaseDate;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SongEntity that = (SongEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(artist, that.artist) &&
-                Objects.equals(album, that.album) &&
-                Objects.equals(genre, that.genre) &&
-                Objects.equals(releaseDate, that.releaseDate);
-    }
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "user_owner")
+    private User user;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, artist, album, genre, releaseDate);
-    }
 }

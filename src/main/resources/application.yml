@@ -26,10 +26,27 @@ spring:
     username: root
     password: qwerty
     driver-class-name: com.mysql.jdbc.Driver
+  mail:
+    host: localhost
+    port: 1025
+    username: user
+    password: password
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
 
 logging:
   level:
     org.springframework.web: DEBUG
-    guru.springframework.controllers: DEBUG
+    guru.springframework.controllers: INFO
     org.hibernate: INFO
     org: INFO

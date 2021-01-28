@@ -53,6 +53,7 @@ dependencies {
 
     testImplementation('org.springframework.security:spring-security-test')
 
+    compile("org.springframework.boot:spring-boot-starter-mail")
 }
 compileJava {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -79,6 +80,7 @@ dependencies {
         testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.4.1'
     }
 }
+
 
 test {
     useJUnitPlatform()

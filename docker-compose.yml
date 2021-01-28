@@ -7,3 +7,8 @@ database_mysql:
     - 3308:3306
   container_name: sound-box-app_db_container
   command: mysqld --sql-mode=""
+mail_dev:
+  image: maildev/maildev:latest
+  ports:
+    -1025
+  container_name: hopeful_antonelli

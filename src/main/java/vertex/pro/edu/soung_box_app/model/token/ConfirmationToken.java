@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.user.registration.security.token;
+package vertex.pro.edu.soung_box_app.model.token;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Getter
 @Component
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -31,8 +32,10 @@ public class ConfirmationToken {
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
+//    private LocalDateTime confirmedAt;
+
     @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(nullable = false, name = "user_username")
     private User user;
 
     public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User user) {
@@ -41,5 +44,4 @@ public class ConfirmationToken {
         this.expiresAt = expiresAt;
         this.user = user;
     }
-
 }

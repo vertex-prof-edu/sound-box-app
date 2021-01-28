@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.model.user.User;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
-import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.model.token.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
@@ -28,12 +28,11 @@ public class UserCrudService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String save(User user) {
-        boolean userExists = userRepository
-                .findByUsername(user.getUsername()).isPresent();
+    public String save(User user) throws UserAlreadyExistException {
+        boolean userExists = userRepository.findByUsername(user.getUsername()).isPresent();
 
         if (userExists) {
-            throw new IllegalStateException("email already taken");
+            throw new UserAlreadyExistException(USER_EXIST_MSG);
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -62,5 +61,10 @@ public class UserCrudService implements UserDetailsService {
                 .orElseThrow(() -> new UserAlreadyExistException(USER_NOT_FOUND_MSG));
     }
 
-    private final static String USER_NOT_FOUND_MSG = "A user with this username has already been created";
+    public void enableUser(String email) {
+        userRepository.enableAppUser(email);
+    }
+
+    private final static String USER_EXIST_MSG = "A user with this username has already been created";
+    private final static String USER_NOT_FOUND_MSG = " user with this username doesn't exist";
 }
