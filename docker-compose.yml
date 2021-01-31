@@ -10,5 +10,5 @@ database_mysql:
 mail_dev:
   image: maildev/maildev:latest
   ports:
-    -1025
-  container_name: hopeful_antonelli
+    - 1025
+  container_name: clever-summet
