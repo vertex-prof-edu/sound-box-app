@@ -21,7 +21,7 @@ import java.util.Collections;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users_with_email")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private UserRole userRole;
 
     @CreationTimestamp
-    private LocalDateTime releaseDate;
+    private LocalDateTime registrationDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
