@@ -3,13 +3,14 @@ package vertex.pro.edu.soung_box_app.service.user.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
 import vertex.pro.edu.soung_box_app.model.user.User;
 import vertex.pro.edu.soung_box_app.model.user.UserRole;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
-import vertex.pro.edu.soung_box_app.service.user.UserCrudService;
+import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.user.registration.security.email.EmailSender;
 import vertex.pro.edu.soung_box_app.model.token.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationTokenService;
@@ -51,23 +52,28 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(String token) throws TokenNotFoundException {
+    public String confirmToken(String token) throws TokenNotFoundException, TokenExpiredException {
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
                 .orElseThrow(() -> new TokenNotFoundException(TOKEN_NOT_FOUND_MSG));
+
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException(TOKEN_CONFIRMED_MSG);
+        }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+//            confirmationTokenService.deleteExpiredToken(token);
+            throw new TokenExpiredException(TOKEN_EXPIRED_MSG);
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        userCrudService.enableUser(confirmationToken.getUser().getEmail());
+        userCrudService.enableUser(confirmationToken.getUser().getUsername());
 
         return "confirmed";
     }
 
-    private String buildEmail(String name, String link) {
+    private String buildEmail(String username, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -123,7 +129,7 @@ public class RegistrationService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + username + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
@@ -138,4 +144,6 @@ public class RegistrationService {
 
     private final static String USER_REGISTRATION_EXC_MSG = "username or email not valid";
     private final static String TOKEN_NOT_FOUND_MSG = "token not found";
+    private final static String TOKEN_EXPIRED_MSG = "15 minutes passed, token expired";
+    private final static String TOKEN_CONFIRMED_MSG = "email already confirmed";
 }

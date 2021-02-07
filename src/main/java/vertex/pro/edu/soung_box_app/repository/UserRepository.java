@@ -13,14 +13,14 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query(value="SELECT * FROM users WHERE (username = :username)", nativeQuery=true)
+    @Query(value="SELECT * FROM users WHERE username = :username", nativeQuery=true)
     Optional<User> findByUsername(@Param("username") String username);
 
-    @Query(value="SELECT * FROM users WHERE (email = :email)", nativeQuery=true)
-    Optional<User> findByEmail(String email);
+    @Query(value="SELECT * FROM users WHERE email = :email", nativeQuery=true)
+    Optional<User> findByEmail(@Param("email") String email);
 
-    @Transactional
     @Modifying
-    @Query(value="UPDATE User u " + "SET u.enabled = TRUE WHERE u.email = ?1", nativeQuery = true)
-    void enableAppUser(String email);
+    @Transactional
+    @Query(value="UPDATE User u " + "SET u.enabled = TRUE WHERE u.username = :username", nativeQuery = true)
+    void enableUser(@Param("username") String username);
 }

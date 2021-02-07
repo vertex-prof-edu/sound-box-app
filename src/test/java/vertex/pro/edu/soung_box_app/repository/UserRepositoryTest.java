@@ -29,22 +29,22 @@ public class UserRepositoryTest {
 
     @BeforeEach
     public void setUpRepository() {
-        User user;
-        for (int i = 0; i < 10; i++) {
-            this.entityManager.persistAndFlush(user = User.builder()
-                    .username("dontNeedfulUsername")
-                    .password("password")
-                    .releaseDate(LocalDateTime.parse("2020-01-01T21:00:00.000"))
-                    .build());
-            repository.save(user);
-        }
-        repository.save(User.builder()
-                .username("needfulUsername")
-                .password("password")
-                .releaseDate(LocalDateTime.parse("2020-01-01T21:00:00.000"))
-                .build());
-
-        System.out.println(repository);
+//        User user;
+//        for (int i = 0; i < 10; i++) {
+//            this.entityManager.persistAndFlush(user = User.builder()
+//                    .username("dontNeedfulUsername")
+//                    .password("password")
+//                    .releaseDate(LocalDateTime.parse("2020-01-01T21:00:00.000"))
+//                    .build());
+//            repository.save(user);
+//        }
+//        repository.save(User.builder()
+//                .username("needfulUsername")
+//                .password("password")
+//                .releaseDate(LocalDateTime.parse("2020-01-01T21:00:00.000"))
+//                .build());
+//
+//        System.out.println(repository);
     }
 
 //    private static Stream<Arguments> provideToStringsForSaveUserTest() {
@@ -63,15 +63,15 @@ public class UserRepositoryTest {
 
     @Test
     void saveUserToDatabase() {
-        User entity = aUser();
-
-        entity = repository.save(entity);
-        entityManager.flush();
-        entityManager.clear();
-
-        User loadedUser = entityManager.find(User.class, entity.getId());
-        assertThat(loadedUser).isEqualToIgnoringGivenFields(entity, "releaseDate");
-        assertThat(loadedUser.getReleaseDate()).isEqualToIgnoringSeconds(entity.getReleaseDate());
+//        User entity = aUser();
+//
+//        entity = repository.save(entity);
+//        entityManager.flush();
+//        entityManager.clear();
+//
+//        User loadedUser = entityManager.find(User.class, entity.getId());
+//        assertThat(loadedUser).isEqualToIgnoringGivenFields(entity, "releaseDate");
+//        assertThat(loadedUser.getReleaseDate()).isEqualToIgnoringSeconds(entity.getReleaseDate());
     }
 
 //    @Test

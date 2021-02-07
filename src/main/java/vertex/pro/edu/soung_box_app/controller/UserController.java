@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
+import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
@@ -29,7 +30,6 @@ public class UserController {
                     @RequestParam("password") final String password) throws UserAlreadyExistException, UsernameOrEmailExistException {
 
         User newUser = User.builder()
-                .id(username)
                 .username(username)
                 .email(email)
                 .password(password)
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping(value = CONFIRM_USER_URL)
-    public String confirm(@RequestParam("token") String token) throws TokenNotFoundException {
+    public String confirm(@RequestParam("token") String token) throws TokenNotFoundException, TokenExpiredException {
         return registrationService.confirmToken(token);
     }
 

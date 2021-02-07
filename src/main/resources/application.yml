@@ -28,9 +28,9 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   mail:
     host: localhost
-    port: 1025
-    username: user
-    password: password
+    port: 25
+    username: hello
+    password: hello
 
     properties:
       mail:

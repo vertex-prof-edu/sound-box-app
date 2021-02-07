@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.user;
+package vertex.pro.edu.soung_box_app.service.user.crud;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -16,6 +16,7 @@ import vertex.pro.edu.soung_box_app.model.token.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Service
@@ -41,7 +42,7 @@ public class UserCrudService implements UserDetailsService {
 
         userRepository.save(user);
 
-        String token = java.util.UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();
 
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
@@ -61,8 +62,8 @@ public class UserCrudService implements UserDetailsService {
                 .orElseThrow(() -> new UserAlreadyExistException(USER_NOT_FOUND_MSG));
     }
 
-    public void enableUser(String email) {
-        userRepository.enableAppUser(email);
+    public void enableUser(String username) {
+        userRepository.enableUser(username);
     }
 
     private final static String USER_EXIST_MSG = "A user with this username has already been created";

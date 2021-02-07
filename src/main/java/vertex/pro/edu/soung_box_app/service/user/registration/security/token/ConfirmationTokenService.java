@@ -25,4 +25,8 @@ public class ConfirmationTokenService {
     public void setConfirmedAt(String token) {
         confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
     }
+
+    public void deleteExpiredToken(String token) {
+        confirmationTokenRepository.deleteExpiredToken(token);
+    }
 }
