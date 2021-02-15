@@ -63,7 +63,6 @@ public class RegistrationService {
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-//            confirmationTokenService.deleteExpiredToken(token);
             throw new TokenExpiredException(TOKEN_EXPIRED_MSG);
         }
 
@@ -72,6 +71,8 @@ public class RegistrationService {
 
         return "confirmed";
     }
+
+
 
     private String buildEmail(String username, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +

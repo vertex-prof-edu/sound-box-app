@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,7 @@ public class UserCrudService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserAlreadyExistException(USER_NOT_FOUND_MSG));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
     }
 
     public void enableUser(String username) {
@@ -67,5 +68,5 @@ public class UserCrudService implements UserDetailsService {
     }
 
     private final static String USER_EXIST_MSG = "A user with this username has already been created";
-    private final static String USER_NOT_FOUND_MSG = " user with this username doesn't exist";
+    private final static String USER_NOT_FOUND_MSG = "User with this username doesn't exist";
 }

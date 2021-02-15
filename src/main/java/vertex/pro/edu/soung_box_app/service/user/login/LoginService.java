@@ -1,23 +1,29 @@
 package vertex.pro.edu.soung_box_app.service.user.login;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import vertex.pro.edu.soung_box_app.exception.InvalidLoginOrPasswordException;
 import vertex.pro.edu.soung_box_app.model.user.User;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
-import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
-import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationTokenService;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class LoginService {
-    private final UserCrudService userCrudService;
     private final UserRepository userRepository;
-    private final ConfirmationTokenService confirmationTokenService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    public String login(User user) {
-//        Optional<User> username = userRepository.findByUsername(user.getUsername());
-//        Optional<User>  = userRepository.findByUsername(user.getUsername());
-//    }
+    public Object login(String username, String password) throws InvalidLoginOrPasswordException {
+        User user = userRepository.findUser(username);
+
+        boolean identicalPasswords = bCryptPasswordEncoder.matches(password, user.getPassword());
+
+        if (username != null & identicalPasswords) {
+            return "you are logged in";
+        } else {
+            throw new InvalidLoginOrPasswordException(USER_EXIST_MSG);
+        }
+    }
+
+    private final static String USER_EXIST_MSG = "invalid login or password";
 }
