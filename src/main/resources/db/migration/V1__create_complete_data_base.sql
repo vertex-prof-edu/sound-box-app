@@ -30,6 +30,22 @@ CREATE TABLE songs
     RELEASE_DATE TIMESTAMP
 );
 
+CREATE TABLE playlists
+(
+    ID              VARCHAR(255) not null PRIMARY KEY,
+    NAME            VARCHAR(100) not null,
+    USER_ID         VARCHAR(100) not null,
+    CONSTRAINT PLAYLIST_USER_ID_FK FOREIGN KEY (USER_ID) REFERENCES users (ID)
+);
+
+CREATE TABLE playlist_song
+(
+    ID              VARCHAR(255) not null PRIMARY KEY,
+    SONG_ID         VARCHAR(100) not null,
+    PLAYLIST_ID     VARCHAR(100) not null,
+    CONSTRAINT PLAYLIST_ID_FK FOREIGN KEY (PLAYLIST_ID) REFERENCES playlists (ID),
+    CONSTRAINT SONG_ID_FK FOREIGN KEY (SONG_ID) REFERENCES songs (ID)
+);
 
 
 

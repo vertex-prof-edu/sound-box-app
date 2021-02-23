@@ -41,8 +41,6 @@ public class User implements UserDetails {
     @CreationTimestamp
     private LocalDateTime registrationDate;
 
-//    private Boolean locked = false;
-
     private Boolean enabled = false;
 
     @Override
