@@ -1,11 +1,10 @@
 package vertex.pro.edu.soung_box_app.utils.prototypes.model;
 
 import lombok.experimental.UtilityClass;
-import vertex.pro.edu.soung_box_app.model.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @UtilityClass

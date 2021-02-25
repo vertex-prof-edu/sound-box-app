@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.user.registration.security.config;
+package vertex.pro.edu.soung_box_app.security.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

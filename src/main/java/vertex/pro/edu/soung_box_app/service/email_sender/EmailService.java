@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.user.registration.security.email;
+package vertex.pro.edu.soung_box_app.service.email_sender;
 
 
 import lombok.AllArgsConstructor;

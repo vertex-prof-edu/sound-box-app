@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.user.registration.security.encoder;
+package vertex.pro.edu.soung_box_app.security.encoder;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.user.registration;
+package vertex.pro.edu.soung_box_app.service.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,13 +7,13 @@ import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
-import vertex.pro.edu.soung_box_app.model.user.User;
-import vertex.pro.edu.soung_box_app.model.user.UserRole;
+import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
-import vertex.pro.edu.soung_box_app.service.user.registration.security.email.EmailSender;
-import vertex.pro.edu.soung_box_app.model.token.ConfirmationToken;
-import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationTokenService;
+import vertex.pro.edu.soung_box_app.service.email_sender.EmailSender;
+import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -72,7 +72,9 @@ public class RegistrationService {
         return "confirmed";
     }
 
+    public String createDefaultPlaylist() {
 
+    }
 
     private String buildEmail(String username, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import vertex.pro.edu.soung_box_app.entity.SongEntity;
+import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

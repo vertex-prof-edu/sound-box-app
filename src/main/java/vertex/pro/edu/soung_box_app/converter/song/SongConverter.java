@@ -1,7 +1,7 @@
 package vertex.pro.edu.soung_box_app.converter.song;
 
-import vertex.pro.edu.soung_box_app.entity.SongEntity;
-import vertex.pro.edu.soung_box_app.model.song.Song;
+import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
+import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

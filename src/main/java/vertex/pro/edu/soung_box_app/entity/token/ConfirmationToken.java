@@ -1,9 +1,9 @@
-package vertex.pro.edu.soung_box_app.model.token;
+package vertex.pro.edu.soung_box_app.entity.token;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
-import vertex.pro.edu.soung_box_app.model.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.User;
 
 
 import javax.persistence.*;
@@ -32,6 +32,7 @@ public class ConfirmationToken {
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
+    @Column(nullable = false)
     private LocalDateTime confirmedAt;
 
     @ManyToOne

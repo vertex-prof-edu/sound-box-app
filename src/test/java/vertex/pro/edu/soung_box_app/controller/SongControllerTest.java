@@ -2,8 +2,8 @@ package vertex.pro.edu.soung_box_app.controller;
 
 import org.junit.jupiter.api.Test;
 import vertex.pro.edu.soung_box_app.common.utils.AbstractControllerTest;
-import vertex.pro.edu.soung_box_app.model.song.Song;
-import vertex.pro.edu.soung_box_app.service.event.SongFinder;
+import vertex.pro.edu.soung_box_app.entity.song.model.Song;
+import vertex.pro.edu.soung_box_app.service.song_search.SongFinder;
 
 import java.util.List;
 

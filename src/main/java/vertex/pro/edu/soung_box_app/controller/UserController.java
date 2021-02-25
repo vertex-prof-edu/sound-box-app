@@ -6,9 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.exception.*;
-import vertex.pro.edu.soung_box_app.model.user.User;
-import vertex.pro.edu.soung_box_app.service.user.login.LoginService;
-import vertex.pro.edu.soung_box_app.service.user.registration.RegistrationService;
+import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.service.login.LoginService;
+import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
 
 import static vertex.pro.edu.soung_box_app.controller.UserController.Links.CONFIRM_USER_URL;
 import static vertex.pro.edu.soung_box_app.controller.UserController.Links.USER_REGISTER_URL;

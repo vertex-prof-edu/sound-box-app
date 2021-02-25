@@ -11,10 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.model.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
-import vertex.pro.edu.soung_box_app.model.token.ConfirmationToken;
-import vertex.pro.edu.soung_box_app.service.user.registration.security.token.ConfirmationTokenService;
+import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

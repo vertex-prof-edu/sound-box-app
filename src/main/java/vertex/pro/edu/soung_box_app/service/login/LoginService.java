@@ -1,10 +1,10 @@
-package vertex.pro.edu.soung_box_app.service.user.login;
+package vertex.pro.edu.soung_box_app.service.login;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.exception.InvalidLoginOrPasswordException;
-import vertex.pro.edu.soung_box_app.model.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 
 @Service

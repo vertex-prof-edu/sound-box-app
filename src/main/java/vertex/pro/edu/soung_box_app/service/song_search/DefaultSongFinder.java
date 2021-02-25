@@ -1,11 +1,11 @@
-package vertex.pro.edu.soung_box_app.service.event;
+package vertex.pro.edu.soung_box_app.service.song_search;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
-import vertex.pro.edu.soung_box_app.entity.SongEntity;
-import vertex.pro.edu.soung_box_app.model.song.Song;
+import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
+import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
 
 import java.util.List;

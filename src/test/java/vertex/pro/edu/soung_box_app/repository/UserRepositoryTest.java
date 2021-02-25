@@ -2,22 +2,12 @@ package vertex.pro.edu.soung_box_app.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.annotation.Id;
-import vertex.pro.edu.soung_box_app.model.user.User;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static vertex.pro.edu.soung_box_app.utils.prototypes.model.UserPrototypes.aUser;
 
 @DataJpaTest(excludeAutoConfiguration = TestDatabaseAutoConfiguration.class)
 public class UserRepositoryTest {

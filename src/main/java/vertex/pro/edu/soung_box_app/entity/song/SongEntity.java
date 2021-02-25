@@ -1,9 +1,8 @@
-package vertex.pro.edu.soung_box_app.entity;
+package vertex.pro.edu.soung_box_app.entity.song;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import vertex.pro.edu.soung_box_app.model.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,9 +31,4 @@ public class SongEntity {
 
     @CreationTimestamp
     private LocalDateTime releaseDate;
-
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "user_owner")
-    private User user;
-
 }

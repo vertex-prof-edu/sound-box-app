@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.model.user;
+package vertex.pro.edu.soung_box_app.entity.user;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,10 +29,13 @@ public class User implements UserDetails {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    @Column(nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String email;
-    
+
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -41,6 +44,7 @@ public class User implements UserDetails {
     @CreationTimestamp
     private LocalDateTime registrationDate;
 
+    @Column(nullable = false)
     private Boolean enabled = false;
 
     @Override

@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.model.song;
+package vertex.pro.edu.soung_box_app.entity.song.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
