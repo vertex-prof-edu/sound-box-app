@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 
 @Configuration
@@ -23,9 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserCrudService userCrudService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private static final RequestMatcher PUBLIC_URLS =
-            new OrRequestMatcher(new AntPathRequestMatcher("/public/**"));
-
     @Override
     public void configure(final WebSecurity web) {
         web.ignoring().requestMatchers(PUBLIC_URLS);
@@ -34,12 +33,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .httpBasic().disable()
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                .antMatchers("**")
+                .antMatchers("/user*").hasRole("USER")
+                .antMatchers("/artist*").hasRole("ARTIST")
+                .antMatchers(String.valueOf(PUBLIC_URLS))
                 .permitAll()
                 .anyRequest()
-                .authenticated().and()
+                .authenticated()
+                .and()
                 .formLogin();
     }
 
@@ -55,4 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userCrudService);
         return provider;
     }
+
+    private static final RequestMatcher PUBLIC_URLS =
+            new OrRequestMatcher(new AntPathRequestMatcher("/public/**"));
 }

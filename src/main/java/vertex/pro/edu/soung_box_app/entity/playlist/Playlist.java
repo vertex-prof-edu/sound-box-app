@@ -9,12 +9,11 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Builder
 @Component
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "playlist")
+@Table(name = "playlists")
 public class Playlist {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -22,9 +21,14 @@ public class Playlist {
     private String id;
 
     @Column(nullable = false)
-    private String username;
+    private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
+
+    public Playlist (String name, User user) {
+        this.name = name;
+        this.user = user;
+    }
 }

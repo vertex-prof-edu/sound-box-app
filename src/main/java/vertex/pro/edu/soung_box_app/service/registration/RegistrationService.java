@@ -3,6 +3,7 @@ package vertex.pro.edu.soung_box_app.service.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
@@ -10,6 +11,7 @@ import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
 import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
+import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.email_sender.EmailSender;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
@@ -23,27 +25,33 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RegistrationService {
 
-    private final UserCrudService userCrudService;
-    private final UserRepository userRepository;
-    private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private final UserRepository userRepository;
+    private final UserCrudService userCrudService;
+    private final PlaylistService playlistService;
+    private final ConfirmationTokenService confirmationTokenService;
 
     public String register(User user) throws UserAlreadyExistException, UsernameOrEmailExistException {
 
-        Optional<User> isValidUsername = userRepository.findByUsername(user.getUsername());
-        Optional<User> isValidEmail = userRepository.findByEmail(user.getEmail());
+        Optional<User> userUsername = userRepository.findByUsername(user.getUsername());
+        Optional<User> usernameEmail = userRepository.findByEmail(user.getEmail());
 
-        if (isValidUsername.isPresent() | isValidEmail.isPresent()) {
+        if (userUsername.isPresent() | usernameEmail.isPresent()) {
             throw new UsernameOrEmailExistException(USER_REGISTRATION_EXC_MSG);
         }
 
-        String token = userCrudService.save(User.builder()
+        User savedUser = User.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .userRole(UserRole.USER)
-                .build());
+                .build();
+
+        String token = userCrudService.save(savedUser);
+
+        Playlist playlist = new Playlist("likes", savedUser);
+        playlistService.createDefaultPlaylist(playlist);
 
         String link = "http://localhost:8084/sound-box-app/user/confirm?token=" + token;
         emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
@@ -70,10 +78,6 @@ public class RegistrationService {
         userCrudService.enableUser(confirmationToken.getUser().getUsername());
 
         return "confirmed";
-    }
-
-    public String createDefaultPlaylist() {
-
     }
 
     private String buildEmail(String username, String link) {

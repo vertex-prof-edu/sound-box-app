@@ -10,17 +10,17 @@ import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.service.login.LoginService;
 import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
 
-import static vertex.pro.edu.soung_box_app.controller.UserController.Links.CONFIRM_USER_URL;
-import static vertex.pro.edu.soung_box_app.controller.UserController.Links.USER_REGISTER_URL;
-import static vertex.pro.edu.soung_box_app.controller.UserController.Links.USER_LOGIN_URL;
+import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.CONFIRM_USER_URL;
+import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.USER_REGISTER_URL;
+import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.USER_LOGIN_URL;
 
 
 @Slf4j
 @Configuration
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("public/user")
+public class PublicUserController {
 
     private final RegistrationService registrationService;
     private final LoginService loginService;

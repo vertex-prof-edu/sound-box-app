@@ -10,7 +10,6 @@ import vertex.pro.edu.soung_box_app.repository.SongRepository;
 
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultSongFinder implements SongFinder {
