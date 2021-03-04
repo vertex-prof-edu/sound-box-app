@@ -25,10 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserCrudService userCrudService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public void configure(final WebSecurity web) {
-        web.ignoring().requestMatchers(PUBLIC_URLS);
-    }
+//    @Override
+//    public void configure(final WebSecurity web) {
+//        web.ignoring().requestMatchers(PUBLIC_URLS);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,18 +48,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth){
-        auth.authenticationProvider(daoAuthenticationProvider());
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth){
+//        auth.authenticationProvider(daoAuthenticationProvider());
+//    }
 
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(userCrudService);
-        return provider;
-    }
+//    @Bean
+//    public DaoAuthenticationProvider daoAuthenticationProvider() {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setPasswordEncoder(bCryptPasswordEncoder);
+//        provider.setUserDetailsService(userCrudService);
+//        return provider;
+//    }
 
     private static final RequestMatcher PUBLIC_URLS =
             new OrRequestMatcher(new AntPathRequestMatcher("/public/**"));

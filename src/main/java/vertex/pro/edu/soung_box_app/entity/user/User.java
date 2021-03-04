@@ -13,44 +13,31 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
-
-@Data
-@Entity
 @Builder
 @Component
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
 public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
-
-    @Column(nullable = false)
     private String username;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String password;
-
-    @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    private Collection<? extends GrantedAuthority> grantedAuthorities;
 
-    @CreationTimestamp
-    private LocalDateTime registrationDate;
-
-    @Column(nullable = false)
-    private Boolean enabled = false;
+    public static User fromUserEntityToCustomUserDetails(UserEntity userEntity) {
+        User user = new User();
+        user.username = userEntity.getUsername();
+        user.email = userEntity.getEmail();
+        user.password = userEntity.getPassword();
+        user.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(userEntity.getUserRole().name()));
+        return user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-
         return Collections.singletonList(authority);
     }
 

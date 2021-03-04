@@ -1,40 +1,39 @@
 package vertex.pro.edu.soung_box_app.service.user.crud;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 
 @Service
 @Component
 @RequiredArgsConstructor
-public class UserCrudService implements UserDetailsService {
+public class UserCrudService {
 
     @Autowired
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String save(User user) throws UserAlreadyExistException {
-        boolean userExists = userRepository.findByUsername(user.getUsername()).isPresent();
+    public String save(UserEntity user) throws UsernameOrEmailExistException {
+        UserEntity userUsername = userRepository.findByUsername(user.getUsername());
+        Optional<UserEntity> usernameEmail = userRepository.findByEmail(user.getEmail());
 
-        if (userExists) {
-            throw new UserAlreadyExistException(USER_EXIST_MSG);
+        if (userUsername != null | usernameEmail.isPresent()) {
+            throw new UsernameOrEmailExistException(USER_EXIST_MSG);
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -56,11 +55,18 @@ public class UserCrudService implements UserDetailsService {
         return token;
     }
 
-    @SneakyThrows
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
+    public UserEntity findByUsername(String login) {
+        return userRepository.findByUsername(login);
+    }
+
+    public UserEntity findByLoginAndPassword(String login, String password) {
+        UserEntity userEntity = findByUsername(login);
+        if (userEntity != null) {
+            if (bCryptPasswordEncoder.matches(password, userEntity.getPassword())) {
+                return userEntity;
+            }
+        }
+        return null;
     }
 
     public void enableUser(String username) {

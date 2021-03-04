@@ -1,22 +1,22 @@
 package vertex.pro.edu.soung_box_app.service.playlist;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
 import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
-import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
+import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
 
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class PlaylistService implements PlaylistCreator{
+public class PlaylistService implements PlaylistCreator {
 
-    private final User user;
-    private final UserCrudService userCrudService;
+//    private final UserEntity user;
     private final PlaylistRepository playlistRepository;
+    private final CustomUserDetailsService userDetailsService;
 
     @Override
     public void createDefaultPlaylist(Playlist playlist) {
@@ -26,11 +26,11 @@ public class PlaylistService implements PlaylistCreator{
     @Override
     public String createPlaylist(Playlist playlist) {
         String playlistName = playlist.getName();
-        String username = user.getUsername();
+//        String username = user.getUsername();
 
 
-        UserDetails user = userCrudService.loadUserByUsername(username);
-        playlist = new Playlist(playlistName, (User) user);
+//        User user = userDetailsService.loadUserByUsername(username);
+//        playlist = new Playlist(playlistName, user);
 
         playlistRepository.save(playlist);
 

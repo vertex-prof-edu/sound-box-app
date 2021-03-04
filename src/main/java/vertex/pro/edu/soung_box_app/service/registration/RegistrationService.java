@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
@@ -31,16 +32,9 @@ public class RegistrationService {
     private final PlaylistService playlistService;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String register(User user) throws UserAlreadyExistException, UsernameOrEmailExistException {
+    public String register(UserEntity user) throws UsernameOrEmailExistException {
 
-        Optional<User> userUsername = userRepository.findByUsername(user.getUsername());
-        Optional<User> usernameEmail = userRepository.findByEmail(user.getEmail());
-
-        if (userUsername.isPresent() | usernameEmail.isPresent()) {
-            throw new UsernameOrEmailExistException(USER_REGISTRATION_EXC_MSG);
-        }
-
-        User savedUser = User.builder()
+        UserEntity savedUser = UserEntity.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
@@ -48,15 +42,13 @@ public class RegistrationService {
                 .userRole(UserRole.USER)
                 .build();
 
-        String token = userCrudService.save(savedUser);
+        //        Playlist playlist = new Playlist("likes", savedUser);
+//        playlistService.createDefaultPlaylist(playlist);
 
-        Playlist playlist = new Playlist("likes", savedUser);
-        playlistService.createDefaultPlaylist(playlist);
+//        String link = "http://localhost:8084/sound-box-app/user/confirm?token=" + token;
+//        emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
 
-        String link = "http://localhost:8084/sound-box-app/user/confirm?token=" + token;
-        emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
-
-        return token;
+        return userCrudService.save(savedUser);
     }
 
     @Transactional

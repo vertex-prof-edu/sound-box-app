@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
 
 import javax.persistence.*;
@@ -36,9 +37,9 @@ public class ConfirmationToken {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    private UserEntity user;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User user) {
+    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, UserEntity user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

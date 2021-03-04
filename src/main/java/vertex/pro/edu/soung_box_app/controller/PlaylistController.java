@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
 import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
@@ -30,7 +31,7 @@ public class PlaylistController {
 
     @PostMapping(value = Links.PLAYLIST_CREATION_URL)
     String createPlaylist(@RequestParam("name") final String name) {
-        User user = new User();
+        UserEntity user = new UserEntity();
 
         Playlist playlist = new Playlist(name, user);
 
