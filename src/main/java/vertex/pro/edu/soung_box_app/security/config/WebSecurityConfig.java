@@ -1,20 +1,17 @@
 package vertex.pro.edu.soung_box_app.security.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.security.jwt.JwtFilter;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 
 @Configuration
@@ -24,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserCrudService userCrudService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtFilter jwtFilter;
 
 //    @Override
 //    public void configure(final WebSecurity web) {
@@ -40,12 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user*").hasRole("USER")
                 .antMatchers("/artist*").hasRole("ARTIST")
-                .antMatchers(String.valueOf(PUBLIC_URLS))
+                .antMatchers("/public/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin();
+                .authenticated();
+
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 //    @Override
@@ -61,6 +59,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        return provider;
 //    }
 
-    private static final RequestMatcher PUBLIC_URLS =
-            new OrRequestMatcher(new AntPathRequestMatcher("/public/**"));
 }
