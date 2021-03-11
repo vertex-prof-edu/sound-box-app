@@ -2,6 +2,7 @@ package vertex.pro.edu.soung_box_app.utils.prototypes.model;
 
 import lombok.experimental.UtilityClass;
 import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +17,10 @@ public class UserPrototypes {
 
     public static User aUser() {
         return User.builder()
-                .id(UUID.randomUUID().toString())
                 .username("username")
+                .email("testEmail")
                 .password("password")
-                .releaseDate(LocalDateTime.parse("2020-01-01T21:00:00.000"))
+                .userRole(UserRole.USER)
                 .build();
     }
 }

@@ -20,9 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     @Query(value="SELECT * FROM users WHERE email = :email", nativeQuery=true)
     Optional<UserEntity> findByEmail(@Param("email") String email);
 
-//    @Query(value="SELECT * FROM users WHERE username = :username", nativeQuery=true)
-//    User findUser(@Param("username") String username);
-
     @Modifying
     @Transactional
     @Query("UPDATE UserEntity u " + "SET u.enabled = TRUE WHERE u.username = :username")

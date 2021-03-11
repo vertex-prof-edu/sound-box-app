@@ -22,7 +22,6 @@ import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links
 public class PublicUserController {
 
     private final JwtProvider jwtProvider;
-    private final LoginService loginService;
     private final RegistrationService registrationService;
 
     @PostMapping(value = USER_REGISTER_URL)
@@ -43,14 +42,6 @@ public class PublicUserController {
     @GetMapping(value = USER_AUTH_URL)
     public String auth(@RequestParam("username") final String username, @RequestParam("password") final String password) {
         return jwtProvider.generateToken(username);
-    }
-
-    @GetMapping(value = USER_LOGIN_URL)
-    public String login(@RequestParam("username") final String username, @RequestParam("password") final String password)
-            throws InvalidLoginOrPasswordException {
-        log.info("Login user with this params- username: {}, password: {}", username, password);
-
-        return loginService.login(username, password);
     }
 
     @UtilityClass

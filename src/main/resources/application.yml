@@ -48,7 +48,8 @@ spring:
 
 logging:
   level:
-    org.springframework.web: DEBUG
-    guru.springframework.controllers: INFO
-    org.hibernate: INFO
-    org: INFO
+    info.springframework.web: DEBUG
+    info.springframework.controllers: INFO
+    info.hibernate: INFO
+    info: INFO
+    ROOT: DEBUG
