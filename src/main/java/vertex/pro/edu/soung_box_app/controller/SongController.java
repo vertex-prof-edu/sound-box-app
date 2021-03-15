@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
@@ -19,23 +20,13 @@ import static vertex.pro.edu.soung_box_app.controller.SongController.Links.SONGS
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class SongController {
 
-    private SongRepository repository;
     private final SongFinder songFinder;
 
     @GetMapping(value = SONGS_BASE_URL)
     public List<Song> getSongs(@RequestParam(required = false) String genre, @RequestParam(required = false) String artist) {
-        SongEntity entity;
-        for (int i = 0; i < 10; i++) {
-            entity = SongEntity.builder()
-                    .album("Album")
-                    .artist(ThreadLocalRandom.current().nextBoolean() ? "MONATIK" : "The Doors")
-                    .genre(ThreadLocalRandom.current().nextBoolean() ? "Rock" : "R&B")
-                    .title("Title")
-                    .build();
-            repository.save(entity);
-        }
         log.info("Retrieving songs, their genre: {} and artist: {}", genre, artist);
         return songFinder.getSongs(genre, artist);
     }

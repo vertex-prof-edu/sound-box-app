@@ -8,7 +8,6 @@ import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
 import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
@@ -32,7 +31,7 @@ public class RegistrationService {
     private final PlaylistService playlistService;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String register(UserEntity user) throws UsernameOrEmailExistException {
+    public String register(UserEntity user) throws UserAlreadyExistException {
 
         UserEntity savedUser = UserEntity.builder()
                 .id(user.getId())

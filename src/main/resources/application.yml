@@ -52,4 +52,4 @@ logging:
     info.springframework.controllers: INFO
     info.hibernate: INFO
     info: INFO
-    ROOT: DEBUG
+#    ROOT: DEBUG

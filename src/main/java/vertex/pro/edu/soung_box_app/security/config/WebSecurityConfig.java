@@ -23,11 +23,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtFilter jwtFilter;
 
-//    @Override
-//    public void configure(final WebSecurity web) {
-//        web.ignoring().requestMatchers(PUBLIC_URLS);
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

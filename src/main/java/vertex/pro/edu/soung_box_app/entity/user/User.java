@@ -35,10 +35,15 @@ public class User implements UserDetails {
         return user;
     }
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+//        return Collections.singletonList(authority);
+//    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-        return Collections.singletonList(authority);
+        return grantedAuthorities;
     }
 
     @Override

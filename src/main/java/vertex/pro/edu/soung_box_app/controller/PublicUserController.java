@@ -26,7 +26,7 @@ public class PublicUserController {
 
     @PostMapping(value = USER_REGISTER_URL)
     String register(@RequestParam("username") final String username, @RequestParam("email") final String email,
-                    @RequestParam("password") final String password) throws UsernameOrEmailExistException {
+                    @RequestParam("password") final String password) throws UserAlreadyExistException {
 
         UserEntity newUser = UserEntity.builder()
                 .username(username)
@@ -39,8 +39,8 @@ public class PublicUserController {
         return registrationService.register(newUser);
     }
 
-    @GetMapping(value = USER_AUTH_URL)
-    public String auth(@RequestParam("username") final String username, @RequestParam("password") final String password) {
+    @PostMapping(value = USER_AUTH_URL)
+    public String auth(@RequestParam("username") final String username) {
         return jwtProvider.generateToken(username);
     }
 

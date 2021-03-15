@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.exception.UsernameOrEmailExistException;
+import vertex.pro.edu.soung_box_app.exception.UsernameDoesntExistException;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
@@ -28,12 +28,12 @@ public class UserCrudService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String save(UserEntity user) throws UsernameOrEmailExistException {
+    public String save(UserEntity user) throws UserAlreadyExistException {
         UserEntity userUsername = userRepository.findByUsername(user.getUsername());
         Optional<UserEntity> usernameEmail = userRepository.findByEmail(user.getEmail());
 
         if (userUsername != null | usernameEmail.isPresent()) {
-            throw new UsernameOrEmailExistException(USER_EXIST_MSG);
+            throw new UserAlreadyExistException(USER_EXIST_MSG);
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -55,11 +55,14 @@ public class UserCrudService {
         return token;
     }
 
-    public UserEntity findByUsername(String login) {
+    public UserEntity findByUsername(String login) throws UsernameDoesntExistException {
+        if (login.isEmpty()) {
+            throw new UsernameDoesntExistException(USER_NOT_FOUND_MSG);
+        }
         return userRepository.findByUsername(login);
     }
 
-    public UserEntity findByLoginAndPassword(String login, String password) {
+    public UserEntity findByLoginAndPassword(String login, String password) throws UsernameDoesntExistException {
         UserEntity userEntity = findByUsername(login);
         if (userEntity != null) {
             if (bCryptPasswordEncoder.matches(password, userEntity.getPassword())) {
@@ -73,6 +76,6 @@ public class UserCrudService {
         userRepository.enableUser(username);
     }
 
-    private final static String USER_EXIST_MSG = "A user with this username has already been created";
+    private final static String USER_EXIST_MSG = "A username or email  has already been created";
     private final static String USER_NOT_FOUND_MSG = "User with this username doesn't exist";
 }
