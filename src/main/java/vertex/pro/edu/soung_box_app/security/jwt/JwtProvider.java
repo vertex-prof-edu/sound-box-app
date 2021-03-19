@@ -3,7 +3,9 @@ package vertex.pro.edu.soung_box_app.security.jwt;
 import io.jsonwebtoken.*;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

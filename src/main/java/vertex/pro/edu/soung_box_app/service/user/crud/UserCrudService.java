@@ -7,8 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
+import vertex.pro.edu.soung_box_app.exception.InvalidLoginOrPasswordException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.exception.UsernameDoesntExistException;
+import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
@@ -55,19 +56,23 @@ public class UserCrudService {
         return token;
     }
 
-    public UserEntity findByUsername(String login) throws UsernameDoesntExistException {
+    public UserEntity findByUsername(String login) throws UserDoesntExistException {
         if (login.isEmpty()) {
-            throw new UsernameDoesntExistException(USER_NOT_FOUND_MSG);
+            throw new UserDoesntExistException(USER_NOT_FOUND_MSG);
         }
         return userRepository.findByUsername(login);
     }
 
-    public UserEntity findByLoginAndPassword(String login, String password) throws UsernameDoesntExistException {
+    public UserEntity findByLoginAndPassword(String login, String password) throws UserDoesntExistException,
+            InvalidLoginOrPasswordException {
+
         UserEntity userEntity = findByUsername(login);
         if (userEntity != null) {
             if (bCryptPasswordEncoder.matches(password, userEntity.getPassword())) {
                 return userEntity;
             }
+        } else {
+            throw new InvalidLoginOrPasswordException(INVALID_LOGIN_OR_PASSWORD_MSG);
         }
         return null;
     }
@@ -78,4 +83,5 @@ public class UserCrudService {
 
     private final static String USER_EXIST_MSG = "A username or email  has already been created";
     private final static String USER_NOT_FOUND_MSG = "User with this username doesn't exist";
+    private final static String INVALID_LOGIN_OR_PASSWORD_MSG = "invalid login or password";
 }

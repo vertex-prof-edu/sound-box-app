@@ -1,22 +1,22 @@
 package vertex.pro.edu.soung_box_app.service.playlist;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
-import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
+import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
-import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
+import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class PlaylistService implements PlaylistCreator {
 
-//    private final UserEntity user;
+    private final UserCrudService service;
     private final PlaylistRepository playlistRepository;
-    private final CustomUserDetailsService userDetailsService;
 
     @Override
     public void createDefaultPlaylist(Playlist playlist) {
@@ -24,21 +24,24 @@ public class PlaylistService implements PlaylistCreator {
     }
 
     @Override
-    public String createPlaylist(Playlist playlist) {
-        String playlistName = playlist.getName();
-//        String username = user.getUsername();
-
-
-//        User user = userDetailsService.loadUserByUsername(username);
-//        playlist = new Playlist(playlistName, user);
+    public String createPlaylist(String name) throws UserDoesntExistException {
+        Playlist playlist = new Playlist(name, getCurrent());
 
         playlistRepository.save(playlist);
 
-        return playlistName;
+        return name;
     }
 
-    public Optional<Playlist> getPlaylists(String name) {
-        return playlistRepository.findByName(name);
+    public List<Playlist> showAllPlaylists() throws UserDoesntExistException {
+        String userId = getCurrent().getId();
+
+        return playlistRepository.showAllUserPlaylists(userId);
+    }
+
+    public UserEntity getCurrent() throws UserDoesntExistException {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return service.findByUsername(loggedUser);
     }
 
 }

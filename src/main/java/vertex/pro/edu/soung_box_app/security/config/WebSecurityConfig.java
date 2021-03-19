@@ -39,19 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated();
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth){
-//        auth.authenticationProvider(daoAuthenticationProvider());
-//    }
-
-//    @Bean
-//    public DaoAuthenticationProvider daoAuthenticationProvider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(bCryptPasswordEncoder);
-//        provider.setUserDetailsService(userCrudService);
-//        return provider;
-//    }
-
 }

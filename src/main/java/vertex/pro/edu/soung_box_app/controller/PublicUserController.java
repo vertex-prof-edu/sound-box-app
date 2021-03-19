@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
-import vertex.pro.edu.soung_box_app.service.login.LoginService;
 import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
+import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 
 import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.*;
 
@@ -22,10 +22,11 @@ import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links
 public class PublicUserController {
 
     private final JwtProvider jwtProvider;
+    private final UserCrudService service;
     private final RegistrationService registrationService;
 
     @PostMapping(value = USER_REGISTER_URL)
-    String register(@RequestParam("username") final String username, @RequestParam("email") final String email,
+    public String register(@RequestParam("username") final String username, @RequestParam("email") final String email,
                     @RequestParam("password") final String password) throws UserAlreadyExistException {
 
         UserEntity newUser = UserEntity.builder()
@@ -42,6 +43,14 @@ public class PublicUserController {
     @PostMapping(value = USER_AUTH_URL)
     public String auth(@RequestParam("username") final String username) {
         return jwtProvider.generateToken(username);
+    }
+
+    @GetMapping(value = USER_LOGIN_URL)
+    public UserEntity login(@RequestParam("username") final String username, @RequestParam("password") final String password)
+            throws InvalidLoginOrPasswordException, UserDoesntExistException {
+        log.info("Login user with this params- username: {}, password: {}", username, password);
+
+        return service.findByLoginAndPassword(username, password);
     }
 
     @UtilityClass

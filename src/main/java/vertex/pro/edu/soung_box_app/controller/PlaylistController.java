@@ -4,18 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
-import vertex.pro.edu.soung_box_app.entity.user.User;
-import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
-import vertex.pro.edu.soung_box_app.entity.user.UserRole;
-import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
+import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
-import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
+
+import java.util.List;
+
+import static vertex.pro.edu.soung_box_app.controller.PlaylistController.Links.GET_ALL_PLAYLISTS_URL;
+import static vertex.pro.edu.soung_box_app.controller.PlaylistController.Links.PLAYLIST_CREATION_URL;
 
 
 @Slf4j
@@ -25,21 +22,23 @@ import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 @RequestMapping("/user/playlists")
 public class PlaylistController {
 
-    private final PlaylistRepository playlistRepository;
     private final PlaylistService playlistService;
 
-    @PostMapping(value = Links.PLAYLIST_CREATION_URL)
-    String createPlaylist(@RequestParam("name") final String name) {
-        UserEntity user = new UserEntity();
+    @PostMapping(value = PLAYLIST_CREATION_URL)
+    String createPlaylist(@RequestParam("name") final String name) throws UserDoesntExistException {
+        log.info("Created playlist with name-: {}", name);
 
-        Playlist playlist = new Playlist(name, user);
+        return playlistService.createPlaylist(name);
+    }
 
-
-        return playlistService.createPlaylist(playlist);
+    @GetMapping(value = GET_ALL_PLAYLISTS_URL)
+    List<Playlist> showAllPlaylists() throws UserDoesntExistException {
+        return playlistService.showAllPlaylists();
     }
 
     @UtilityClass
     public static class Links {
-        public static final String PLAYLIST_CREATION_URL = "/create";
+        public static final String PLAYLIST_CREATION_URL = "/createPlaylist";
+        public static final String GET_ALL_PLAYLISTS_URL = "/showAll";
     }
 }

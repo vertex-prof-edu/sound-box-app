@@ -8,9 +8,7 @@ import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
-import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
-import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.email_sender.EmailSender;
@@ -19,14 +17,13 @@ import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
 public class RegistrationService {
 
     private final EmailSender emailSender;
-    private final UserRepository userRepository;
     private final UserCrudService userCrudService;
     private final PlaylistService playlistService;
     private final ConfirmationTokenService confirmationTokenService;
@@ -41,7 +38,7 @@ public class RegistrationService {
                 .userRole(UserRole.USER)
                 .build();
 
-        //        Playlist playlist = new Playlist("likes", savedUser);
+//        Playlist playlist = new Playlist("likes", savedUser);
 //        playlistService.createDefaultPlaylist(playlist);
 
 //        String link = "http://localhost:8084/sound-box-app/user/confirm?token=" + token;

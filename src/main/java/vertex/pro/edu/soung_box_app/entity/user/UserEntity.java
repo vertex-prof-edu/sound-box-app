@@ -6,9 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,13 +24,10 @@ public class UserEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -37,6 +36,5 @@ public class UserEntity {
     @CreationTimestamp
     private LocalDateTime registrationDate;
 
-    @Column(nullable = false)
     private Boolean enabled;
 }

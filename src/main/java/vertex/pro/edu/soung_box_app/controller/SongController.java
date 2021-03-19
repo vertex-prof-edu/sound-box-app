@@ -20,7 +20,7 @@ import static vertex.pro.edu.soung_box_app.controller.SongController.Links.SONGS
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/songs")
 public class SongController {
 
     private final SongFinder songFinder;
@@ -33,6 +33,6 @@ public class SongController {
 
     @UtilityClass
     public static class Links {
-        public static final String SONGS_BASE_URL = "/songs";
+        public static final String SONGS_BASE_URL = "/getSongs";
     }
 }

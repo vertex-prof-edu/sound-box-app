@@ -21,11 +21,10 @@ public class Playlist {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(nullable = false)
     private String name;
 
-    @ManyToOne(cascade=CascadeType.MERGE)
-    @JoinColumn(nullable = false, name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     public Playlist (String name, UserEntity user) {
