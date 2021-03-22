@@ -6,9 +6,14 @@ import org.springframework.data.repository.query.Param;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SongRepository extends JpaRepository<SongEntity, String> {
 
-    @Query(value="SELECT * FROM songs WHERE (:genre is null or genre = :genre) AND (:artist IS NULL or artist = :artist)", nativeQuery=true)
+    @Query(value="SELECT * FROM songs WHERE (:genre is null or genre = :genre) " +
+            "AND (:artist IS NULL or artist = :artist)", nativeQuery=true)
     List<SongEntity> findByParams(@Param("genre") String genre, @Param("artist") String artist);
+
+    @Query(value = "SELECT * FROM songs WHERE id = :id", nativeQuery = true)
+    Optional<SongEntity> findById(@Param("id") String id);
 }

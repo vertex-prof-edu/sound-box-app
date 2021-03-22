@@ -3,7 +3,6 @@ package vertex.pro.edu.soung_box_app.service.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import vertex.pro.edu.soung_box_app.entity.playlist.Playlist;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
@@ -137,7 +136,6 @@ public class RegistrationService {
                 "</div></div>";
     }
 
-    private final static String USER_REGISTRATION_EXC_MSG = "username or email not valid";
     private final static String TOKEN_NOT_FOUND_MSG = "token not found";
     private final static String TOKEN_EXPIRED_MSG = "15 minutes passed, token expired";
     private final static String TOKEN_CONFIRMED_MSG = "email already confirmed";
