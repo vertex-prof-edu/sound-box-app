@@ -14,6 +14,6 @@ public interface SongRepository extends JpaRepository<SongEntity, String> {
             "AND (:artist IS NULL or artist = :artist)", nativeQuery=true)
     List<SongEntity> findByParams(@Param("genre") String genre, @Param("artist") String artist);
 
-    @Query(value = "SELECT * FROM songs WHERE id = :id", nativeQuery = true)
-    Optional<SongEntity> findById(@Param("id") String id);
+    @Query(value = "SELECT * FROM songs WHERE title = :title", nativeQuery = true)
+    List<SongEntity> findByName(@Param("title") String title);
 }

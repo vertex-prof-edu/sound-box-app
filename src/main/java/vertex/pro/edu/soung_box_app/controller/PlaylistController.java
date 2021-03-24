@@ -5,8 +5,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
-import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
-import vertex.pro.edu.soung_box_app.exception.PlaylistDoesntExistException;
+import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.exception.UserNotConfirmedException;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
@@ -26,7 +25,7 @@ public class PlaylistController {
     private final PlaylistService playlistService;
 
     @PostMapping(value = PLAYLIST_CREATION_URL)
-    String createPlaylist(@RequestParam("name") final String name) throws UserDoesntExistException,
+    Playlist createPlaylist(@RequestParam("name") final String name) throws UserDoesntExistException,
             UserNotConfirmedException {
         log.info("Created playlist with name-: {}", name);
 
@@ -34,22 +33,22 @@ public class PlaylistController {
     }
 
     @GetMapping(value = GET_ALL_PLAYLISTS_URL)
-    List<PlaylistEntity> showAllPlaylists() throws UserDoesntExistException, UserNotConfirmedException {
+    List<Playlist> showAllPlaylists() throws UserDoesntExistException, UserNotConfirmedException {
         return playlistService.showAllPlaylists();
     }
 
     @GetMapping(value = FIND_PLAYLISTS_URL)
-    List<PlaylistEntity> findPlaylistByName(@RequestParam("name") final String name) throws UserDoesntExistException,
+    List<Playlist> findPlaylistByName(@RequestParam("name") final String name) throws UserDoesntExistException,
             UserNotConfirmedException {
         return playlistService.findPlaylistByName(name);
     }
 
-    @GetMapping(value = ADD_SONG_TO_PLAYLIST_URL)
-    PlaylistEntity addSongToThePlaylist(@RequestParam("songId") final String songId,
-                                  @RequestParam("playlistName") final String playlistName) throws UserDoesntExistException,
-            UserNotConfirmedException, PlaylistDoesntExistException {
-        return playlistService.addSongToPlaylist(songId, playlistName);
-    }
+//    @GetMapping(value = ADD_SONG_TO_PLAYLIST_URL)
+//    Playlist addSongToThePlaylist(@RequestParam("songName") final String songName,
+//                                  @RequestParam("playlistName") final String playlistName) throws UserDoesntExistException,
+//            UserNotConfirmedException, PlaylistDoesntExistException {
+//        return playlistService.addSongToPlaylist(songName, playlistName);
+//    }
 
     @UtilityClass
     public static class Links {

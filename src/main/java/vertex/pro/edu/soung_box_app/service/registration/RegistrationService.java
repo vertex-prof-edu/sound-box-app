@@ -3,6 +3,8 @@ package vertex.pro.edu.soung_box_app.service.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
+import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
@@ -37,8 +39,8 @@ public class RegistrationService {
                 .userRole(UserRole.USER)
                 .build();
 
-//        Playlist playlist = new Playlist("likes", savedUser);
-//        playlistService.createDefaultPlaylist(playlist);
+        PlaylistEntity playlist = new PlaylistEntity("likes", savedUser);
+        playlistService.createDefaultPlaylist(playlist);
 
 //        String link = "http://localhost:8084/sound-box-app/user/confirm?token=" + token;
 //        emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
