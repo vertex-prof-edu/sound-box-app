@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
-import vertex.pro.edu.soung_box_app.repository.SongRepository;
-import vertex.pro.edu.soung_box_app.service.song_search.SongFinder;
+import vertex.pro.edu.soung_box_app.service.song.SongFinder;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static vertex.pro.edu.soung_box_app.controller.SongController.Links.SONGS_BASE_URL;
 
@@ -30,6 +27,8 @@ public class SongController {
         log.info("Retrieving songs, their genre: {} and artist: {}", genre, artist);
         return songFinder.getSongs(genre, artist);
     }
+
+
 
     @UtilityClass
     public static class Links {

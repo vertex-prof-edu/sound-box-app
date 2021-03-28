@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
-import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
-import vertex.pro.edu.soung_box_app.exception.TokenNotFoundException;
-import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
+import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
@@ -26,7 +24,6 @@ public class RegistrationService {
 
     private final EmailSender emailSender;
     private final UserCrudService userCrudService;
-    private final PlaylistService playlistService;
     private final ConfirmationTokenService confirmationTokenService;
 
     public String register(UserEntity user) throws UserAlreadyExistException {
@@ -39,9 +36,6 @@ public class RegistrationService {
                 .userRole(UserRole.USER)
                 .build();
 
-        PlaylistEntity playlist = new PlaylistEntity("likes", savedUser);
-        playlistService.createDefaultPlaylist(playlist);
-
 //        String link = "http://localhost:8084/sound-box-app/user/confirm?token=" + token;
 //        emailSender.send(user.getEmail(), buildEmail(user.getUsername(), link));
 
@@ -50,8 +44,11 @@ public class RegistrationService {
 
     @Transactional
     public String confirmToken(String token) throws TokenNotFoundException, TokenExpiredException {
-        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
-                .orElseThrow(() -> new TokenNotFoundException(TOKEN_NOT_FOUND_MSG));
+        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token);
+
+        if (confirmationToken == null) {
+            throw new TokenNotFoundException(TOKEN_NOT_FOUND_MSG);
+        }
 
         if (confirmationToken.getConfirmedAt() != null) {
             throw new IllegalStateException(TOKEN_CONFIRMED_MSG);

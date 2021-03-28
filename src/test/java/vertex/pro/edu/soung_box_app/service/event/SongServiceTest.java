@@ -6,8 +6,8 @@ import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
-import vertex.pro.edu.soung_box_app.service.song_search.DefaultSongFinder;
-import vertex.pro.edu.soung_box_app.service.song_search.SongFinder;
+import vertex.pro.edu.soung_box_app.service.song.SongService;
+import vertex.pro.edu.soung_box_app.service.song.SongFinder;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static vertex.pro.edu.soung_box_app.utils.prototypes.model.SongPrototypes.aSongList;
 
-class DefaultSongFinderTest {
+class SongServiceTest {
 
     private List<Song> convertedSongs;
     private List<SongEntity> songEntities;
@@ -40,7 +40,7 @@ class DefaultSongFinderTest {
         songRepository = mock(SongRepository.class);
         when(songRepository.findAll()).thenReturn(songEntities);
 
-        songFinder = new DefaultSongFinder(songRepository, songConverter);
+        songFinder = new SongService(songRepository, songConverter);
     }
 
     @Test

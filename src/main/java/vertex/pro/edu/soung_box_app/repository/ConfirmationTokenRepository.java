@@ -9,13 +9,17 @@ import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, String> {
 
     @Query(value = "select * from confirmation_token where token = :token", nativeQuery = true)
-    Optional<ConfirmationToken> findByToken(@Param("token") String token);
+    ConfirmationToken findByToken(@Param("token") String token);
+
+    @Query(value = "select * from confirmation_token where user_id = :user_id", nativeQuery = true)
+    List<ConfirmationToken> findTokenByUserId(@Param("user_id") String user_id);
 
     @Modifying
     @Transactional

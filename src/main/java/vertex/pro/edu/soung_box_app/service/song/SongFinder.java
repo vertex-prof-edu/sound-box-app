@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.service.song_search;
+package vertex.pro.edu.soung_box_app.service.song;
 
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 

@@ -6,7 +6,7 @@ import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.exception.UserNotConfirmedException;
 
 public interface PlaylistCreator {
-    void createDefaultPlaylist(PlaylistEntity playlistEntity);
+    void createDefaultPlaylist() throws UserDoesntExistException, UserNotConfirmedException;
 
     Playlist createPlaylist(String name) throws UserDoesntExistException, UserNotConfirmedException;
 }
