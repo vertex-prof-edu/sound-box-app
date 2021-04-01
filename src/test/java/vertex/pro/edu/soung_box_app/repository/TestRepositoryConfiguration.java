@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.model.User;
 
 @SpringBootConfiguration
 @EnableAutoConfiguration

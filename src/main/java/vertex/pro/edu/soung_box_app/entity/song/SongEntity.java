@@ -36,6 +36,8 @@ public class SongEntity {
     @CreationTimestamp
     private LocalDateTime releaseDate;
 
+    private int likes;
+
     @Transient
     @ManyToMany(mappedBy = "songs")
     private Set<PlaylistEntity> playlistEntities = new HashSet<>();

@@ -1,15 +1,13 @@
-package vertex.pro.edu.soung_box_app.entity.user;
+package vertex.pro.edu.soung_box_app.entity.user.model;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
+import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -34,12 +32,6 @@ public class User implements UserDetails {
         user.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(userEntity.getUserRole().name()));
         return user;
     }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-//        return Collections.singletonList(authority);
-//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

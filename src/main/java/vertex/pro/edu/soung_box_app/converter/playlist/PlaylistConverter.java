@@ -19,9 +19,9 @@ public class PlaylistConverter {
 
     public Playlist fromEntity(PlaylistEntity entity) {
         return Playlist.builder().
-                id(entity.getId())
-                .name(entity.getName())
-                .build();
+                id(entity.getId()).
+                name(entity.getName()).
+                build();
     }
 
 }

@@ -3,21 +3,18 @@ package vertex.pro.edu.soung_box_app.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.service.song.SongFinder;
 
 import java.util.List;
 
+import static vertex.pro.edu.soung_box_app.controller.SongController.Links.LIKE_SONG_URL;
 import static vertex.pro.edu.soung_box_app.controller.SongController.Links.SONGS_BASE_URL;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/songs")
 public class SongController {
 
     private final SongFinder songFinder;
@@ -28,10 +25,14 @@ public class SongController {
         return songFinder.getSongs(genre, artist);
     }
 
-
+    @PostMapping(value = LIKE_SONG_URL)
+    public String likeSong(@RequestParam String songId) {
+        return "liked";
+    }
 
     @UtilityClass
     public static class Links {
-        public static final String SONGS_BASE_URL = "/getSongs";
+        public static final String SONGS_BASE_URL = "/public/songs/getSongs";
+        public static final String LIKE_SONG_URL = "/song/like";
     }
 }

@@ -27,6 +27,7 @@ public class SongConverter {
                 .genre(entity.getGenre())
                 .album(entity.getAlbum())
                 .releaseDate(entity.getReleaseDate().atOffset(ZoneOffset.UTC))
+                .likes(entity.getLikes())
                 .build();
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.model.User;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.exception.UserNotConfirmedException;

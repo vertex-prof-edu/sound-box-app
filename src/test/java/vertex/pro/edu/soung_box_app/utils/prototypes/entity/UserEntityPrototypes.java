@@ -1,7 +1,6 @@
 package vertex.pro.edu.soung_box_app.utils.prototypes.entity;
 
 import lombok.experimental.UtilityClass;
-import vertex.pro.edu.soung_box_app.entity.user.User;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 

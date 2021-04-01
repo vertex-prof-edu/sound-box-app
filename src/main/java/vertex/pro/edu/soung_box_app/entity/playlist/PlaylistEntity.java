@@ -7,6 +7,7 @@ import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,21 +32,25 @@ public class PlaylistEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    public PlaylistEntity(String name, UserEntity user) {
+    private LocalDateTime createdAt;
+
+    public PlaylistEntity(String name, UserEntity user, LocalDateTime createdAt) {
         this.name = name;
         this.user = user;
+        this.createdAt = createdAt;
     }
 
     @Transient
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "playlist_song",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id"))
     private Set<SongEntity> songs;
 
-    public PlaylistEntity(String name, UserEntity user, SongEntity... songs) {
+    public PlaylistEntity(String name, UserEntity user, LocalDateTime createdAt, SongEntity... songs) {
         this.name = name;
         this.user = user;
+        this.createdAt = createdAt;
         this.songs = Stream.of(songs).collect(Collectors.toSet());
         this.songs.forEach(x -> x.getPlaylistEntities().add(this));
     }

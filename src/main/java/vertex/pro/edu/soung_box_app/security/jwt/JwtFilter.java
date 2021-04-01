@@ -6,7 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import vertex.pro.edu.soung_box_app.entity.user.User;
+import vertex.pro.edu.soung_box_app.entity.user.model.User;
 import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
 
 import javax.servlet.FilterChain;

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
 import lombok.Builder;
 import lombok.Value;
+import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
@@ -27,4 +29,8 @@ public class Song {
     @JsonFormat(shape = STRING)
     @JsonSerialize(using = OffsetDateTimeSerializer.class)
     OffsetDateTime releaseDate;
+
+    int likes;
+
+    Set<Playlist> playlistSet;
 }
