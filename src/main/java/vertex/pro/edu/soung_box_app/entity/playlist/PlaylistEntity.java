@@ -1,16 +1,27 @@
 package vertex.pro.edu.soung_box_app.entity.playlist;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Data
 @Entity
@@ -40,18 +51,10 @@ public class PlaylistEntity {
         this.createdAt = createdAt;
     }
 
-    @Transient
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "playlist_song",
-            joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "playlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
     private Set<SongEntity> songs;
 
-    public PlaylistEntity(String name, UserEntity user, LocalDateTime createdAt, SongEntity... songs) {
-        this.name = name;
-        this.user = user;
-        this.createdAt = createdAt;
-        this.songs = Stream.of(songs).collect(Collectors.toSet());
-        this.songs.forEach(x -> x.getPlaylistEntities().add(this));
-    }
 }
