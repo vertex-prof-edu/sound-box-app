@@ -3,7 +3,6 @@ package vertex.pro.edu.soung_box_app.service.user.crud;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import vertex.pro.edu.soung_box_app.exception.InvalidLoginOrPasswordException;
 import vertex.pro.edu.soung_box_app.exception.UserAlreadyExistException;
 import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
-import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
@@ -46,13 +45,13 @@ public class UserCrudService {
 
         String token = UUID.randomUUID().toString();
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(
+        ConfirmationTokenEntity confirmationTokenEntity = new ConfirmationTokenEntity(
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 user);
 
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        confirmationTokenService.saveConfirmationToken(confirmationTokenEntity);
 
         return token;
     }

@@ -9,8 +9,6 @@ import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.exception.PlaylistNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
-import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
-import vertex.pro.edu.soung_box_app.exception.UserNotConfirmedException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
 import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
@@ -47,7 +45,7 @@ public class PlaylistService implements PlaylistCreator {
         return playlistConverter.fromEntity(playlistRepository.save(playlistEntity));
     }
 
-    public List<Playlist> showAllPlaylists() throws UserDoesntExistException, UserNotConfirmedException {
+    public List<Playlist> showAllPlaylists() throws Exception {
 
         List<PlaylistEntity> playlistEntities = playlistRepository.
                 showAllUserPlaylists(userDetailsService.getCurrent().getId());
@@ -66,42 +64,25 @@ public class PlaylistService implements PlaylistCreator {
         return playlistConverter.fromEntities(playlist);
     }
 
-//    public Playlist addSongToPlaylist(String playlistName, String playlistCreatedAt,
-//                                      String songId, String title, String genre, String artist, String releaseSongDate)
-//            throws UserDoesntExistException, UserNotConfirmedException {
-//
-//        UserEntity user = userDetailsService.getCurrent();
-//        System.out.println(user);
-//        SongEntity addedSong = songRepository.findByParamsForPlaylist(songId, title, genre, artist, releaseSongDate);
-//        System.out.println(addedSong);
-//        PlaylistEntity requiredPlaylist = playlistRepository.findByParams(playlistName, playlistCreatedAt, user);
-//        System.out.println(requiredPlaylist);
-//
-//        if (requiredPlaylist == null) {
-//            return playlistConverter.fromEntity(playlistRepository.
-//                    save(new PlaylistEntity(playlistName, user, LocalDateTime.now(), addedSong)));
-//        } else {
-//            requiredPlaylist.getSongs().add(addedSong);
-//            addedSong.getPlaylistEntities().add(requiredPlaylist);
-//
-//            return playlistConverter.fromEntity(playlistRepository.save(requiredPlaylist));
-//        }
-//    }
-
     @Transactional
     public Playlist addSongToPlaylist(String playlistId, String songId) throws Exception {
         SongEntity addedSong = findSongById(songId);
-        System.out.println(addedSong);
         PlaylistEntity requiredPlaylist = findPlaylistById(playlistId);
-        System.out.println(requiredPlaylist);
 
+//        requiredPlaylist.setSongs(addedSong);
         requiredPlaylist.getSongs().add(addedSong);
+//        addedSong.getPlaylistEntities().add(requiredPlaylist);
 
-        Playlist newPlaylist = playlistConverter.fromEntity(playlistRepository.save(requiredPlaylist));
-        System.out.println(newPlaylist);
-
-        return newPlaylist;
+        return playlistConverter.fromEntity(playlistRepository.save(requiredPlaylist));
     }
+
+    // добавить возможность просматривать песни у определенных плейлистов
+
+//    public Playlist showPlaylistsSong(String playlistId) throws PlaylistNotFoundException {
+//        PlaylistEntity playlist = findPlaylistById(playlistId);
+//
+//        playlist.f
+//    }
 
     public PlaylistEntity findPlaylistById(String id) throws PlaylistNotFoundException {
         if (playlistRepository.findById(id).isEmpty()) {

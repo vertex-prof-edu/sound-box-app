@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.service.song.SongFinder;
+import vertex.pro.edu.soung_box_app.service.song.SongService;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import static vertex.pro.edu.soung_box_app.controller.SongController.Links.SONGS
 public class SongController {
 
     private final SongFinder songFinder;
+    private final SongService songService;
 
     @GetMapping(value = SONGS_BASE_URL)
     public List<Song> getSongs(@RequestParam(required = false) String genre, @RequestParam(required = false) String artist) {
@@ -26,8 +28,8 @@ public class SongController {
     }
 
     @PostMapping(value = LIKE_SONG_URL)
-    public String likeSong(@RequestParam String songId) {
-        return "liked";
+    public void likeSong(@RequestParam String songId) throws Exception {
+        songService.likeSong(songId);
     }
 
     @UtilityClass

@@ -31,6 +31,4 @@ public class Song {
     OffsetDateTime releaseDate;
 
     int likes;
-
-    Set<Playlist> playlistSet;
 }

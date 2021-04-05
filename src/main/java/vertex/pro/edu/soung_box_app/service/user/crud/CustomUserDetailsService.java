@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.fromUserEntityToCustomUserDetails(userEntity);
     }
 
-    public UserEntity getCurrent() throws UserDoesntExistException, UserNotConfirmedException {
+    public UserEntity getCurrent() throws Exception {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
         UserEntity user = userService.findByUsername(loggedUser);
@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    public UserEntity getCurrentNotConfirmedUser() throws UserDoesntExistException {
+    public UserEntity getCurrentNotConfirmedUser() throws Exception {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return userService.findByUsername(loggedUser);

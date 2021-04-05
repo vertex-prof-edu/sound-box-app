@@ -8,10 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
-import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.entity.token.model.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
-import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
 
 import javax.servlet.http.HttpServletRequest;

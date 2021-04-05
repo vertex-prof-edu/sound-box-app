@@ -4,14 +4,8 @@ import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
-import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-
-public class ConfirmationTokenRepositoryTest extends TestCase {
+public class ConfirmationTokenEntityRepositoryTest extends TestCase {
     @Autowired
     private TestEntityManager entityManager;
 

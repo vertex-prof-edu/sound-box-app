@@ -21,8 +21,6 @@ import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserCrudService userCrudService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtFilter jwtFilter;
 
     @Override

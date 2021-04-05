@@ -2,7 +2,9 @@ package vertex.pro.edu.soung_box_app.security.token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.converter.confirmation_token.ConfirmationTokenConverter;
+import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
+import vertex.pro.edu.soung_box_app.entity.token.model.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.repository.ConfirmationTokenRepository;
@@ -18,12 +20,13 @@ public class ConfirmationTokenService {
 
     private final CustomUserDetailsService userDetailsService;
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final ConfirmationTokenConverter confirmationTokenConverter;
 
-    public void saveConfirmationToken(ConfirmationToken token) {
+    public void saveConfirmationToken(ConfirmationTokenEntity token) {
         confirmationTokenRepository.save(token);
     }
 
-    public ConfirmationToken getToken(String token) {
+    public ConfirmationTokenEntity getToken(String token) {
         return confirmationTokenRepository.findByToken(token);
     }
 
@@ -34,11 +37,11 @@ public class ConfirmationTokenService {
     public ConfirmationToken resendConfirmationToken() throws Exception {
         UserEntity user = userDetailsService.getCurrentNotConfirmedUser();
 
-        List<ConfirmationToken> oldTokens = confirmationTokenRepository.findTokenByUserId(user.getId());
+        List<ConfirmationTokenEntity> oldTokens = confirmationTokenRepository.findTokenByUserId(user.getId());
 
         LocalDateTime time = LocalDateTime.now();
 
-        for (ConfirmationToken token: oldTokens) {
+        for (ConfirmationTokenEntity token: oldTokens) {
             if (!time.isAfter(token.getExpiresAt())) {
                 throw new TokenExpiredException(YOU_CANT_RESEND_TOKEN_DONT_EXPIRED);
             }
@@ -51,15 +54,15 @@ public class ConfirmationTokenService {
         } else {
             String newToken = UUID.randomUUID().toString();
 
-            ConfirmationToken newConfirmationToken = new ConfirmationToken(
+            ConfirmationTokenEntity newConfirmationTokenEntity = new ConfirmationTokenEntity(
                     newToken,
                     LocalDateTime.now(),
                     LocalDateTime.now().plusMinutes(15),
                     user);
 
-            confirmationTokenRepository.save(newConfirmationToken);
+            confirmationTokenRepository.save(newConfirmationTokenEntity);
 
-            return newConfirmationToken;
+            return confirmationTokenConverter.fromEntity(newConfirmationTokenEntity);
         }
     }
 

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "confirmation_token")
-public class ConfirmationToken {
+public class ConfirmationTokenEntity {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -34,7 +34,7 @@ public class ConfirmationToken {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, UserEntity user) {
+    public ConfirmationTokenEntity(String token, LocalDateTime createdAt, LocalDateTime expiresAt, UserEntity user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

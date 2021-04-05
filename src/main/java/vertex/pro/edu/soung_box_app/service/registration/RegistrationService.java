@@ -3,15 +3,12 @@ package vertex.pro.edu.soung_box_app.service.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
-import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
-import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.email_sender.EmailSender;
-import vertex.pro.edu.soung_box_app.entity.token.ConfirmationToken;
+import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
 
 import javax.transaction.Transactional;
@@ -44,24 +41,24 @@ public class RegistrationService {
 
     @Transactional
     public String confirmToken(String token) throws TokenNotFoundException, TokenExpiredException {
-        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token);
+        ConfirmationTokenEntity confirmationTokenEntity = confirmationTokenService.getToken(token);
 
-        if (confirmationToken == null) {
+        if (confirmationTokenEntity == null) {
             throw new TokenNotFoundException(TOKEN_NOT_FOUND_MSG);
         }
 
-        if (confirmationToken.getConfirmedAt() != null) {
+        if (confirmationTokenEntity.getConfirmedAt() != null) {
             throw new IllegalStateException(TOKEN_CONFIRMED_MSG);
         }
 
-        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+        LocalDateTime expiredAt = confirmationTokenEntity.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
             throw new TokenExpiredException(TOKEN_EXPIRED_MSG);
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        userCrudService.enableUser(confirmationToken.getUser().getUsername());
+        userCrudService.enableUser(confirmationTokenEntity.getUser().getUsername());
 
         return "confirmed";
     }
