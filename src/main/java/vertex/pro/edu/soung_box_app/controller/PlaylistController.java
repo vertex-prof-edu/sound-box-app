@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
+import vertex.pro.edu.soung_box_app.converter.playlist.PlaylistConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.exception.PlaylistNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
@@ -24,12 +25,13 @@ import static vertex.pro.edu.soung_box_app.controller.PlaylistController.Links.*
 public class PlaylistController {
 
     private final PlaylistService playlistService;
+    private final PlaylistConverter playlistConverter;
 
     @PostMapping(value = PLAYLIST_CREATION_URL)
-    Playlist createPlaylist(@RequestParam("name") final String name) throws Exception {
-        log.info("Created playlist with name-: {}", name);
+    Playlist createPlaylist(@RequestParam("playlistTitle") String playlistTitle) throws Exception {
+        log.info("Created playlist with name-: {}", playlistTitle);
 
-        return playlistService.createPlaylist(name);
+        return playlistService.createPlaylist(playlistTitle);
     }
 
     @GetMapping(value = GET_ALL_PLAYLISTS_URL)
@@ -38,8 +40,8 @@ public class PlaylistController {
     }
 
     @GetMapping(value = FIND_PLAYLISTS_URL)
-    List<Playlist> findPlaylistByName(@RequestParam("name") final String name) throws Exception {
-        return playlistService.findPlaylistByName(name);
+    List<Playlist> findPlaylistByName(@RequestParam("playlistTitle") String playlistTitle) throws Exception {
+        return playlistConverter.fromEntities(playlistService.findPlaylistsByName(playlistTitle));
     }
 
 //    @PostMapping(value = ADD_SONG_TO_PLAYLIST_URL)
@@ -55,11 +57,17 @@ public class PlaylistController {
         return playlistService.addSongToPlaylist(playlistId, songId);
     }
 
+    @GetMapping(value = SHOW_PLAYLIST_WITH_SONGS)
+    List<Playlist> showContentsOfThePlaylist(@RequestParam("playlistId") String playlistId) throws Exception {
+        return playlistConverter.fromEntities(playlistService.showUserPlaylistsSong(playlistId));
+    }
+
     @UtilityClass
     public static class Links {
         public static final String PLAYLIST_CREATION_URL = "/createPlaylist";
         public static final String GET_ALL_PLAYLISTS_URL = "/showAll";
         public static final String FIND_PLAYLISTS_URL = "/findPlaylist";
         public static final String ADD_SONG_TO_PLAYLIST_URL = "/addSong";
+        public static final String SHOW_PLAYLIST_WITH_SONGS = "/showContentsPlaylist";
     }
 }

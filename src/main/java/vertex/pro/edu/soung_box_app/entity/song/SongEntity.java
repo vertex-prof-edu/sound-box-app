@@ -38,6 +38,7 @@ public class SongEntity {
 
     private int likes;
 
+    @Transient
     @ManyToMany(mappedBy = "songs")
     private Set<PlaylistEntity> playlistEntities = new HashSet<>();
 

@@ -28,12 +28,15 @@ public class PlaylistService implements PlaylistCreator {
 
     @Override
     public PlaylistEntity createDefaultPlaylist() throws Exception {
-        String playlistName = "likes";
 
-        if (findPlaylistByName(playlistName) == null) {
-            return new PlaylistEntity(playlistName, userDetailsService.getCurrent(), LocalDateTime.now());
+        String playlistTitle = "likes";
+        PlaylistEntity requiredPlaylist = playlistRepository.findByName(playlistTitle);
+
+        if (requiredPlaylist.getPlaylistTitle().isEmpty()) {
+            return playlistRepository.save
+                    (new PlaylistEntity(playlistTitle, userDetailsService.getCurrent(), LocalDateTime.now()));
         } else {
-            return playlistRepository.findByName(playlistName);
+            return requiredPlaylist;
         }
     }
 
@@ -50,41 +53,53 @@ public class PlaylistService implements PlaylistCreator {
         List<PlaylistEntity> playlistEntities = playlistRepository.
                 showAllUserPlaylists(userDetailsService.getCurrent().getId());
 
-        return playlistConverter.fromEntities(playlistEntities);
+        if (playlistEntities.isEmpty()) {
+            throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
+        } else {
+            return playlistConverter.fromEntities(playlistEntities);
+        }
     }
 
-    public List<Playlist> findPlaylistByName(String name) throws Exception {
+    public List<PlaylistEntity> findPlaylistsByName(String playlistTitle) throws Exception {
 
         List<PlaylistEntity> allPlaylistEntities = playlistRepository.
                 showAllUserPlaylists(userDetailsService.getCurrent().getId());
 
-        List<PlaylistEntity> playlist = allPlaylistEntities.stream()
-                .filter(u -> u.getName().equals(name)).collect(Collectors.toList());
 
-        return playlistConverter.fromEntities(playlist);
+        List<PlaylistEntity> playlistsByName = allPlaylistEntities.stream()
+                .filter(u -> u.getPlaylistTitle().equals(playlistTitle)).collect(Collectors.toList());
+
+        if (playlistsByName.isEmpty()) {
+            throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
+        } else {
+            return playlistsByName;
+        }
     }
 
     @Transactional
     public Playlist addSongToPlaylist(String playlistId, String songId) throws Exception {
+
         SongEntity addedSong = findSongById(songId);
         PlaylistEntity requiredPlaylist = findPlaylistById(playlistId);
 
-//        requiredPlaylist.setSongs(addedSong);
         requiredPlaylist.getSongs().add(addedSong);
-//        addedSong.getPlaylistEntities().add(requiredPlaylist);
 
         return playlistConverter.fromEntity(playlistRepository.save(requiredPlaylist));
     }
 
     // добавить возможность просматривать песни у определенных плейлистов
 
-//    public Playlist showPlaylistsSong(String playlistId) throws PlaylistNotFoundException {
-//        PlaylistEntity playlist = findPlaylistById(playlistId);
-//
-//        playlist.f
-//    }
+    public List<PlaylistEntity> showUserPlaylistsSong(String playlistId) throws Exception {
+
+        String currentUser = userDetailsService.getCurrent().getId();
+
+        List<PlaylistEntity> playlist = playlistRepository.showUserPlaylistsWithSongs(currentUser, playlistId);
+
+        return playlist;
+    }
 
     public PlaylistEntity findPlaylistById(String id) throws PlaylistNotFoundException {
+
         if (playlistRepository.findById(id).isEmpty()) {
             throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
         }
@@ -92,6 +107,7 @@ public class PlaylistService implements PlaylistCreator {
     }
 
     public SongEntity findSongById(String id) throws SongNotFoundException {
+
         if (songRepository.findById(id).isEmpty()) {
             throw new SongNotFoundException(SONG_NOT_FOUND_EXC_MSG);
         }
@@ -99,5 +115,5 @@ public class PlaylistService implements PlaylistCreator {
     }
 
     private final static String SONG_NOT_FOUND_EXC_MSG = "song doesnt exist";
-    private final static String PLAYLIST_NOT_FOUND_EXC_MSG = "playlist doesnt exist";
+    private final static String PLAYLIST_NOT_FOUND_EXC_MSG = "playlists doesnt exist";
 }

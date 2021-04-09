@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 @Value
+@Getter
 @Builder
 public class Song {
 

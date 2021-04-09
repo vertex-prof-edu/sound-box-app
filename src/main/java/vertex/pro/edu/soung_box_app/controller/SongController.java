@@ -28,8 +28,8 @@ public class SongController {
     }
 
     @PostMapping(value = LIKE_SONG_URL)
-    public void likeSong(@RequestParam String songId) throws Exception {
-        songService.likeSong(songId);
+    public String likeSong(@RequestParam String songId) throws Exception {
+        return songService.likeSong(songId);
     }
 
     @UtilityClass

@@ -10,16 +10,7 @@ import org.springframework.stereotype.Component;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,24 +29,27 @@ public class PlaylistEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    private String name;
+    @Column(name = "palylist_title")
+    private String playlistTitle;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public PlaylistEntity(String name, UserEntity user, LocalDateTime createdAt) {
-        this.name = name;
+    public PlaylistEntity(String playlistTitle, UserEntity user, LocalDateTime createdAt) {
+        this.playlistTitle = playlistTitle;
         this.user = user;
         this.createdAt = createdAt;
     }
 
+    @Transient
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "playlist_song",
-            joinColumns = @JoinColumn(name = "playlist_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
+            joinColumns = @JoinColumn(name = "playlist_id", nullable=false),
+            inverseJoinColumns = @JoinColumn(name = "song_id", nullable=false))
     private Set<SongEntity> songs = new HashSet<>();
 
 }
