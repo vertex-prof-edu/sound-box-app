@@ -1,0 +1,18 @@
+CREATE TABLE subscription
+(
+    ID                  VARCHAR(255) not null PRIMARY KEY,
+    SUBSCRIPTION_TO     VARCHAR(100) not null,
+    USER_ID             VARCHAR(100) not null,
+    CREATED_AT          VARCHAR(100) not null,
+    CONSTRAINT SUBSCRIPTION_USER_ID_FK FOREIGN KEY (USER_ID) REFERENCES users (ID)
+);
+
+CREATE TABLE subscription_song
+(
+    SONG_ID             VARCHAR(100) not null,
+    SUBSCRIPTION_ID     VARCHAR(100) not null,
+    CONSTRAINT SUBSCRIPTION_ID_FK FOREIGN KEY (SUBSCRIPTION_ID) REFERENCES subscription (ID),
+    CONSTRAINT SUB_SONG_ID_FK FOREIGN KEY (SONG_ID) REFERENCES songs (ID)
+);
+
+

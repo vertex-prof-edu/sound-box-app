@@ -1,12 +1,17 @@
 package vertex.pro.edu.soung_box_app.service.playlist;
 
+import com.mysql.cj.x.protobuf.MysqlxExpr;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.converter.playlist.PlaylistConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
+import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.PlaylistNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
@@ -15,6 +20,7 @@ import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,14 +36,11 @@ public class PlaylistService implements PlaylistCreator {
     public PlaylistEntity createDefaultPlaylist() throws Exception {
 
         String playlistTitle = "likes";
+        UserEntity user = userDetailsService.getCurrent();
         PlaylistEntity requiredPlaylist = playlistRepository.findByName(playlistTitle);
 
-        if (requiredPlaylist.getPlaylistTitle().isEmpty()) {
-            return playlistRepository.save
-                    (new PlaylistEntity(playlistTitle, userDetailsService.getCurrent(), LocalDateTime.now()));
-        } else {
-            return requiredPlaylist;
-        }
+        return Objects.requireNonNullElseGet(requiredPlaylist, () ->
+                playlistRepository.save(new PlaylistEntity(playlistTitle, user, LocalDateTime.now())));
     }
 
     @Override
@@ -49,6 +52,16 @@ public class PlaylistService implements PlaylistCreator {
     }
 
     public List<Playlist> showAllPlaylists() throws Exception {
+
+//        PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+//
+//        Page<PlaylistEntity> playlistPage = playlistRepository.findAll(paging);
+//
+//        if (playlistPage.hasContent()) {
+//            return playlistConverter.fromEntities(playlistPage.getContent());
+//        } else {
+//            return new ArrayList<>();
+//        }
 
         List<PlaylistEntity> playlistEntities = playlistRepository.
                 showAllUserPlaylists(userDetailsService.getCurrent().getId());
@@ -87,15 +100,11 @@ public class PlaylistService implements PlaylistCreator {
         return playlistConverter.fromEntity(playlistRepository.save(requiredPlaylist));
     }
 
-    // добавить возможность просматривать песни у определенных плейлистов
-
     public List<PlaylistEntity> showUserPlaylistsSong(String playlistId) throws Exception {
 
-        String currentUser = userDetailsService.getCurrent().getId();
+        String currentUserId = userDetailsService.getCurrent().getId();
 
-        List<PlaylistEntity> playlist = playlistRepository.showUserPlaylistsWithSongs(currentUser, playlistId);
-
-        return playlist;
+        return playlistRepository.showUserPlaylistsWithSongs(currentUserId, playlistId);
     }
 
     public PlaylistEntity findPlaylistById(String id) throws PlaylistNotFoundException {

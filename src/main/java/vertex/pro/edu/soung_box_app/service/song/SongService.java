@@ -6,12 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
-import vertex.pro.edu.soung_box_app.entity.song.model.Song;
-import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
-import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
 
 import java.util.List;
 
@@ -25,15 +22,11 @@ public class SongService implements SongFinder {
     private final PlaylistRepository playlistRepository;
 
     @Override
-    public List<Song> getSongs(String genre, String artist) {
+    public List<SongEntity> getSongs(String genre, String artist) {
 
-        List<SongEntity> entities = songRepository.findByParams(genre, artist);
-
-        return songConverter.fromEntities(entities);
+        return songRepository.findByParams(genre, artist);
     }
 
-    // добавить увелечение числа общего количества лайков у песни
-    // пользователь может лайкнуть только один раз
     @Transactional
     public String likeSong(String songId) throws Exception {
 
@@ -54,14 +47,13 @@ public class SongService implements SongFinder {
         }
     }
 
-//    @Transactional
-//    public String dislike(String songId) throws Exception {
-//
-//        SongEntity likedSong = playlistService.findSongById(songId);
-//
-//        playlistService.findPlaylistByName("likes")
-//    }
+    @Transactional
+    public String dislike(String songId) throws Exception {
+
+        SongEntity likedSong = playlistService.findSongById(songId);
+
+        playlistService.findPlaylistByName("likes")
+    }
 
 
-    // добавить метод dislike(который будет убирать лайки и песни и удалять из плейлиста)
 }

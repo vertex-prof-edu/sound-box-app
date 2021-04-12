@@ -1,20 +1,19 @@
 package vertex.pro.edu.soung_box_app.repository;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 
 import java.util.List;
 
-public interface PlaylistRepository extends JpaRepository<PlaylistEntity, String> {
+@Repository
+public interface PlaylistRepository extends PagingAndSortingRepository<PlaylistEntity, String> {
     @Query(value = "select * from playlists where user_id = :id", nativeQuery = true)
     List<PlaylistEntity> showAllUserPlaylists(@Param("id") String id);
-
-//    @Query(value = "select * from playlists where (name = :name) + (created_at = :created_at)" +
-//            "and (user_id = :id)", nativeQuery = true)
-//    PlaylistEntity findByParams(@Param("name") String name, @Param("created_at") String createdAt,
-//                                @Param("id") UserEntity id);
 
     @Query(value = "select * from playlists where playlist_title = :playlist_title", nativeQuery = true)
     PlaylistEntity findByName(@Param("playlist_title") String playlist_title);

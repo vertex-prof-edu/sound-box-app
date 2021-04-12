@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.service.song.SongFinder;
 import vertex.pro.edu.soung_box_app.service.song.SongService;
@@ -20,11 +21,13 @@ public class SongController {
 
     private final SongFinder songFinder;
     private final SongService songService;
+    private final SongConverter songConverter;
 
     @GetMapping(value = SONGS_BASE_URL)
-    public List<Song> getSongs(@RequestParam(required = false) String genre, @RequestParam(required = false) String artist) {
+    public List<Song> getSongs(@RequestParam(required = false) String genre,
+                               @RequestParam(required = false) String artist) {
         log.info("Retrieving songs, their genre: {} and artist: {}", genre, artist);
-        return songFinder.getSongs(genre, artist);
+        return songConverter.fromEntities(songFinder.getSongs(genre, artist));
     }
 
     @PostMapping(value = LIKE_SONG_URL)
