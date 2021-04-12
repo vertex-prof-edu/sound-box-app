@@ -7,6 +7,7 @@ import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,13 +27,17 @@ public class SubscriptionEntity {
 
     private String subscriptionTo;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    public SubscriptionEntity(String subscriptionTo, UserEntity user) {
+    public SubscriptionEntity(String subscriptionTo, UserEntity user, LocalDateTime createdAt) {
         this.subscriptionTo = subscriptionTo;
         this.user = user;
+        this.createdAt = createdAt;
     }
 
     @Transient

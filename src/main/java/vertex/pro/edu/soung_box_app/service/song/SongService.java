@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SongService implements SongFinder {
 
-    private final SongConverter songConverter;
     private final SongRepository songRepository;
     private final PlaylistService playlistService;
     private final PlaylistRepository playlistRepository;
@@ -25,6 +24,18 @@ public class SongService implements SongFinder {
     public List<SongEntity> getSongs(String genre, String artist) {
 
         return songRepository.findByParams(genre, artist);
+    }
+
+    @Override
+    public List<SongEntity> findSongsByArtist(String artist) {
+
+        return songRepository.findByArtist(artist);
+    }
+
+    @Override
+    public List<SongEntity> findSongsByGenre(String genre) {
+
+        return songRepository.findByGenre(genre);
     }
 
     @Transactional
@@ -47,13 +58,15 @@ public class SongService implements SongFinder {
         }
     }
 
-    @Transactional
-    public String dislike(String songId) throws Exception {
 
-        SongEntity likedSong = playlistService.findSongById(songId);
 
-        playlistService.findPlaylistByName("likes")
-    }
+//    @Transactional
+//    public String dislike(String songId) throws Exception {
+//
+//        SongEntity likedSong = playlistService.findSongById(songId);
+//
+//        playlistService.findPlaylistByName("likes")
+//    }
 
 
 }

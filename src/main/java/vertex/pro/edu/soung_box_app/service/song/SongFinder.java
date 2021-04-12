@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface SongFinder {
     List<SongEntity> getSongs(String genre, String artist);
+
+    List<SongEntity> findSongsByArtist(String artist);
+
+    List<SongEntity> findSongsByGenre(String genre);
 }
