@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.entity.playlist.model;
+package vertex.pro.edu.soung_box_app.entity.subscription.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,10 +11,11 @@ import java.util.List;
 @Value
 @Getter
 @Builder
-public class Playlist {
+public class Subscription {
+
     String id;
 
-    String playlist_title;
+    String subscriptionTo;
 
     List<SongEntity> songs;
 

@@ -10,6 +10,7 @@ import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -51,7 +52,6 @@ public class SongService implements SongFinder {
             likedSong.setLikes(amountOfLikes + 1);
 
             playlistLikes.getSongs().add(likedSong);
-            likedSong.getPlaylistEntities().add(playlistLikes);
 
             playlistRepository.save(playlistLikes);
             return "liked";
@@ -64,8 +64,14 @@ public class SongService implements SongFinder {
 //    public String dislike(String songId) throws Exception {
 //
 //        SongEntity likedSong = playlistService.findSongById(songId);
+//        List<PlaylistEntity> allPlaylists = playlistService.showAllPlaylists();
 //
-//        playlistService.findPlaylistByName("likes")
+//        for (PlaylistEntity playlistEntity: allPlaylists) {
+//            if (playlistEntity.getPlaylistTitle().equals("likes")) {
+//                for (SongEntity songEntity)
+//            }
+//        }
+//
 //    }
 
 

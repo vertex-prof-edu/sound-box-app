@@ -8,8 +8,8 @@ import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,7 +27,6 @@ public class SubscriptionEntity {
 
     private String subscriptionTo;
 
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
@@ -45,5 +44,5 @@ public class SubscriptionEntity {
     @JoinTable(name = "subscription_song",
             joinColumns = @JoinColumn(name = "subscription_id", nullable=false),
             inverseJoinColumns = @JoinColumn(name = "song_id", nullable=false))
-    private Set<SongEntity> songs = new HashSet<>();
+    private List<SongEntity> songs = new ArrayList<>();
 }

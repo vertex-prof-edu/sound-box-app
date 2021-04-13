@@ -53,6 +53,7 @@ dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
 
+
     testImplementation('org.springframework.security:spring-security-test')
 
     compile("org.springframework.boot:spring-boot-starter-mail")

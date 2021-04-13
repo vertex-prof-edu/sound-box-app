@@ -36,7 +36,7 @@ public class PlaylistController {
 
     @GetMapping(value = GET_ALL_PLAYLISTS_URL)
     List<Playlist> showAllPlaylists() throws Exception {
-        return playlistService.showAllPlaylists();
+        return playlistConverter.fromEntities(playlistService.showAllPlaylists());
     }
 
     @GetMapping(value = FIND_PLAYLISTS_URL)

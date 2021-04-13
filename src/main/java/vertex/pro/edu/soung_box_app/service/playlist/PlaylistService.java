@@ -51,7 +51,7 @@ public class PlaylistService implements PlaylistCreator {
         return playlistConverter.fromEntity(playlistRepository.save(playlistEntity));
     }
 
-    public List<Playlist> showAllPlaylists() throws Exception {
+    public List<PlaylistEntity> showAllPlaylists() throws Exception {
 
 //        PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 //
@@ -69,7 +69,7 @@ public class PlaylistService implements PlaylistCreator {
         if (playlistEntities.isEmpty()) {
             throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
         } else {
-            return playlistConverter.fromEntities(playlistEntities);
+            return playlistEntities;
         }
     }
 
@@ -120,6 +120,7 @@ public class PlaylistService implements PlaylistCreator {
         if (songRepository.findById(id).isEmpty()) {
             throw new SongNotFoundException(SONG_NOT_FOUND_EXC_MSG);
         }
+
         return songRepository.findById(id).get();
     }
 

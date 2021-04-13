@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @Builder
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "playlistEntities")
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "songs")
