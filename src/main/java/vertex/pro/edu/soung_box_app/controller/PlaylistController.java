@@ -44,22 +44,10 @@ public class PlaylistController {
         return playlistConverter.fromEntities(playlistService.findPlaylistsByName(playlistTitle));
     }
 
-//    @PostMapping(value = ADD_SONG_TO_PLAYLIST_URL)
-//    Playlist addSongToThePlaylist(@RequestBody AddSongToPlaylistRequest request)
-//            throws UserDoesntExistException, UserNotConfirmedException {
-//        return playlistService.addSongToPlaylist(request.getPlaylistName(), request.getPlaylistCreatedAt(),
-//                request.getId(), request.getTitle(), request.getGenre(), request.getArtist(),
-//                request.getReleaseSongDate());
-//    }
 
     @PostMapping(value = ADD_SONG_TO_PLAYLIST_URL)
     Playlist addSongToThePlaylist(@RequestParam String playlistId, @RequestParam String songId) throws Exception {
         return playlistService.addSongToPlaylist(playlistId, songId);
-    }
-
-    @GetMapping(value = SHOW_PLAYLIST_WITH_SONGS)
-    List<Playlist> showContentsOfThePlaylist(@RequestParam("playlistId") String playlistId) throws Exception {
-        return playlistConverter.fromEntities(playlistService.showUserPlaylistsSong(playlistId));
     }
 
     @UtilityClass
@@ -68,6 +56,5 @@ public class PlaylistController {
         public static final String GET_ALL_PLAYLISTS_URL = "/showAll";
         public static final String FIND_PLAYLISTS_URL = "/findPlaylist";
         public static final String ADD_SONG_TO_PLAYLIST_URL = "/addSong";
-        public static final String SHOW_PLAYLIST_WITH_SONGS = "/showContentsPlaylist";
     }
 }

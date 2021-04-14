@@ -6,7 +6,7 @@ import lombok.Value;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Value
 @Getter
@@ -16,7 +16,7 @@ public class Playlist {
 
     String playlist_title;
 
-    List<SongEntity> songs;
+    Set<SongEntity> songs;
 
     LocalDateTime createdAt;
 }

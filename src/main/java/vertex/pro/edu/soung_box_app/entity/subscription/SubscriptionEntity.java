@@ -9,7 +9,9 @@ import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -44,5 +46,5 @@ public class SubscriptionEntity {
     @JoinTable(name = "subscription_song",
             joinColumns = @JoinColumn(name = "subscription_id", nullable=false),
             inverseJoinColumns = @JoinColumn(name = "song_id", nullable=false))
-    private List<SongEntity> songs = new ArrayList<>();
+    private Set<SongEntity> songs = new HashSet<>();
 }

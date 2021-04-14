@@ -31,14 +31,12 @@ public class PlaylistEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(name = "playlist_title")
     private String playlistTitle;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public PlaylistEntity(String playlistTitle, UserEntity user, LocalDateTime createdAt) {
@@ -52,6 +50,6 @@ public class PlaylistEntity {
     @JoinTable(name = "playlist_song",
             joinColumns = @JoinColumn(name = "playlist_id", nullable=false),
             inverseJoinColumns = @JoinColumn(name = "song_id", nullable=false))
-    private List<SongEntity> songs = new ArrayList<>();
+    private Set<SongEntity> songs = new HashSet<>();
 
 }

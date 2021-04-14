@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
+import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Entity
 @Builder
 @Getter
-@EqualsAndHashCode(exclude = "playlistEntities")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "songs")
@@ -39,8 +40,14 @@ public class SongEntity {
     private int likes;
 
     @Transient
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "songs")
     private Set<PlaylistEntity> playlistEntities = new HashSet<>();
+
+    @Transient
+    @ManyToMany(mappedBy = "songs")
+    @EqualsAndHashCode.Exclude
+    private Set<SubscriptionEntity> subscriptionEntities = new HashSet<>();
 
     public SongEntity(String name) {
         this.title = name;

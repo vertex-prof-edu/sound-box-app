@@ -78,7 +78,6 @@ public class PlaylistService implements PlaylistCreator {
         List<PlaylistEntity> allPlaylistEntities = playlistRepository.
                 showAllUserPlaylists(userDetailsService.getCurrent().getId());
 
-
         List<PlaylistEntity> playlistsByName = allPlaylistEntities.stream()
                 .filter(u -> u.getPlaylistTitle().equals(playlistTitle)).collect(Collectors.toList());
 
@@ -97,14 +96,10 @@ public class PlaylistService implements PlaylistCreator {
 
         requiredPlaylist.getSongs().add(addedSong);
 
-        return playlistConverter.fromEntity(playlistRepository.save(requiredPlaylist));
-    }
+        PlaylistEntity updatedPlaylist = playlistRepository.save(requiredPlaylist);
+        System.out.println(updatedPlaylist);
 
-    public List<PlaylistEntity> showUserPlaylistsSong(String playlistId) throws Exception {
-
-        String currentUserId = userDetailsService.getCurrent().getId();
-
-        return playlistRepository.showUserPlaylistsWithSongs(currentUserId, playlistId);
+        return playlistConverter.fromEntity(updatedPlaylist);
     }
 
     public PlaylistEntity findPlaylistById(String id) throws PlaylistNotFoundException {
