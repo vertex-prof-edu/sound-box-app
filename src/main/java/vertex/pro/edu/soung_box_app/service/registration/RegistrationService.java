@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
-import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
+import vertex.pro.edu.soung_box_app.service.crud.UserCrudService;
 import vertex.pro.edu.soung_box_app.service.email_sender.EmailSender;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
@@ -23,7 +23,7 @@ public class RegistrationService {
     private final UserCrudService userCrudService;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String register(UserEntity user) throws UserAlreadyExistException {
+    public String register(UserEntity user) throws Exception {
 
         UserEntity savedUser = UserEntity.builder()
                 .id(user.getId())
@@ -40,7 +40,7 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(String token) throws TokenNotFoundException, TokenExpiredException {
+    public String confirmToken(String token) throws Exception {
         ConfirmationTokenEntity confirmationTokenEntity = confirmationTokenService.getToken(token);
 
         if (confirmationTokenEntity == null) {

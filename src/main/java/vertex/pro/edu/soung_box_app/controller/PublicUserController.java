@@ -9,7 +9,7 @@ import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
 import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
-import vertex.pro.edu.soung_box_app.service.user.crud.UserCrudService;
+import vertex.pro.edu.soung_box_app.service.crud.UserCrudService;
 
 import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.*;
 
@@ -27,7 +27,7 @@ public class PublicUserController {
 
     @PostMapping(value = USER_REGISTER_URL)
     public String register(@RequestParam("username") final String username, @RequestParam("email") final String email,
-                    @RequestParam("password") final String password) throws UserAlreadyExistException {
+                    @RequestParam("password") final String password) throws Exception {
 
         UserEntity newUser = UserEntity.builder()
                 .username(username)
@@ -47,7 +47,7 @@ public class PublicUserController {
 
     @GetMapping(value = USER_LOGIN_URL)
     public UserEntity login(@RequestParam("username") final String username, @RequestParam("password") final String password)
-            throws InvalidLoginOrPasswordException, UserDoesntExistException {
+            throws Exception {
         log.info("Login user with this params- username: {}, password: {}", username, password);
 
         return service.findByLoginAndPassword(username, password);

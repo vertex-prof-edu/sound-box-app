@@ -2,12 +2,13 @@ package vertex.pro.edu.soung_box_app.security.jwt;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import vertex.pro.edu.soung_box_app.entity.user.model.User;
-import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
+import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import static io.jsonwebtoken.lang.Strings.hasText;
 
 @Log
+@Lazy
 @Component
 public class JwtFilter extends GenericFilterBean {
 

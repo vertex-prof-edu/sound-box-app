@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.entity.token.model.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
+import vertex.pro.edu.soung_box_app.service.artist.ArtistService;
 import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +27,12 @@ import static vertex.pro.edu.soung_box_app.controller.UserController.Links.*;
 @RequestMapping("/user")
 public class UserController {
 
+    private final ArtistService artistService;
     private final RegistrationService registrationService;
     private final ConfirmationTokenService confirmationTokenService;
 
     @PostMapping(value = CONFIRM_USER_URL)
-    public String confirm(@RequestParam("token") String token) throws TokenNotFoundException, TokenExpiredException {
+    public String confirm(@RequestParam("token") String token) throws Exception {
         return registrationService.confirmToken(token);
     }
 
@@ -48,11 +50,16 @@ public class UserController {
         return confirmationTokenService.resendConfirmationToken();
     }
 
+    @PostMapping(value = BECOME_AN_ARTIST)
+    public String becomeAnArtist() throws Exception {
+        return artistService.becameAnArtist();
+    }
 
     @UtilityClass
     public static class Links {
         public static final String CONFIRM_USER_URL = "/confirm";
         public static final String USER_LOGOUT_URL = "/logout";
         public static final String RESEND_TOKEN_URL = "/resend_token";
+        public static final String BECOME_AN_ARTIST = "/become_an_artist";
     }
 }

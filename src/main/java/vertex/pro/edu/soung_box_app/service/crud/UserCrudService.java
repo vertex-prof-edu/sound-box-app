@@ -1,8 +1,9 @@
-package vertex.pro.edu.soung_box_app.service.user.crud;
+package vertex.pro.edu.soung_box_app.service.crud;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,16 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
 @Component
 @RequiredArgsConstructor
 public class UserCrudService {
 
-    @Autowired
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String save(UserEntity user) throws UserAlreadyExistException {
+    public String save(@Lazy UserEntity user) throws Exception {
         UserEntity userUsername = userRepository.findByUsername(user.getUsername());
         Optional<UserEntity> usernameEmail = userRepository.findByEmail(user.getEmail());
 
@@ -56,15 +55,14 @@ public class UserCrudService {
         return token;
     }
 
-    public UserEntity findByUsername(String login) throws UserDoesntExistException {
+    public UserEntity findByUsername(String login) throws Exception {
         if (login.isEmpty()) {
             throw new UserDoesntExistException(USER_NOT_FOUND_MSG);
         }
         return userRepository.findByUsername(login);
     }
 
-    public UserEntity findByLoginAndPassword(String login, String password) throws UserDoesntExistException,
-            InvalidLoginOrPasswordException {
+    public UserEntity findByLoginAndPassword(String login, String password) throws Exception {
 
         UserEntity userEntity = findByUsername(login);
         if (userEntity != null) {

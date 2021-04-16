@@ -2,14 +2,16 @@ package vertex.pro.edu.soung_box_app.service.subscription;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.NoSubscriptionException;
 import vertex.pro.edu.soung_box_app.repository.SubscriptionRepository;
 import vertex.pro.edu.soung_box_app.service.song.SongService;
-import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
+import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
+import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -23,17 +25,25 @@ public class SubscriptionService implements Subscribe{
     private final SubscriptionRepository subscriptionRepository;
 
     @Override
+    @Transient
     public SubscriptionEntity subscribeToArtist(String artist) throws Exception {
 
-        List<SongEntity> songListByArtist = songService.findSongsByArtist(artist);
-        SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
+        String username = userDetailsService.getCurrent().getUsername();
 
-        subscription.getSongs().addAll(songListByArtist);
+        if (username.equals(artist)) {
+            throw new Exception("u cannot sub to yourself");
+        } else {
+            List<SongEntity> songListByArtist = songService.findSongsByArtist(artist);
+            SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
 
-        return subscription;
+            subscription.getSongs().addAll(songListByArtist);
+
+            return subscription;
+        }
     }
 
     @Override
+    @Transient
     public SubscriptionEntity subscribeToGenre(String genre) throws Exception {
 
         List<SongEntity> songListByGenre = songService.findSongsByGenre(genre);

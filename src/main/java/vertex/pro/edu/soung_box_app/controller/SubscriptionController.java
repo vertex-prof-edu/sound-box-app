@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.converter.subcsription.SubscriptionConverter;
 import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
@@ -24,6 +25,7 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
     private final SubscriptionConverter subscriptionConverter;
 
+    @Transactional
     @PostMapping(value = SUBSCRIBE_TO_ARTIST)
     Subscription subscribeToArtist(@RequestParam("artist") String artist) throws Exception {
         log.info("Sub to songs this artist-: {}", artist);
@@ -31,6 +33,7 @@ public class SubscriptionController {
         return subscriptionConverter.fromEntity(subscriptionService.subscribeToArtist(artist));
     }
 
+    @Transactional
     @PostMapping(value = SUBSCRIBE_TO_GENRE)
     Subscription subscribeToGenre(@RequestParam("genre") String genre) throws Exception {
         log.info("Sub to songs this genre-: {}", genre);

@@ -1,6 +1,8 @@
 package vertex.pro.edu.soung_box_app.security.token;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.converter.confirmation_token.ConfirmationTokenConverter;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
@@ -8,8 +10,9 @@ import vertex.pro.edu.soung_box_app.entity.token.model.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.repository.ConfirmationTokenRepository;
-import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
+import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

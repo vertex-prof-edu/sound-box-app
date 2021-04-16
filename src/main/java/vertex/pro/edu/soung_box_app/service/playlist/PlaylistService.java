@@ -1,10 +1,6 @@
 package vertex.pro.edu.soung_box_app.service.playlist;
 
-import com.mysql.cj.x.protobuf.MysqlxExpr;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.converter.playlist.PlaylistConverter;
@@ -16,7 +12,7 @@ import vertex.pro.edu.soung_box_app.exception.PlaylistNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
-import vertex.pro.edu.soung_box_app.service.user.crud.CustomUserDetailsService;
+import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
 import java.time.LocalDateTime;
 import java.util.List;
