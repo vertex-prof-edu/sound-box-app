@@ -1,10 +1,13 @@
 package vertex.pro.edu.soung_box_app.entity.playlist;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
@@ -21,7 +24,7 @@ import java.util.Set;
 @Entity
 @Component
 @Getter
-@EqualsAndHashCode(exclude = "songs")
+@EqualsAndHashCode(exclude = "playlistSongs")
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "playlists")
@@ -45,11 +48,11 @@ public class PlaylistEntity {
         this.createdAt = createdAt;
     }
 
-    @Transient
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "playlist_song",
             joinColumns = @JoinColumn(name = "playlist_id", nullable=false),
             inverseJoinColumns = @JoinColumn(name = "song_id", nullable=false))
-    private Set<SongEntity> songs = new HashSet<>();
+    private Set<SongEntity> playlistSongs = new HashSet<>();
 
 }

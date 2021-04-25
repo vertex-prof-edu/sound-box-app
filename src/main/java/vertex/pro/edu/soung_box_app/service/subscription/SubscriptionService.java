@@ -25,7 +25,7 @@ public class SubscriptionService implements Subscribe{
     private final SubscriptionRepository subscriptionRepository;
 
     @Override
-    @Transient
+    @Transactional
     public SubscriptionEntity subscribeToArtist(String artist) throws Exception {
 
         String username = userDetailsService.getCurrent().getUsername();
@@ -36,20 +36,20 @@ public class SubscriptionService implements Subscribe{
             List<SongEntity> songListByArtist = songService.findSongsByArtist(artist);
             SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
 
-            subscription.getSongs().addAll(songListByArtist);
+            subscription.getSubscriptionSongs().addAll(songListByArtist);
 
             return subscription;
         }
     }
 
     @Override
-    @Transient
+    @Transactional
     public SubscriptionEntity subscribeToGenre(String genre) throws Exception {
 
         List<SongEntity> songListByGenre = songService.findSongsByGenre(genre);
         SubscriptionEntity subscription = findUserSubscriptionToSomething(genre);
 
-        subscription.getSongs().addAll(songListByGenre);
+        subscription.getSubscriptionSongs().addAll(songListByGenre);
 
         return subscription;
     }

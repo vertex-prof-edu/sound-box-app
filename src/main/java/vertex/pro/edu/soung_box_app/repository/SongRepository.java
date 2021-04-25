@@ -3,10 +3,12 @@ package vertex.pro.edu.soung_box_app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 
 import java.util.List;
 
+@Repository
 public interface SongRepository extends JpaRepository<SongEntity, String> {
 
     @Query(value="SELECT * FROM songs WHERE (:genre is null or genre = :genre) " +
@@ -19,7 +21,7 @@ public interface SongRepository extends JpaRepository<SongEntity, String> {
     @Query(value="SELECT * FROM songs WHERE genre = :genre", nativeQuery=true)
     List<SongEntity> findByGenre(@Param("genre") String genre);
 
-    @Query(value = "select title, likes from Songs s where s.artist = :artist", nativeQuery = true)
+    @Query(value = "SELECT s.title, s.likes FROM SongEntity s WHERE s.artist = :artist")
     List<SongEntity> showSongsStatistics(@Param("artist") String artist);
 }
 

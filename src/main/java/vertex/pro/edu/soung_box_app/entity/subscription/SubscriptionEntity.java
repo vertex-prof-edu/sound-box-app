@@ -1,5 +1,7 @@
 package vertex.pro.edu.soung_box_app.entity.subscription;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ import java.util.Set;
 @Entity
 @Component
 @Getter
-@EqualsAndHashCode(exclude = "songs")
+@EqualsAndHashCode(exclude = "subscriptionSongs")
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "subscription")
@@ -41,10 +43,10 @@ public class SubscriptionEntity {
         this.createdAt = createdAt;
     }
 
-    @Transient
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "subscription_song",
             joinColumns = @JoinColumn(name = "subscription_id", nullable=false),
             inverseJoinColumns = @JoinColumn(name = "song_id", nullable=false))
-    private Set<SongEntity> songs = new HashSet<>();
+    private Set<SongEntity> subscriptionSongs = new HashSet<>();
 }

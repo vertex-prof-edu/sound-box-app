@@ -21,7 +21,7 @@ public class PlaylistConverter {
         return Playlist.builder().
                 id(entity.getId()).
                 playlist_title(entity.getPlaylistTitle()).
-                songs(entity.getSongs()).
+                songs(entity.getPlaylistSongs()).
                 createdAt(entity.getCreatedAt()).
                 build();
     }

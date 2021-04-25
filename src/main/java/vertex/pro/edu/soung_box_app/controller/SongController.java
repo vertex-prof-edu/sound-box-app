@@ -11,8 +11,7 @@ import vertex.pro.edu.soung_box_app.service.song.SongService;
 
 import java.util.List;
 
-import static vertex.pro.edu.soung_box_app.controller.SongController.Links.LIKE_SONG_URL;
-import static vertex.pro.edu.soung_box_app.controller.SongController.Links.SONGS_BASE_URL;
+import static vertex.pro.edu.soung_box_app.controller.SongController.Links.*;
 
 @Slf4j
 @RestController
@@ -35,9 +34,15 @@ public class SongController {
         return songService.likeSong(songId);
     }
 
+    @PostMapping(value = DISLIKE_SONG_URL)
+    public String dislikeSong(@RequestParam String songId) throws Exception {
+        return songService.dislike(songId);
+    }
+
     @UtilityClass
     public static class Links {
         public static final String SONGS_BASE_URL = "/public/songs/getSongs";
         public static final String LIKE_SONG_URL = "/song/like";
+        public static final String DISLIKE_SONG_URL = "/song/dislike";
     }
 }

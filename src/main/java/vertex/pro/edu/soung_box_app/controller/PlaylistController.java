@@ -40,8 +40,8 @@ public class PlaylistController {
     }
 
     @GetMapping(value = FIND_PLAYLISTS_URL)
-    List<Playlist> findPlaylistByName(@RequestParam("playlistTitle") String playlistTitle) throws Exception {
-        return playlistConverter.fromEntities(playlistService.findPlaylistsByName(playlistTitle));
+    Playlist findPlaylistByName(@RequestParam("playlistTitle") String playlistTitle) throws Exception {
+        return playlistConverter.fromEntity(playlistService.findPlaylistsByName(playlistTitle));
     }
 
 

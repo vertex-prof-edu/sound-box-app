@@ -33,7 +33,7 @@ public class PlaylistService implements PlaylistCreator {
 
         String playlistTitle = "likes";
         UserEntity user = userDetailsService.getCurrent();
-        PlaylistEntity requiredPlaylist = playlistRepository.findByName(playlistTitle);
+        PlaylistEntity requiredPlaylist = playlistRepository.findByName(playlistTitle, user.getId());
 
         return Objects.requireNonNullElseGet(requiredPlaylist, () ->
                 playlistRepository.save(new PlaylistEntity(playlistTitle, user, LocalDateTime.now())));
@@ -69,15 +69,18 @@ public class PlaylistService implements PlaylistCreator {
         }
     }
 
-    public List<PlaylistEntity> findPlaylistsByName(String playlistTitle) throws Exception {
+    public PlaylistEntity findPlaylistsByName(String playlistTitle) throws Exception {
 
-        List<PlaylistEntity> allPlaylistEntities = playlistRepository.
-                showAllUserPlaylists(userDetailsService.getCurrent().getId());
+//        List<PlaylistEntity> allPlaylistEntities = playlistRepository.
+//                showAllUserPlaylists(userDetailsService.getCurrent().getId());
+//
+//        List<PlaylistEntity> playlistsByName = allPlaylistEntities.stream()
+//                .filter(u -> u.getPlaylistTitle().equals(playlistTitle)).collect(Collectors.toList());
 
-        List<PlaylistEntity> playlistsByName = allPlaylistEntities.stream()
-                .filter(u -> u.getPlaylistTitle().equals(playlistTitle)).collect(Collectors.toList());
+        UserEntity user = userDetailsService.getCurrent();
+        PlaylistEntity playlistsByName = playlistRepository.findByName(playlistTitle, user.getId());
 
-        if (playlistsByName.isEmpty()) {
+        if (playlistsByName == null) {
             throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
         } else {
             return playlistsByName;
@@ -90,10 +93,9 @@ public class PlaylistService implements PlaylistCreator {
         SongEntity addedSong = findSongById(songId);
         PlaylistEntity requiredPlaylist = findPlaylistById(playlistId);
 
-        requiredPlaylist.getSongs().add(addedSong);
+        requiredPlaylist.getPlaylistSongs().add(addedSong);
 
         PlaylistEntity updatedPlaylist = playlistRepository.save(requiredPlaylist);
-        System.out.println(updatedPlaylist);
 
         return playlistConverter.fromEntity(updatedPlaylist);
     }

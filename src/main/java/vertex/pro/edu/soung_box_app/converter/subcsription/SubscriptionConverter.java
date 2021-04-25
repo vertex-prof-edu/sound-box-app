@@ -22,7 +22,7 @@ public class SubscriptionConverter {
         return Subscription.builder().
                 id(entity.getId()).
                 subscriptionTo(entity.getSubscriptionTo()).
-                songs(entity.getSongs()).
+                songs(entity.getSubscriptionSongs()).
                 createdAt(entity.getCreatedAt()).
                 build();
     }

@@ -13,11 +13,8 @@ public interface PlaylistRepository extends PagingAndSortingRepository<PlaylistE
     @Query(value = "select * from playlists where user_id = :id", nativeQuery = true)
     List<PlaylistEntity> showAllUserPlaylists(@Param("id") String id);
 
-//    @Query("select * from pla p join UserEntity u where u.id = :id")
-//    List<PlaylistEntity> findAllUserPlaylists(@Param("id") String id);
-
-    @Query(value = "select * from playlists where playlist_title = :playlist_title", nativeQuery = true)
-    PlaylistEntity findByName(@Param("playlist_title") String playlist_title);
+    @Query(value = "select * from playlists where playlist_title = :playlist_title and user_id = :id", nativeQuery = true)
+    PlaylistEntity findByName(@Param("playlist_title") String playlist_title, @Param("id") String id);
 }
 
 

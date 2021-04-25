@@ -37,8 +37,13 @@ public class ArtistController {
     }
 
     @GetMapping(value = SHOW_SONGS_STATISTIC)
+    public List<SongEntity> showSongsStatistics() throws Exception {
+        return artistService.showSongsStatistics();
+    }
+
+    @GetMapping(value = SHOW_ARTIST_STATISTIC)
     public List<SongEntity> showArtistStatistics() throws Exception {
-        return artistService.showArtistStatistics();
+        return artistService.showSubscriptionStatistics();
     }
 
     @UtilityClass
@@ -46,5 +51,6 @@ public class ArtistController {
         public static final String ADD_NEW_SONG = "/addSong";
         public static final String SHOW_ALL_ADDED_SONG = "/showAllArtistSongs";
         public static final String SHOW_SONGS_STATISTIC = "/showSongsStatistic";
+        public static final String SHOW_ARTIST_STATISTIC = "/showArtistStatistic";
     }
 }

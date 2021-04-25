@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.controller.request_body.SongRequest;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
+import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
 import vertex.pro.edu.soung_box_app.exception.UserHasAlreadyBecomeAnArtistException;
 import vertex.pro.edu.soung_box_app.exception.UserNotAnArtistException;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
+import vertex.pro.edu.soung_box_app.repository.SubscriptionRepository;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
@@ -28,6 +30,7 @@ public class ArtistService {
     private final UserRepository userRepository;
     private final SongRepository songRepository;
     private final CustomUserDetailsService userDetailsService;
+    private final SubscriptionRepository subscriptionRepository;
 
     @Transactional
     @Modifying(clearAutomatically=true)
@@ -80,10 +83,27 @@ public class ArtistService {
         return songs;
     }
 
-    public List<SongEntity> showArtistStatistics() throws Exception {
-        UserEntity artist = checkingUserRole();
+    public List<SongEntity> showSongsStatistics() throws Exception {
+//        UserEntity user = checkingUserRole();
+//
+////        return songRepository.showSongsStatistics(user.getUsername());
+//
+//        Session session = sessionFactory.openSession();
+////        User user = (User) session.load(User.class, userId);
+//
+//        Criteria cr = session.createCriteria(SongEntity.class)
+//                .setProjection(Projections.projectionList()
+//                        .add(Projections.property("title"), "title")
+//                        .add(Projections.property("likes"), "likes"))
+//                .setResultTransformer(Transformers.aliasToBean(SongEntity.class));
+//
+//        return (List<SongEntity>) cr.list();
+        return null;
+    }
 
-        return songRepository.showSongsStatistics(artist.getUsername());
+    public List<SongEntity> showSubscriptionStatistics() throws Exception {
+
+        return null;
     }
 
     public UserEntity checkingUserRole() throws Exception {
