@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.controller.request_body.SongRequest;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
-import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
@@ -43,6 +42,7 @@ public class ArtistService {
             throw new UserHasAlreadyBecomeAnArtistException(YOU_ARE_ARTIST);
         } else {
             user.setUserRole(UserRole.ARTIST);
+            user.setSubscribers(0);
 
             userRepository.save(user);
 
@@ -84,21 +84,9 @@ public class ArtistService {
     }
 
     public List<SongEntity> showSongsStatistics() throws Exception {
-//        UserEntity user = checkingUserRole();
-//
-////        return songRepository.showSongsStatistics(user.getUsername());
-//
-//        Session session = sessionFactory.openSession();
-////        User user = (User) session.load(User.class, userId);
-//
-//        Criteria cr = session.createCriteria(SongEntity.class)
-//                .setProjection(Projections.projectionList()
-//                        .add(Projections.property("title"), "title")
-//                        .add(Projections.property("likes"), "likes"))
-//                .setResultTransformer(Transformers.aliasToBean(SongEntity.class));
-//
-//        return (List<SongEntity>) cr.list();
-        return null;
+        UserEntity user = checkingUserRole();
+
+        return songRepository.showSongStatistics(user.getId());
     }
 
     public List<SongEntity> showSubscriptionStatistics() throws Exception {

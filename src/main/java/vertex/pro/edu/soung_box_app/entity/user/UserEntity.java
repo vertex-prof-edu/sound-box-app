@@ -34,5 +34,7 @@ public class UserEntity {
     @CreationTimestamp
     private LocalDateTime registrationDate;
 
+    private Integer subscribers;
+
     private Boolean enabled;
 }

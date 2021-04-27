@@ -4,7 +4,9 @@ import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 
 public interface PlaylistCreator {
-    PlaylistEntity createDefaultPlaylist() throws Exception;
+    PlaylistEntity createDefaultLikesPlaylist() throws Exception;
+
+    PlaylistEntity createDefaultDislikesPlaylist() throws Exception;
 
     Playlist createPlaylist(String name) throws Exception;
 }

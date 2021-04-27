@@ -7,6 +7,7 @@ import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
+import vertex.pro.edu.soung_box_app.exception.SomethingWrongException;
 import vertex.pro.edu.soung_box_app.exception.SongAlreadyLikedException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
@@ -48,7 +49,7 @@ public class SongService implements SongFinder {
     public String likeSong(String songId) throws Exception {
 
         SongEntity likedSong = playlistService.findSongById(songId);
-        PlaylistEntity playlistLikes = playlistService.createDefaultPlaylist();
+        PlaylistEntity playlistLikes = playlistService.createDefaultLikesPlaylist();
 
         if (playlistLikes.getPlaylistSongs().contains(likedSong)) {
             throw new SongAlreadyLikedException(SONG_ALREADY_LIKED);
@@ -66,24 +67,31 @@ public class SongService implements SongFinder {
     @Transactional
     public String dislike(String songId) throws Exception {
 
-        SongEntity likedSong = playlistService.findSongById(songId);
+        SongEntity needfulSong = playlistService.findSongById(songId);
+
         PlaylistEntity likesPlaylist = playlistService.findPlaylistsByName("likes");
+        PlaylistEntity dislikePlaylist = playlistService.createDefaultDislikesPlaylist();
+
+        Set<SongEntity> allDislikedSong = dislikePlaylist.getPlaylistSongs();
         Set<SongEntity> allLikedSong = likesPlaylist.getPlaylistSongs();
 
-        if (likesPlaylist.getPlaylistSongs().contains(likedSong)) {
-            likedSong.setLikes(likedSong.getLikes() - 1);
+        if (allLikedSong.contains(needfulSong) & !allDislikedSong.contains(needfulSong)) {
+            needfulSong.setLikes(needfulSong.getLikes() - 1);
 
-            likesPlaylist.getPlaylistSongs().remove(likedSong);
+            allLikedSong.removeIf(song -> song.equals(needfulSong));
 
-//            System.out.println(likesPlaylist);
+            likesPlaylist.setPlaylistSongs(allLikedSong);
+            dislikePlaylist.getPlaylistSongs().add(needfulSong);
+
+            playlistRepository.save(dislikePlaylist);
             playlistRepository.save(likesPlaylist);
         } else {
-            throw new Exception("no such song");
+            throw new SomethingWrongException(SOMETHING_WRONG);
         }
 
         return "you dislike this song";
-
     }
 
     private static final String SONG_ALREADY_LIKED = "this songs has already liked";
+    private static final String SOMETHING_WRONG = "something wrong";
 }

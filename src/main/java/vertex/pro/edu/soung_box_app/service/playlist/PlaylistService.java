@@ -29,9 +29,19 @@ public class PlaylistService implements PlaylistCreator {
     private final CustomUserDetailsService userDetailsService;
 
     @Override
-    public PlaylistEntity createDefaultPlaylist() throws Exception {
+    public PlaylistEntity createDefaultLikesPlaylist() throws Exception {
 
         String playlistTitle = "likes";
+        UserEntity user = userDetailsService.getCurrent();
+        PlaylistEntity requiredPlaylist = playlistRepository.findByName(playlistTitle, user.getId());
+
+        return Objects.requireNonNullElseGet(requiredPlaylist, () ->
+                playlistRepository.save(new PlaylistEntity(playlistTitle, user, LocalDateTime.now())));
+    }
+    @Override
+    public PlaylistEntity createDefaultDislikesPlaylist() throws Exception {
+
+        String playlistTitle = "dislikes";
         UserEntity user = userDetailsService.getCurrent();
         PlaylistEntity requiredPlaylist = playlistRepository.findByName(playlistTitle, user.getId());
 

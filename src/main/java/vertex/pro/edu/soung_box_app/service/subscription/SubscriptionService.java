@@ -28,13 +28,20 @@ public class SubscriptionService implements Subscribe{
     @Transactional
     public SubscriptionEntity subscribeToArtist(String artist) throws Exception {
 
-        String username = userDetailsService.getCurrent().getUsername();
+        UserEntity user = userDetailsService.getCurrent();
 
-        if (username.equals(artist)) {
+        if (user.getUsername().equals(artist)) {
             throw new Exception("u cannot sub to yourself");
         } else {
             List<SongEntity> songListByArtist = songService.findSongsByArtist(artist);
+
+            if (songListByArtist.isEmpty()) {
+                throw new Exception("such artist doesnt have any songs");
+            }
             SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
+
+            int amountOfSubscribers = user.getSubscribers();
+            user.setSubscribers(amountOfSubscribers + 1);
 
             for (SongEntity song: songListByArtist) {
                 subscription.getSubscriptionSongs().add(song);
@@ -56,6 +63,18 @@ public class SubscriptionService implements Subscribe{
         }
 
         return subscriptionRepository.save(subscription);
+    }
+
+    @Override
+    @Transactional
+    public String unsubscribeFromArtist(String artist) throws Exception {
+        return  null;
+    }
+
+    @Override
+    @Transactional
+    public String unsubscribeFromGenre(String genre) throws Exception {
+        return null;
     }
 
     public List<SubscriptionEntity> showAllUserSubscription() throws Exception {
