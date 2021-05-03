@@ -17,9 +17,11 @@ import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
+import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +31,6 @@ public class ArtistService {
     private final UserRepository userRepository;
     private final SongRepository songRepository;
     private final CustomUserDetailsService userDetailsService;
-    private final SubscriptionRepository subscriptionRepository;
 
     @Transactional
     @Modifying(clearAutomatically=true)
@@ -68,6 +69,17 @@ public class ArtistService {
         songRepository.save(newSong);
 
         return newSong;
+    }
+
+    @Transactional
+    public String removeAddedSong(String songId) throws Exception {
+
+        UserEntity user = userDetailsService.getCurrent();
+        Optional<SongEntity> song = songRepository.findById(songId);
+
+        song.ifPresent(songRepository::delete);
+
+        return "successfully delete " + song.get().getTitle();
     }
 
     public List<SongEntity> showAllArtistSongs() throws Exception {

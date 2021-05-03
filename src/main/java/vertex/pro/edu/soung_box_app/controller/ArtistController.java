@@ -31,6 +31,11 @@ public class ArtistController {
         return songConverter.fromEntity(artistService.addNewSong(songRequest));
     }
 
+    @PostMapping(value = DELETE_ADDED_SONG)
+    public String deleteSong(@RequestParam String songId) throws Exception {
+        return artistService.removeAddedSong(songId);
+    }
+
     @GetMapping(value = SHOW_ALL_ADDED_SONG)
     public List<Song> showAllAddedSongs() throws Exception{
         return songConverter.fromEntities(artistService.showAllArtistSongs());
@@ -49,6 +54,7 @@ public class ArtistController {
     @UtilityClass
     public static class Links {
         public static final String ADD_NEW_SONG = "/addSong";
+        public static final String DELETE_ADDED_SONG = "/deleteSong";
         public static final String SHOW_ALL_ADDED_SONG = "/showAllArtistSongs";
         public static final String SHOW_SONGS_STATISTIC = "/showSongsStatistic";
         public static final String SHOW_ARTIST_STATISTIC = "/showArtistStatistic";

@@ -34,11 +34,27 @@ public class SubscriptionController {
     }
 
     @Transactional
+    @PostMapping(value = UNSUBSCRIBE_FROM_ARTIST)
+    String unsubscribeFromArtist(@RequestParam("artist") String artist) throws Exception {
+        log.info("unsub to songs this artist-: {}", artist);
+
+        return subscriptionService.unsubscribeFromArtist(artist);
+    }
+
+    @Transactional
     @PostMapping(value = SUBSCRIBE_TO_GENRE)
     Subscription subscribeToGenre(@RequestParam("genre") String genre) throws Exception {
         log.info("Sub to songs this genre-: {}", genre);
 
         return subscriptionConverter.fromEntity(subscriptionService.subscribeToGenre(genre));
+    }
+
+    @Transactional
+    @PostMapping(value = UNSUBSCRIBE_FROM_GENRE)
+    String unsubscribeFromGenre(@RequestParam("genre") String genre) throws Exception {
+        log.info("unsub to songs this genre-: {}", genre);
+
+        return subscriptionService.unsubscribeFromGenre(genre);
     }
 
     @GetMapping(value = SHOW_ALL_SUBSCRIPTION)
@@ -51,5 +67,7 @@ public class SubscriptionController {
         public static final String SUBSCRIBE_TO_ARTIST = "/subscribeToArtist";
         public static final String SUBSCRIBE_TO_GENRE = "/subscribeToGenre";
         public static final String SHOW_ALL_SUBSCRIPTION = "/showAllSubscription";
+        public static final String UNSUBSCRIBE_FROM_ARTIST = "/unsubscribeFromArtist";
+        public static final String UNSUBSCRIBE_FROM_GENRE = "/unsubscribeFromGenre";
     }
 }

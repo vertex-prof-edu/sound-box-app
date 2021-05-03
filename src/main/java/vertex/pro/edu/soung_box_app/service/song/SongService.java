@@ -3,10 +3,8 @@ package vertex.pro.edu.soung_box_app.service.song;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
-import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.exception.SomethingWrongException;
 import vertex.pro.edu.soung_box_app.exception.SongAlreadyLikedException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
@@ -14,7 +12,6 @@ import vertex.pro.edu.soung_box_app.repository.SongRepository;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -72,15 +69,15 @@ public class SongService implements SongFinder {
         PlaylistEntity likesPlaylist = playlistService.findPlaylistsByName("likes");
         PlaylistEntity dislikePlaylist = playlistService.createDefaultDislikesPlaylist();
 
-        Set<SongEntity> allDislikedSong = dislikePlaylist.getPlaylistSongs();
-        Set<SongEntity> allLikedSong = likesPlaylist.getPlaylistSongs();
+        Set<SongEntity> allDislikedSongs = dislikePlaylist.getPlaylistSongs();
+        Set<SongEntity> allLikedSongs = likesPlaylist.getPlaylistSongs();
 
-        if (allLikedSong.contains(needfulSong) & !allDislikedSong.contains(needfulSong)) {
+        if (allLikedSongs.contains(needfulSong) & !allDislikedSongs.contains(needfulSong)) {
             needfulSong.setLikes(needfulSong.getLikes() - 1);
 
-            allLikedSong.removeIf(song -> song.equals(needfulSong));
+            allLikedSongs.removeIf(song -> song.equals(needfulSong));
 
-            likesPlaylist.setPlaylistSongs(allLikedSong);
+            likesPlaylist.setPlaylistSongs(allLikedSongs);
             dislikePlaylist.getPlaylistSongs().add(needfulSong);
 
             playlistRepository.save(dislikePlaylist);

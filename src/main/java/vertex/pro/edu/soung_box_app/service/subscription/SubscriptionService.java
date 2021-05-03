@@ -15,6 +15,7 @@ import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -68,13 +69,36 @@ public class SubscriptionService implements Subscribe{
     @Override
     @Transactional
     public String unsubscribeFromArtist(String artist) throws Exception {
-        return  null;
+
+        UserEntity user = userDetailsService.getCurrent();
+        SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
+
+        int amountOfSubscribers = user.getSubscribers();
+        if (amountOfSubscribers == 0) {
+            user.setSubscribers(amountOfSubscribers);
+        } else {
+            user.setSubscribers(amountOfSubscribers - 1);
+        }
+
+        subscriptionRepository.unsubscribe(artist, user.getId());
+
+        subscriptionRepository.save(subscription);
+
+        return "successfully unsubscribe from " + artist;
     }
 
     @Override
     @Transactional
     public String unsubscribeFromGenre(String genre) throws Exception {
-        return null;
+
+        UserEntity user = userDetailsService.getCurrent();
+        SubscriptionEntity subscription = findUserSubscriptionToSomething(genre);
+
+        subscriptionRepository.unsubscribe(genre, user.getId());
+
+        subscriptionRepository.save(subscription);
+
+        return "successfully unsubscribe from " + genre;
     }
 
     public List<SubscriptionEntity> showAllUserSubscription() throws Exception {
