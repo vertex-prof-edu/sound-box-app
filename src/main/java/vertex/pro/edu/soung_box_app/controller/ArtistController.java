@@ -5,9 +5,8 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
-import vertex.pro.edu.soung_box_app.controller.request_body.SongRequest;
-import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
-import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
+import vertex.pro.edu.soung_box_app.controller.request.body.SongRequest;
+import vertex.pro.edu.soung_box_app.converter.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.service.artist.ArtistService;
 

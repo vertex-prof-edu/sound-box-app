@@ -5,6 +5,8 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
+import vertex.pro.edu.soung_box_app.controller.request.body.NewUserRequest;
+import vertex.pro.edu.soung_box_app.controller.request.body.UserRequest;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
 import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
@@ -25,16 +27,15 @@ public class PublicUserController {
     private final RegistrationService registrationService;
 
     @PostMapping(value = USER_REGISTER_URL)
-    public String register(@RequestParam("username") final String username, @RequestParam("email") final String email,
-                    @RequestParam("password") final String password) {
+    public String register(@RequestBody NewUserRequest user) {
 
         UserEntity newUser = UserEntity.builder()
-                .username(username)
-                .email(email)
-                .password(password)
+                .username(user.getLogin())
+                .email(user.getEmail())
+                .password(user.getPassword())
                 .build();
 
-        log.info("Register user with this params- username: {}, email: {}", username, email);
+        log.info("Register user with this params- username: {}, email: {}", user.getLogin(), user.getEmail());
 
         return registrationService.register(newUser);
     }
@@ -45,10 +46,10 @@ public class PublicUserController {
     }
 
     @GetMapping(value = USER_LOGIN_URL)
-    public String login(@RequestParam("username") final String username, @RequestParam("password") final String password) {
-        log.info("Login user with this params- username: {}, password: {}", username, password);
+    public String login(@RequestBody UserRequest user) {
+        log.info("Login user with this params- username: {} ", user.getLogin());
 
-        return service.login(username, password);
+        return service.login(user.getLogin(), user.getPassword());
     }
 
     @UtilityClass

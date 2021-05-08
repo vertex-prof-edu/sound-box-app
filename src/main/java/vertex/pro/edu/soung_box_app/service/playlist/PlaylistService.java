@@ -3,7 +3,7 @@ package vertex.pro.edu.soung_box_app.service.playlist;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vertex.pro.edu.soung_box_app.converter.playlist.PlaylistConverter;
+import vertex.pro.edu.soung_box_app.converter.PlaylistConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;

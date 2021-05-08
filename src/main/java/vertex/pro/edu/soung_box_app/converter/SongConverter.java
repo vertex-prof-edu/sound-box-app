@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.converter.song;
+package vertex.pro.edu.soung_box_app.converter;
 
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;

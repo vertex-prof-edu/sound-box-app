@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.converter.confirmation_token;
+package vertex.pro.edu.soung_box_app.converter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

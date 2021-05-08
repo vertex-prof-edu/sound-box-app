@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vertex.pro.edu.soung_box_app.controller.request_body.SongRequest;
+import vertex.pro.edu.soung_box_app.controller.request.body.SongRequest;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;

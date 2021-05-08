@@ -2,7 +2,7 @@ package vertex.pro.edu.soung_box_app.service.event;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
+import vertex.pro.edu.soung_box_app.converter.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;

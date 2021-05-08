@@ -2,7 +2,7 @@ package vertex.pro.edu.soung_box_app.security.token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import vertex.pro.edu.soung_box_app.converter.confirmation_token.ConfirmationTokenConverter;
+import vertex.pro.edu.soung_box_app.converter.ConfirmationTokenConverter;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
 import vertex.pro.edu.soung_box_app.entity.token.model.ConfirmationToken;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;

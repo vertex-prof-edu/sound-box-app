@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
-import vertex.pro.edu.soung_box_app.converter.playlist.PlaylistConverter;
+import vertex.pro.edu.soung_box_app.converter.PlaylistConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 

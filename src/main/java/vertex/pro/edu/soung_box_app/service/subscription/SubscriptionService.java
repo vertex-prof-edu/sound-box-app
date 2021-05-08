@@ -3,7 +3,6 @@ package vertex.pro.edu.soung_box_app.service.subscription;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vertex.pro.edu.soung_box_app.converter.subcsription.SubscriptionConverter;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
@@ -17,7 +16,6 @@ import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor

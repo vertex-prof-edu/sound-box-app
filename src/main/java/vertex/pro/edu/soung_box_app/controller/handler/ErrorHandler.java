@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.controller;
+package vertex.pro.edu.soung_box_app.controller.handler;
 
 import org.springframework.http.ResponseEntity;
 

@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import vertex.pro.edu.soung_box_app.converter.subcsription.SubscriptionConverter;
-import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
+import vertex.pro.edu.soung_box_app.converter.SubscriptionConverter;
 import vertex.pro.edu.soung_box_app.entity.subscription.model.Subscription;
 import vertex.pro.edu.soung_box_app.service.subscription.SubscriptionService;
 

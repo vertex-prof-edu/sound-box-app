@@ -1,4 +1,4 @@
-package vertex.pro.edu.soung_box_app.controller.request_body;
+package vertex.pro.edu.soung_box_app.controller.request.body;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

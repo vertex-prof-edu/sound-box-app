@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import vertex.pro.edu.soung_box_app.converter.song.SongConverter;
+import vertex.pro.edu.soung_box_app.converter.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.service.song.SongFinder;
 import vertex.pro.edu.soung_box_app.service.song.SongService;
@@ -30,12 +30,12 @@ public class SongController {
     }
 
     @PostMapping(value = LIKE_SONG_URL)
-    public String likeSong(@RequestParam String songId) throws Exception {
+    public String likeSong(@RequestParam String songId) {
         return songService.likeSong(songId);
     }
 
     @PostMapping(value = DISLIKE_SONG_URL)
-    public String dislikeSong(@RequestParam String songId) throws Exception {
+    public String dislikeSong(@RequestParam String songId) {
         return songService.dislike(songId);
     }
 
