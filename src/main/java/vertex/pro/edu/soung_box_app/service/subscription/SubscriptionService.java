@@ -123,9 +123,9 @@ public class SubscriptionService implements Subscribe{
 
         UserEntity user = userDetailsService.getCurrent();
 
-        SubscriptionEntity requiredSubscription = subscriptionRepository.findByName(subscriptionName);
+        SubscriptionEntity subscription = subscriptionRepository.findByName(subscriptionName, user.getId());
 
-        return Objects.requireNonNullElseGet(requiredSubscription, () ->
+        return Objects.requireNonNullElseGet(subscription, () ->
                 subscriptionRepository.save(new SubscriptionEntity(subscriptionName, user, LocalDateTime.now())));
     }
 

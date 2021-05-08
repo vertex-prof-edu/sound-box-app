@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface SubscriptionRepository extends PagingAndSortingRepository<SubscriptionEntity, String> {
 
-    @Query(value = "select * from subscription where subscription_to = :subscription_to", nativeQuery = true)
-    SubscriptionEntity findByName(@Param("subscription_to") String subscription_to);
+    @Query(value = "select * from subscription where subscription_to = :subscription_to and user_id = :id", nativeQuery = true)
+    SubscriptionEntity findByName(@Param("subscription_to") String subscription_to, @Param("id") String id);
 
     @Query(value = "select * from subscription where user_id = :id", nativeQuery = true)
     List<SubscriptionEntity> showAllUserSubscription(@Param("id") String id);
