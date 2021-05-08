@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.7'
 
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
     implementation('mysql:mysql-connector-java:8.0.17') {
         exclude(module: 'protobuf-java')
     }
@@ -46,6 +48,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testCompile group: 'org.junit.vintage', name: 'junit-vintage-engine'
+
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
+
+
+    testImplementation('org.springframework.security:spring-security-test')
+
+    compile("org.springframework.boot:spring-boot-starter-mail")
 }
 compileJava {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -72,6 +83,7 @@ dependencies {
         testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.4.1'
     }
 }
+
 
 test {
     useJUnitPlatform()

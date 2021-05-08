@@ -1,6 +1,6 @@
 package vertex.pro.edu.soung_box_app.utils.prototypes.model;
 
-import vertex.pro.edu.soung_box_app.model.song.Song;
+import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import lombok.experimental.UtilityClass;
 
 import java.time.OffsetDateTime;

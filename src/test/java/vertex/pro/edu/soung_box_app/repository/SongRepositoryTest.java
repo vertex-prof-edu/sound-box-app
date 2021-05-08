@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import vertex.pro.edu.soung_box_app.entity.SongEntity;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,6 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static org.assertj.core.api.Assertions.assertThat;
 import static vertex.pro.edu.soung_box_app.utils.prototypes.entity.SongEntityPrototypes.aSongEntity;
 
+@EnableJpaRepositories("src/main/java/vertex/pro/edu/soung_box_app/repository/SongRepository.java")
 @DataJpaTest(excludeAutoConfiguration = TestDatabaseAutoConfiguration.class)
 class SongRepositoryTest extends TestCase {
 
@@ -37,6 +39,8 @@ class SongRepositoryTest extends TestCase {
                     .build());
             repository.save(entity);
         }
+
+        System.out.println(repository);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package vertex.pro.edu.soung_box_app.utils.prototypes.entity;
 
 import lombok.experimental.UtilityClass;
-import vertex.pro.edu.soung_box_app.entity.SongEntity;
+import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;

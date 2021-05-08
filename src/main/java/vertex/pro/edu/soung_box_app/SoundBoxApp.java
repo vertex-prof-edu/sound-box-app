@@ -1,20 +1,19 @@
 package vertex.pro.edu.soung_box_app;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import vertex.pro.edu.soung_box_app.entity.SongEntity;
-import vertex.pro.edu.soung_box_app.repository.SongRepository;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-@Slf4j
-@RequiredArgsConstructor
 @SpringBootApplication
-public class SoundBoxApp {
+public class SoundBoxApp extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SoundBoxApp.class);
+    }
+
     public static void main(String[] args) {
+
         SpringApplication.run(SoundBoxApp.class, args);
     }
 }
