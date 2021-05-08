@@ -20,8 +20,8 @@ public interface SongRepository extends JpaRepository<SongEntity, String> {
 
     @Query(value="SELECT * FROM songs WHERE genre = :genre", nativeQuery=true)
     List<SongEntity> findByGenre(@Param("genre") String genre);
-
-    @Query(value = "SELECT title, likes FROM songs WHERE artist = :artist", nativeQuery = true)
-    List<SongEntity> showSongStatistics(@Param("artist") String artist);
+//
+//    @Query(value = "SELECT title, likes FROM songs WHERE artist = :artist", nativeQuery = true)
+//    List<SongEntity> showSongStatistics(@Param("artist") String artist);
 }
 

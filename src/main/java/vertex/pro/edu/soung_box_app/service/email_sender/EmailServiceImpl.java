@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 @Service
 @Configuration
 @AllArgsConstructor
-public class EmailService implements EmailSender{
+public class EmailServiceImpl implements EmailSender{
 
     @Bean
     public JavaMailSender javaMailSender() {

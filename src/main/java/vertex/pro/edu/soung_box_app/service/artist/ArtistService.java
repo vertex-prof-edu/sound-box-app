@@ -8,20 +8,15 @@ import vertex.pro.edu.soung_box_app.controller.request_body.SongRequest;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserRole;
-import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
-import vertex.pro.edu.soung_box_app.exception.UserHasAlreadyBecomeAnArtistException;
-import vertex.pro.edu.soung_box_app.exception.UserNotAnArtistException;
+import vertex.pro.edu.soung_box_app.exception.EntityNotFoundException;
+import vertex.pro.edu.soung_box_app.exception.UserException;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
-import vertex.pro.edu.soung_box_app.repository.SubscriptionRepository;
 import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
-import java.beans.Transient;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -34,13 +29,13 @@ public class ArtistService {
 
     @Transactional
     @Modifying(clearAutomatically=true)
-    public String becameAnArtist() throws Exception {
+    public String becameAnArtist() {
 
         UserEntity user = userDetailsService.getCurrent();
         UserRole userRole = user.getUserRole();
 
         if (Objects.equals(userRole, UserRole.ARTIST)) {
-            throw new UserHasAlreadyBecomeAnArtistException(YOU_ARE_ARTIST);
+            throw new UserException(YOU_ARE_ARTIST);
         } else {
             user.setUserRole(UserRole.ARTIST);
             user.setSubscribers(0);
@@ -51,7 +46,7 @@ public class ArtistService {
         }
     }
 
-    public SongEntity addNewSong(SongRequest song) throws Exception {
+    public SongEntity addNewSong(SongRequest song) {
 
         UserEntity artist = checkingUserRole();
         LocalDateTime releaseDate = LocalDateTime.now();
@@ -72,9 +67,8 @@ public class ArtistService {
     }
 
     @Transactional
-    public String removeAddedSong(String songId) throws Exception {
+    public String removeAddedSong(String songId) {
 
-        UserEntity user = userDetailsService.getCurrent();
         Optional<SongEntity> song = songRepository.findById(songId);
 
         song.ifPresent(songRepository::delete);
@@ -82,37 +76,50 @@ public class ArtistService {
         return "successfully delete " + song.get().getTitle();
     }
 
-    public List<SongEntity> showAllArtistSongs() throws Exception {
+    public List<SongEntity> showAllArtistSongs() {
 
         UserEntity artist = checkingUserRole();
 
         List<SongEntity> songs = songRepository.findByArtist(artist.getUsername());
 
         if (songs.isEmpty()) {
-            throw new SongNotFoundException(ARTIST_NOT_ADDED_SONGS);
+            throw new EntityNotFoundException(ARTIST_NOT_ADDED_SONGS);
         }
 
         return songs;
     }
 
-    public List<SongEntity> showSongsStatistics() throws Exception {
+    public Map<String, Integer> showSongsStatistics() {
+
         UserEntity user = checkingUserRole();
 
-        return songRepository.showSongStatistics(user.getId());
+        List<SongEntity> userSongs = songRepository.findByArtist(user.getUsername());
+        Map<String, Integer> nameLikeSongs = new HashMap<>();
+
+        for (SongEntity song: userSongs) {
+            nameLikeSongs.put(song.getTitle(), song.getLikes());
+        }
+
+        return nameLikeSongs;
     }
 
-    public List<SongEntity> showSubscriptionStatistics() throws Exception {
+    public Map<String, Integer> showSubscriptionStatistics() {
 
-        return null;
+        UserEntity user = userDetailsService.getCurrent();
+        Map<String, Integer> artistSubs = new HashMap<>();
+
+        artistSubs.put("Subscribes ", user.getSubscribers());
+
+        return artistSubs;
     }
 
-    public UserEntity checkingUserRole() throws Exception {
+    public UserEntity checkingUserRole() {
         UserEntity user = userDetailsService.getCurrent();
 
         UserRole userRole = user.getUserRole();
 
         if (Objects.equals(userRole, UserRole.USER)) {
-            throw new UserNotAnArtistException(USER_NOT_AN_ARTIST_EXC);
+            throw new UserException(USER_NOT_AN_ARTIST_EXC);
         } else {
             return user;
         }

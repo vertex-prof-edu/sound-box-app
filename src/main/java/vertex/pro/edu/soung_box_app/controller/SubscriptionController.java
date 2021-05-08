@@ -25,7 +25,6 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
     private final SubscriptionConverter subscriptionConverter;
 
-    @Transactional
     @PostMapping(value = SUBSCRIBE_TO_ARTIST)
     Subscription subscribeToArtist(@RequestParam("artist") String artist) throws Exception {
         log.info("Sub to songs this artist-: {}", artist);
@@ -33,32 +32,29 @@ public class SubscriptionController {
         return subscriptionConverter.fromEntity(subscriptionService.subscribeToArtist(artist));
     }
 
-    @Transactional
     @PostMapping(value = UNSUBSCRIBE_FROM_ARTIST)
-    String unsubscribeFromArtist(@RequestParam("artist") String artist) throws Exception {
+    String unsubscribeFromArtist(@RequestParam("artist") String artist) {
         log.info("unsub to songs this artist-: {}", artist);
 
         return subscriptionService.unsubscribeFromArtist(artist);
     }
 
-    @Transactional
     @PostMapping(value = SUBSCRIBE_TO_GENRE)
-    Subscription subscribeToGenre(@RequestParam("genre") String genre) throws Exception {
+    Subscription subscribeToGenre(@RequestParam("genre") String genre) {
         log.info("Sub to songs this genre-: {}", genre);
 
         return subscriptionConverter.fromEntity(subscriptionService.subscribeToGenre(genre));
     }
 
-    @Transactional
     @PostMapping(value = UNSUBSCRIBE_FROM_GENRE)
-    String unsubscribeFromGenre(@RequestParam("genre") String genre) throws Exception {
+    String unsubscribeFromGenre(@RequestParam("genre") String genre) {
         log.info("unsub to songs this genre-: {}", genre);
 
         return subscriptionService.unsubscribeFromGenre(genre);
     }
 
     @GetMapping(value = SHOW_ALL_SUBSCRIPTION)
-    List<Subscription> showAllUserSubscription() throws Exception{
+    List<Subscription> showAllUserSubscription() {
         return subscriptionConverter.fromEntities(subscriptionService.showAllUserSubscription());
     }
 

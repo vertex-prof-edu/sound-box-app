@@ -8,8 +8,7 @@ import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
-import vertex.pro.edu.soung_box_app.exception.PlaylistNotFoundException;
-import vertex.pro.edu.soung_box_app.exception.SongNotFoundException;
+import vertex.pro.edu.soung_box_app.exception.EntityNotFoundException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
@@ -17,7 +16,6 @@ import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +27,7 @@ public class PlaylistService implements PlaylistCreator {
     private final CustomUserDetailsService userDetailsService;
 
     @Override
-    public PlaylistEntity createDefaultLikesPlaylist() throws Exception {
+    public PlaylistEntity createDefaultLikesPlaylist() {
 
         String playlistTitle = "likes";
         UserEntity user = userDetailsService.getCurrent();
@@ -39,7 +37,7 @@ public class PlaylistService implements PlaylistCreator {
                 playlistRepository.save(new PlaylistEntity(playlistTitle, user, LocalDateTime.now())));
     }
     @Override
-    public PlaylistEntity createDefaultDislikesPlaylist() throws Exception {
+    public PlaylistEntity createDefaultDislikesPlaylist() {
 
         String playlistTitle = "dislikes";
         UserEntity user = userDetailsService.getCurrent();
@@ -50,14 +48,14 @@ public class PlaylistService implements PlaylistCreator {
     }
 
     @Override
-    public Playlist createPlaylist(String name) throws Exception {
+    public Playlist createPlaylist(String name) {
 
         PlaylistEntity playlistEntity = new PlaylistEntity(name, userDetailsService.getCurrent(), LocalDateTime.now());
 
         return playlistConverter.fromEntity(playlistRepository.save(playlistEntity));
     }
 
-    public List<PlaylistEntity> showAllPlaylists() throws Exception {
+    public List<PlaylistEntity> showAllPlaylists() {
 
 //        PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 //
@@ -73,32 +71,26 @@ public class PlaylistService implements PlaylistCreator {
                 showAllUserPlaylists(userDetailsService.getCurrent().getId());
 
         if (playlistEntities.isEmpty()) {
-            throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
+            throw new EntityNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
         } else {
             return playlistEntities;
         }
     }
 
-    public PlaylistEntity findPlaylistsByName(String playlistTitle) throws Exception {
-
-//        List<PlaylistEntity> allPlaylistEntities = playlistRepository.
-//                showAllUserPlaylists(userDetailsService.getCurrent().getId());
-//
-//        List<PlaylistEntity> playlistsByName = allPlaylistEntities.stream()
-//                .filter(u -> u.getPlaylistTitle().equals(playlistTitle)).collect(Collectors.toList());
+    public PlaylistEntity findPlaylistsByName(String playlistTitle) {
 
         UserEntity user = userDetailsService.getCurrent();
         PlaylistEntity playlistsByName = playlistRepository.findByName(playlistTitle, user.getId());
 
         if (playlistsByName == null) {
-            throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
+            throw new EntityNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
         } else {
             return playlistsByName;
         }
     }
 
     @Transactional
-    public Playlist addSongToPlaylist(String playlistId, String songId) throws Exception {
+    public Playlist addSongToPlaylist(String playlistId, String songId) {
 
         SongEntity addedSong = findSongById(songId);
         PlaylistEntity requiredPlaylist = findPlaylistById(playlistId);
@@ -110,18 +102,18 @@ public class PlaylistService implements PlaylistCreator {
         return playlistConverter.fromEntity(updatedPlaylist);
     }
 
-    public PlaylistEntity findPlaylistById(String id) throws PlaylistNotFoundException {
+    public PlaylistEntity findPlaylistById(String id) {
 
         if (playlistRepository.findById(id).isEmpty()) {
-            throw new PlaylistNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
+            throw new EntityNotFoundException(PLAYLIST_NOT_FOUND_EXC_MSG);
         }
         return playlistRepository.findById(id).get();
     }
 
-    public SongEntity findSongById(String id) throws SongNotFoundException {
+    public SongEntity findSongById(String id) {
 
         if (songRepository.findById(id).isEmpty()) {
-            throw new SongNotFoundException(SONG_NOT_FOUND_EXC_MSG);
+            throw new EntityNotFoundException(SONG_NOT_FOUND_EXC_MSG);
         }
 
         return songRepository.findById(id).get();

@@ -23,7 +23,7 @@ public class RegistrationService {
     private final UserCrudService userCrudService;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String register(UserEntity user) throws Exception {
+    public String register(UserEntity user) {
 
         UserEntity savedUser = UserEntity.builder()
                 .id(user.getId())
@@ -40,11 +40,11 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(String token) throws Exception {
+    public String confirmToken(String token) {
         ConfirmationTokenEntity confirmationTokenEntity = confirmationTokenService.getToken(token);
 
         if (confirmationTokenEntity == null) {
-            throw new TokenNotFoundException(TOKEN_NOT_FOUND_MSG);
+            throw new EntityNotFoundException(TOKEN_NOT_FOUND_MSG);
         }
 
         if (confirmationTokenEntity.getConfirmedAt() != null) {

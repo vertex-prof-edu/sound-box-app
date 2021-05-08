@@ -13,6 +13,6 @@ public class PublicUserControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private EmployeeService service;
+//    @MockBean
+//    private EmployeeService service;
 }

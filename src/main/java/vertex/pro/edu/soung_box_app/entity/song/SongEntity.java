@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
 @Builder
 @Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,23 +29,17 @@ public class SongEntity {
     @EqualsAndHashCode.Include
     private String id;
 
-    @EqualsAndHashCode.Include
     private String title;
 
-    @EqualsAndHashCode.Include
     private String artist;
 
-    @EqualsAndHashCode.Include
     private String album;
 
-    @EqualsAndHashCode.Include
     private String genre;
 
     @CreationTimestamp
-    @EqualsAndHashCode.Include
     private LocalDateTime releaseDate;
 
-    @EqualsAndHashCode.Include
     private int likes;
 
     @ManyToMany(mappedBy = "playlistSongs")

@@ -7,8 +7,10 @@ import vertex.pro.edu.soung_box_app.converter.subcsription.SubscriptionConverter
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
 import vertex.pro.edu.soung_box_app.entity.subscription.SubscriptionEntity;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
+import vertex.pro.edu.soung_box_app.entity.user.UserRole;
 import vertex.pro.edu.soung_box_app.exception.NoSubscriptionException;
 import vertex.pro.edu.soung_box_app.repository.SubscriptionRepository;
+import vertex.pro.edu.soung_box_app.repository.UserRepository;
 import vertex.pro.edu.soung_box_app.service.song.SongService;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
@@ -23,30 +25,33 @@ public class SubscriptionService implements Subscribe{
 
     private final SongService songService;
     private final CustomUserDetailsService userDetailsService;
+    private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
 
     @Override
     @Transactional
-    public SubscriptionEntity subscribeToArtist(String artist) throws Exception {
+    public SubscriptionEntity subscribeToArtist(String artistName) throws Exception {
 
         UserEntity user = userDetailsService.getCurrent();
+        UserEntity artist = userRepository.findByUsername(artistName);
 
-        if (user.getUsername().equals(artist)) {
-            throw new Exception("u cannot sub to yourself");
+        if (user.getUsername().equals(artistName) || artist.getUserRole().equals(UserRole.USER)) {
+            throw new Exception("u cannot sub");
         } else {
-            List<SongEntity> songListByArtist = songService.findSongsByArtist(artist);
+            List<SongEntity> songListByArtist = songService.findSongsByArtist(artistName);
 
             if (songListByArtist.isEmpty()) {
                 throw new Exception("such artist doesnt have any songs");
             }
-            SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
+            SubscriptionEntity subscription = findUserSubscriptionToSomething(artistName);
 
-            int amountOfSubscribers = user.getSubscribers();
+            int amountOfSubscribers = artist.getSubscribers();
             user.setSubscribers(amountOfSubscribers + 1);
 
             for (SongEntity song: songListByArtist) {
                 subscription.getSubscriptionSongs().add(song);
             }
+//            subscription.getSubscriptionSongs().addAll(songListByArtist);
 
             return subscriptionRepository.save(subscription);
         }
@@ -54,7 +59,7 @@ public class SubscriptionService implements Subscribe{
 
     @Override
     @Transactional
-    public SubscriptionEntity subscribeToGenre(String genre) throws Exception {
+    public SubscriptionEntity subscribeToGenre(String genre) {
 
         List<SongEntity> songListByGenre = songService.findSongsByGenre(genre);
         SubscriptionEntity subscription = findUserSubscriptionToSomething(genre);
@@ -68,19 +73,21 @@ public class SubscriptionService implements Subscribe{
 
     @Override
     @Transactional
-    public String unsubscribeFromArtist(String artist) throws Exception {
+    public String unsubscribeFromArtist(String artistName) {
 
         UserEntity user = userDetailsService.getCurrent();
-        SubscriptionEntity subscription = findUserSubscriptionToSomething(artist);
+        SubscriptionEntity subscription = findUserSubscriptionToSomething(artistName);
 
-        int amountOfSubscribers = user.getSubscribers();
+        UserEntity artist = userRepository.findByUsername(artistName);
+
+        int amountOfSubscribers = artist.getSubscribers();
         if (amountOfSubscribers == 0) {
-            user.setSubscribers(amountOfSubscribers);
+            artist.setSubscribers(amountOfSubscribers);
         } else {
-            user.setSubscribers(amountOfSubscribers - 1);
+            artist.setSubscribers(amountOfSubscribers - 1);
         }
 
-        subscriptionRepository.unsubscribe(artist, user.getId());
+        subscriptionRepository.unsubscribe(artistName, user.getId());
 
         subscriptionRepository.save(subscription);
 
@@ -89,7 +96,7 @@ public class SubscriptionService implements Subscribe{
 
     @Override
     @Transactional
-    public String unsubscribeFromGenre(String genre) throws Exception {
+    public String unsubscribeFromGenre(String genre) {
 
         UserEntity user = userDetailsService.getCurrent();
         SubscriptionEntity subscription = findUserSubscriptionToSomething(genre);
@@ -101,7 +108,7 @@ public class SubscriptionService implements Subscribe{
         return "successfully unsubscribe from " + genre;
     }
 
-    public List<SubscriptionEntity> showAllUserSubscription() throws Exception {
+    public List<SubscriptionEntity> showAllUserSubscription() {
 
         String userId = userDetailsService.getCurrent().getId();
 
@@ -114,7 +121,7 @@ public class SubscriptionService implements Subscribe{
         }
     }
 
-    public SubscriptionEntity findUserSubscriptionToSomething(String subscriptionName) throws Exception {
+    public SubscriptionEntity findUserSubscriptionToSomething(String subscriptionName) {
 
         UserEntity user = userDetailsService.getCurrent();
 

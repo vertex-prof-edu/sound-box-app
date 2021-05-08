@@ -5,11 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vertex.pro.edu.soung_box_app.entity.playlist.PlaylistEntity;
 import vertex.pro.edu.soung_box_app.entity.song.SongEntity;
-import vertex.pro.edu.soung_box_app.exception.SomethingWrongException;
 import vertex.pro.edu.soung_box_app.exception.SongAlreadyLikedException;
 import vertex.pro.edu.soung_box_app.repository.PlaylistRepository;
 import vertex.pro.edu.soung_box_app.repository.SongRepository;
-import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 
 import java.util.List;
@@ -22,7 +20,6 @@ public class SongService implements SongFinder {
     private final SongRepository songRepository;
     private final PlaylistService playlistService;
     private final PlaylistRepository playlistRepository;
-    private final CustomUserDetailsService userDetailsService;
 
     @Override
     public List<SongEntity> getSongs(String genre, String artist) {
@@ -43,8 +40,7 @@ public class SongService implements SongFinder {
     }
 
     @Transactional
-    public String likeSong(String songId) throws Exception {
-
+    public String likeSong(String songId) {
         SongEntity likedSong = playlistService.findSongById(songId);
         PlaylistEntity playlistLikes = playlistService.createDefaultLikesPlaylist();
 
@@ -62,7 +58,7 @@ public class SongService implements SongFinder {
     }
 
     @Transactional
-    public String dislike(String songId) throws Exception {
+    public String dislike(String songId) {
 
         SongEntity needfulSong = playlistService.findSongById(songId);
 
@@ -83,7 +79,7 @@ public class SongService implements SongFinder {
             playlistRepository.save(dislikePlaylist);
             playlistRepository.save(likesPlaylist);
         } else {
-            throw new SomethingWrongException(SOMETHING_WRONG);
+            throw new UnsupportedOperationException(SOMETHING_WRONG);
         }
 
         return "you dislike this song";

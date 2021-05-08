@@ -7,9 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.converter.playlist.PlaylistConverter;
 import vertex.pro.edu.soung_box_app.entity.playlist.model.Playlist;
-import vertex.pro.edu.soung_box_app.exception.PlaylistNotFoundException;
-import vertex.pro.edu.soung_box_app.exception.UserDoesntExistException;
-import vertex.pro.edu.soung_box_app.exception.UserNotConfirmedException;
 import vertex.pro.edu.soung_box_app.service.playlist.PlaylistService;
 
 import java.util.List;
@@ -28,25 +25,25 @@ public class PlaylistController {
     private final PlaylistConverter playlistConverter;
 
     @PostMapping(value = PLAYLIST_CREATION_URL)
-    Playlist createPlaylist(@RequestParam("playlistTitle") String playlistTitle) throws Exception {
+    Playlist createPlaylist(@RequestParam("playlistTitle") String playlistTitle) {
         log.info("Created playlist with name-: {}", playlistTitle);
 
         return playlistService.createPlaylist(playlistTitle);
     }
 
     @GetMapping(value = GET_ALL_PLAYLISTS_URL)
-    List<Playlist> showAllPlaylists() throws Exception {
+    List<Playlist> showAllPlaylists() {
         return playlistConverter.fromEntities(playlistService.showAllPlaylists());
     }
 
     @GetMapping(value = FIND_PLAYLISTS_URL)
-    Playlist findPlaylistByName(@RequestParam("playlistTitle") String playlistTitle) throws Exception {
+    Playlist findPlaylistByName(@RequestParam("playlistTitle") String playlistTitle) {
         return playlistConverter.fromEntity(playlistService.findPlaylistsByName(playlistTitle));
     }
 
 
     @PostMapping(value = ADD_SONG_TO_PLAYLIST_URL)
-    Playlist addSongToThePlaylist(@RequestParam String playlistId, @RequestParam String songId) throws Exception {
+    Playlist addSongToThePlaylist(@RequestParam String playlistId, @RequestParam String songId) {
         return playlistService.addSongToPlaylist(playlistId, songId);
     }
 

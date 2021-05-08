@@ -12,6 +12,7 @@ import vertex.pro.edu.soung_box_app.entity.song.model.Song;
 import vertex.pro.edu.soung_box_app.service.artist.ArtistService;
 
 import java.util.List;
+import java.util.Map;
 
 import static vertex.pro.edu.soung_box_app.controller.ArtistController.Links.*;
 
@@ -27,27 +28,27 @@ public class ArtistController {
     private final SongConverter songConverter;
 
     @PostMapping(value = ADD_NEW_SONG)
-    public Song addNewSong(@RequestBody SongRequest songRequest) throws Exception {
+    public Song addNewSong(@RequestBody SongRequest songRequest) {
         return songConverter.fromEntity(artistService.addNewSong(songRequest));
     }
 
     @PostMapping(value = DELETE_ADDED_SONG)
-    public String deleteSong(@RequestParam String songId) throws Exception {
+    public String deleteSong(@RequestParam String songId) {
         return artistService.removeAddedSong(songId);
     }
 
     @GetMapping(value = SHOW_ALL_ADDED_SONG)
-    public List<Song> showAllAddedSongs() throws Exception{
+    public List<Song> showAllAddedSongs() {
         return songConverter.fromEntities(artistService.showAllArtistSongs());
     }
 
     @GetMapping(value = SHOW_SONGS_STATISTIC)
-    public List<SongEntity> showSongsStatistics() throws Exception {
+    public Map<String, Integer> showSongsStatistics() {
         return artistService.showSongsStatistics();
     }
 
     @GetMapping(value = SHOW_ARTIST_STATISTIC)
-    public List<SongEntity> showArtistStatistics() throws Exception {
+    public Map<String, Integer> showArtistStatistics() {
         return artistService.showSubscriptionStatistics();
     }
 

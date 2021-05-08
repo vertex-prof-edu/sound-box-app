@@ -32,7 +32,7 @@ public class UserController {
     private final ConfirmationTokenService confirmationTokenService;
 
     @PostMapping(value = CONFIRM_USER_URL)
-    public String confirm(@RequestParam("token") String token) throws Exception {
+    public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }
 
@@ -46,12 +46,12 @@ public class UserController {
     }
 
     @PostMapping(value = RESEND_TOKEN_URL)
-    public ConfirmationToken resendConfirmationToken() throws Exception {
+    public ConfirmationToken resendConfirmationToken() {
         return confirmationTokenService.resendConfirmationToken();
     }
 
     @PostMapping(value = BECOME_AN_ARTIST)
-    public String becomeAnArtist() throws Exception {
+    public String becomeAnArtist() {
         return artistService.becameAnArtist();
     }
 

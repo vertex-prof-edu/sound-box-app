@@ -1,8 +1,6 @@
 package vertex.pro.edu.soung_box_app.security.token;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import vertex.pro.edu.soung_box_app.converter.confirmation_token.ConfirmationTokenConverter;
 import vertex.pro.edu.soung_box_app.entity.token.ConfirmationTokenEntity;
@@ -12,7 +10,6 @@ import vertex.pro.edu.soung_box_app.exception.TokenExpiredException;
 import vertex.pro.edu.soung_box_app.repository.ConfirmationTokenRepository;
 import vertex.pro.edu.soung_box_app.service.crud.CustomUserDetailsService;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +34,7 @@ public class ConfirmationTokenService {
         confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
     }
 
-    public ConfirmationToken resendConfirmationToken() throws Exception {
+    public ConfirmationToken resendConfirmationToken() {
         UserEntity user = userDetailsService.getCurrentNotConfirmedUser();
 
         List<ConfirmationTokenEntity> oldTokens = confirmationTokenRepository.findTokenByUserId(user.getId());
@@ -49,7 +46,6 @@ public class ConfirmationTokenService {
                 throw new TokenExpiredException(YOU_CANT_RESEND_TOKEN_DONT_EXPIRED);
             }
         }
-
         Boolean checkUserVerification = user.getEnabled();
 
         if (checkUserVerification != null) {
