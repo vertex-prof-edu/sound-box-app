@@ -9,8 +9,8 @@ import vertex.pro.edu.soung_box_app.controller.request.body.NewUserRequest;
 import vertex.pro.edu.soung_box_app.controller.request.body.UserRequest;
 import vertex.pro.edu.soung_box_app.entity.user.UserEntity;
 import vertex.pro.edu.soung_box_app.security.jwt.JwtProvider;
-import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
-import vertex.pro.edu.soung_box_app.service.crud.UserCrudService;
+import vertex.pro.edu.soung_box_app.service.registration.RegistrationServiceImpl;
+import vertex.pro.edu.soung_box_app.service.crud.UserCrudServiceImpl;
 
 import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links.*;
 
@@ -23,8 +23,8 @@ import static vertex.pro.edu.soung_box_app.controller.PublicUserController.Links
 public class PublicUserController {
 
     private final JwtProvider jwtProvider;
-    private final UserCrudService service;
-    private final RegistrationService registrationService;
+    private final UserCrudServiceImpl service;
+    private final RegistrationServiceImpl registrationServiceImpl;
 
     @PostMapping(value = USER_REGISTER_URL)
     public String register(@RequestBody NewUserRequest user) {
@@ -37,7 +37,7 @@ public class PublicUserController {
 
         log.info("Register user with this params- username: {}, email: {}", user.getLogin(), user.getEmail());
 
-        return registrationService.register(newUser);
+        return registrationServiceImpl.register(newUser);
     }
 
     @PostMapping(value = USER_AUTH_URL)

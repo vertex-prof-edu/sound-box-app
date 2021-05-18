@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.converter.SongConverter;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
-import vertex.pro.edu.soung_box_app.service.song.SongFinder;
 import vertex.pro.edu.soung_box_app.service.song.SongService;
+import vertex.pro.edu.soung_box_app.service.song.SongServiceImpl;
 
 import java.util.List;
 
@@ -18,25 +18,24 @@ import static vertex.pro.edu.soung_box_app.controller.SongController.Links.*;
 @RequiredArgsConstructor
 public class SongController {
 
-    private final SongFinder songFinder;
-    private final SongService songService;
+    private final SongServiceImpl songServiceImpl;
     private final SongConverter songConverter;
 
     @GetMapping(value = SONGS_BASE_URL)
     public List<Song> getSongs(@RequestParam(required = false) String genre,
                                @RequestParam(required = false) String artist) {
         log.info("Retrieving songs, their genre: {} and artist: {}", genre, artist);
-        return songConverter.fromEntities(songFinder.getSongs(genre, artist));
+        return songConverter.fromEntities(songServiceImpl.getSongs(genre, artist));
     }
 
     @PostMapping(value = LIKE_SONG_URL)
     public String likeSong(@RequestParam String songId) {
-        return songService.likeSong(songId);
+        return songServiceImpl.likeSong(songId);
     }
 
     @PostMapping(value = DISLIKE_SONG_URL)
     public String dislikeSong(@RequestParam String songId) {
-        return songService.dislike(songId);
+        return songServiceImpl.dislike(songId);
     }
 
     @UtilityClass

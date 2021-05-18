@@ -13,7 +13,7 @@ import vertex.pro.edu.soung_box_app.exception.UserException;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserCrudService userService;
+    private UserCrudServiceImpl userService;
 
     @SneakyThrows
     @Override

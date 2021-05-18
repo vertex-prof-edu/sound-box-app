@@ -3,7 +3,7 @@ package vertex.pro.edu.soung_box_app.controller;
 import org.junit.jupiter.api.Test;
 import vertex.pro.edu.soung_box_app.common.utils.AbstractControllerTest;
 import vertex.pro.edu.soung_box_app.entity.song.model.Song;
-import vertex.pro.edu.soung_box_app.service.song.SongFinder;
+import vertex.pro.edu.soung_box_app.service.song.SongService;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
 
     private List<Song> songList;
 
-    private SongFinder songFinder;
+    private SongService songService;
     private String genre;
     private String artist;
 
@@ -32,10 +32,10 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
         artist = "MONATIK";
         songList = aSongList();
 
-        songFinder = mock(SongFinder.class);
-        when(songFinder.getSongs(any(), any())).thenReturn(songList);
+        songService = mock(SongService.class);
+        when(songService.getSongs(any(), any())).thenReturn(songList);
 
-        return new SongController(songFinder);
+        return new SongController(songService);
     }
 
     @Test
@@ -45,7 +45,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(null, null);
+        verify(songService).getSongs(null, null);
     }
 
     @Test
@@ -56,7 +56,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(genre, null);
+        verify(songService).getSongs(genre, null);
     }
 
     @Test
@@ -67,7 +67,7 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(null, artist);
+        verify(songService).getSongs(null, artist);
     }
 
     @Test
@@ -79,6 +79,6 @@ class SongControllerTest extends AbstractControllerTest<SongController> {
                 .andExpect(status().isOk())
                 .andExpect(content().json(getMapper().writeValueAsString(songList)));
 
-        verify(songFinder).getSongs(genre, artist);
+        verify(songService).getSongs(genre, artist);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.converter.SubscriptionConverter;
 import vertex.pro.edu.soung_box_app.entity.subscription.model.Subscription;
-import vertex.pro.edu.soung_box_app.service.subscription.SubscriptionService;
+import vertex.pro.edu.soung_box_app.service.subscription.SubscriptionServiceImpl;
 
 import java.util.List;
 
@@ -20,40 +20,40 @@ import static vertex.pro.edu.soung_box_app.controller.SubscriptionController.Lin
 @RequestMapping("/user/subscription")
 public class SubscriptionController {
 
-    private final SubscriptionService subscriptionService;
+    private final SubscriptionServiceImpl subscriptionServiceImpl;
     private final SubscriptionConverter subscriptionConverter;
 
     @PostMapping(value = SUBSCRIBE_TO_ARTIST)
     Subscription subscribeToArtist(@RequestParam("artist") String artist) throws Exception {
         log.info("Sub to songs this artist-: {}", artist);
 
-        return subscriptionConverter.fromEntity(subscriptionService.subscribeToArtist(artist));
+        return subscriptionConverter.fromEntity(subscriptionServiceImpl.subscribeToArtist(artist));
     }
 
     @PostMapping(value = UNSUBSCRIBE_FROM_ARTIST)
     String unsubscribeFromArtist(@RequestParam("artist") String artist) {
         log.info("unsub to songs this artist-: {}", artist);
 
-        return subscriptionService.unsubscribeFromArtist(artist);
+        return subscriptionServiceImpl.unsubscribeFromArtist(artist);
     }
 
     @PostMapping(value = SUBSCRIBE_TO_GENRE)
     Subscription subscribeToGenre(@RequestParam("genre") String genre) {
         log.info("Sub to songs this genre-: {}", genre);
 
-        return subscriptionConverter.fromEntity(subscriptionService.subscribeToGenre(genre));
+        return subscriptionConverter.fromEntity(subscriptionServiceImpl.subscribeToGenre(genre));
     }
 
     @PostMapping(value = UNSUBSCRIBE_FROM_GENRE)
     String unsubscribeFromGenre(@RequestParam("genre") String genre) {
         log.info("unsub to songs this genre-: {}", genre);
 
-        return subscriptionService.unsubscribeFromGenre(genre);
+        return subscriptionServiceImpl.unsubscribeFromGenre(genre);
     }
 
     @GetMapping(value = SHOW_ALL_SUBSCRIPTION)
     List<Subscription> showAllUserSubscription() {
-        return subscriptionConverter.fromEntities(subscriptionService.showAllUserSubscription());
+        return subscriptionConverter.fromEntities(subscriptionServiceImpl.showAllUserSubscription());
     }
 
     @UtilityClass

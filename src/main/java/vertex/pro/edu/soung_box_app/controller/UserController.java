@@ -9,10 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 import vertex.pro.edu.soung_box_app.entity.token.model.ConfirmationToken;
-import vertex.pro.edu.soung_box_app.exception.*;
 import vertex.pro.edu.soung_box_app.security.token.ConfirmationTokenService;
-import vertex.pro.edu.soung_box_app.service.artist.ArtistService;
-import vertex.pro.edu.soung_box_app.service.registration.RegistrationService;
+import vertex.pro.edu.soung_box_app.service.artist.ArtistServiceImpl;
+import vertex.pro.edu.soung_box_app.service.registration.RegistrationServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,13 +26,13 @@ import static vertex.pro.edu.soung_box_app.controller.UserController.Links.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private final ArtistService artistService;
-    private final RegistrationService registrationService;
+    private final ArtistServiceImpl artistServiceImpl;
+    private final RegistrationServiceImpl registrationServiceImpl;
     private final ConfirmationTokenService confirmationTokenService;
 
     @PostMapping(value = CONFIRM_USER_URL)
     public String confirm(@RequestParam("token") String token) {
-        return registrationService.confirmToken(token);
+        return registrationServiceImpl.confirmToken(token);
     }
 
     @GetMapping(value = USER_LOGOUT_URL)
@@ -52,7 +51,7 @@ public class UserController {
 
     @PostMapping(value = BECOME_AN_ARTIST)
     public String becomeAnArtist() {
-        return artistService.becameAnArtist();
+        return artistServiceImpl.becameAnArtist();
     }
 
     @UtilityClass
